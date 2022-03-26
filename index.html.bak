@@ -146,7 +146,7 @@
         <div class="logo-name">有鱼同学</div>
         <div class="logo-desc">
             
-            世上最巧的事就是，你刚好在，我刚好来
+            世上最巧的事，你刚好在，我刚好来
             
         </div>
     </div>
@@ -371,11 +371,8 @@
                     var typed = new Typed("#subtitle", {
                         strings: [ 
                             
-                                "世上最巧的事就是，你刚好在，我刚好来",
-                            
-                                "The most wonderful thing in the world is that you just happen to be here and I just happen to be here
-
-",
+                                "世上最巧的事就是，你刚好在，我刚好来",                       
+                                "The most wonderful thing in the world is that you just happen to be here and I just happen to be here",
                             
                         ],
                         startDelay: 300,
@@ -395,7 +392,7 @@
 <script>
     // 每天切换 banner 图.  Switch banner image every day.
     var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-    $('.bg-cover').css('url(' + bannerUrl + ')');
+    $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
 	//$('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
 </script>
 
