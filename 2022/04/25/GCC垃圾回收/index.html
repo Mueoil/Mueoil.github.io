@@ -4,19 +4,17 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="SpirngBoot之IDEA中各类标志不可用问题, 有鱼同学">
-    <meta name="description" content="出现这类问题的情况
-在我们打开其他springboot项目之后，可能会出现
+    <meta name="keywords" content="GCC垃圾回收, 有鱼同学">
+    <meta name="description" content="GC介绍引用计数法
+JVM在进行GC时：并不是对这三个区域统一回收的。大部分时候回收都在新生代
 
-在我们有一段时间没有启动此项目也有可能会出现
+新生代
+幸存区（form，to）
+老年区
 
-
-解决方法
-首先，进入问题项目，箭头标志的便是各类标志出现红色小标不可用问题
-
-
-]
-java资源跟和resour">
+GC有两种类：轻GC（普通的GC）、重GC（全局GC）
+GC题目
+JVM的内存模型和分区 ~ 详细">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -28,7 +26,7 @@ java资源跟和resour">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>SpirngBoot之IDEA中各类标志不可用问题 | 有鱼同学</title>
+    <title>GCC垃圾回收 | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -320,12 +318,12 @@ java资源跟和resour">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">SpirngBoot之IDEA中各类标志不可用问题</h1>
+                    <h1 class="description center-align post-title">GCC垃圾回收</h1>
                 </div>
             </div>
         </div>
@@ -441,16 +439,16 @@ java资源跟和resour">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/IDEA/">
-                                <span class="chip bg-color">IDEA</span>
+                            <a href="/tags/jvm/">
+                                <span class="chip bg-color">jvm</span>
                             </a>
                         
-                            <a href="/tags/SpringBoot/">
-                                <span class="chip bg-color">SpringBoot</span>
+                            <a href="/tags/%E5%A0%86/">
+                                <span class="chip bg-color">堆</span>
                             </a>
                         
-                            <a href="/tags/pom-xml/">
-                                <span class="chip bg-color">pom.xml</span>
+                            <a href="/tags/gcc/">
+                                <span class="chip bg-color">gcc</span>
                             </a>
                         
                     </div>
@@ -465,7 +463,7 @@ java资源跟和resour">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-08
+                    2022-04-25
                 </div>
                 
 
@@ -486,24 +484,53 @@ java资源跟和resour">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="出现这类问题的情况"><a href="#出现这类问题的情况" class="headerlink" title="出现这类问题的情况"></a>出现这类问题的情况</h2><ul>
-<li><p><strong>在我们打开其他springboot项目之后，可能会出现</strong></p>
-</li>
-<li><p><strong>在我们有一段时间没有启动此项目也有可能会出现</strong></p>
-</li>
+                <h2 id="GC介绍引用计数法"><a href="#GC介绍引用计数法" class="headerlink" title="GC介绍引用计数法"></a>GC介绍引用计数法</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220413230057327.png" alt="image-20220413230057327"></p>
+<p>JVM在进行GC时：并不是对这三个区域统一回收的。大部分时候回收都在新生代</p>
+<ul>
+<li>新生代</li>
+<li>幸存区（form，to）</li>
+<li>老年区</li>
 </ul>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ul>
-<li><strong>首先，进入问题项目，箭头标志的便是各类标志出现红色小标不可用问题</strong></li>
+<p>GC有两种类：轻GC（普通的GC）、重GC（全局GC）</p>
+<h2 id="GC题目"><a href="#GC题目" class="headerlink" title="GC题目"></a>GC题目</h2><ul>
+<li>JVM的内存模型和分区 ~ 详细到每个区放什么？</li>
+<li>堆里面的分区有哪些？Eden，from，to，老年区，说说他们的特点</li>
+<li>GC的算法有哪些？复制算法，标记整理算法，标记清除算法，分代收集算法，引用计数法应该与可达性分析归为一类</li>
+<li>GC的算法有哪些？标记清除法，标记压缩，复制算法，引用计数器（狂神课的）</li>
+<li>轻GC和重GC分别在什么时候发生</li>
 </ul>
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBa223a39478af6a174daf6ae0239d7e28?method=download&shareKey=e5e611aab0390cb2a915aaeace4604a4" alt="] "></p>
-<p>]</p>
-<p><strong>java资源跟和resource资源目录是一样的操作</strong></p>
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf5d3b5d89ac114f5503c84c064e64d9b?method=download&shareKey=0b2e5bfa7d1b0f55c6ad15f1ca650dcb" alt="java资源根"></p>
-<p><strong>下面是pom.xml的操作</strong></p>
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEB620f070dcc26e4f63a163195864e16c3?method=download&shareKey=271c760c3ae2d75e5abe44125661e0fc" alt="pom.xml"></p>
-<p><strong>最后展示</strong></p>
-<p><img src="https://note.youdao.com/yws/api/personal/file/WEBdca487ab813dd492aeff8d7e70c8ba87?method=download&shareKey=dea02de61871db73cab75f3d09c46f1f" alt="img"></p>
-<p><strong>这样就解决啦！！</strong></p>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220413232543116.png" alt="image-20220413232543116"></p>
+<h2 id="GC之复制算法"><a href="#GC之复制算法" class="headerlink" title="GC之复制算法"></a>GC之复制算法</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414000040794.png" alt="image-20220414000040794"></p>
+<h3 id="复制算法动态理解"><a href="#复制算法动态理解" class="headerlink" title="复制算法动态理解"></a>复制算法动态理解</h3><p>To区表示为空</p>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414093414895.png" alt="image-20220414093414895"></p>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414094445676.png" alt="image-20220414094445676"></p>
+<ul>
+<li>好处：没有内存碎片（不会把东西乱放）</li>
+<li>坏处：浪费多一半的内存空间：多了一半空间永远是空的（浪费一个幸存区的空间）</li>
+</ul>
+<h3 id="复制算法最佳使用场景：对象存活度较低的时候：新手区"><a href="#复制算法最佳使用场景：对象存活度较低的时候：新手区" class="headerlink" title="复制算法最佳使用场景：对象存活度较低的时候：新手区 ~"></a>复制算法最佳使用场景：对象存活度较低的时候：新手区 ~</h3><p>所以我们新生区使用的是复制算法</p>
+<h2 id="GC之标记压缩清除算法"><a href="#GC之标记压缩清除算法" class="headerlink" title="GC之标记压缩清除算法"></a>GC之标记压缩清除算法</h2><h4 id="标记清除法：不被标记的清除，被标记的留下"><a href="#标记清除法：不被标记的清除，被标记的留下" class="headerlink" title="标记清除法：不被标记的清除，被标记的留下"></a>标记清除法：不被标记的清除，被标记的留下</h4><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414103710413.png" alt="image-20220414103710413"></p>
+<ul>
+<li>优点：不需要额外的空间</li>
+<li>缺点：两次扫描，严重浪费时间，会产生内存碎片，（对象用hash存储）</li>
+</ul>
+<h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p>再优化</p>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414105416374.png" alt="image-20220414105416374"></p>
+<h2 id="GC总结和鸡汤"><a href="#GC总结和鸡汤" class="headerlink" title="GC总结和鸡汤"></a>GC总结和鸡汤</h2><p>内存效率：复制算法 &gt; 标记清除算法 &gt; 标记压缩算法（时间复杂度）</p>
+<p>内存整齐度：复制算法 &#x3D; 标记压缩算法 &gt; 标记清除算法</p>
+<p>内存利用率：标记压缩算法 &#x3D;  标记清除算法 &gt; 复制算法</p>
+<p>思考一个问题，难道没有最优的算法吗？</p>
+<p>答案：没有最好的算法，只有最合适的的算法</p>
+<h3 id="GC也被称为分代收集算法"><a href="#GC也被称为分代收集算法" class="headerlink" title="GC也被称为分代收集算法"></a>GC也被称为分代收集算法</h3><p>年轻代：</p>
+<ul>
+<li>存活率低</li>
+<li>复制算法</li>
+</ul>
+<p>老年代：</p>
+<ul>
+<li>区域大，存活率高</li>
+<li>标记清除+标记压缩混合实现</li>
+</ul>
 
                 
             </div>
@@ -530,7 +557,7 @@ java资源跟和resour">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Mueoil.github.io/2022/04/08/SpirngBoot%E4%B9%8BIDEA%E4%B8%AD%E5%90%84%E7%B1%BB%E6%A0%87%E5%BF%97%E4%B8%8D%E5%8F%AF%E7%94%A8%E9%97%AE%E9%A2%98/">http://Mueoil.github.io/2022/04/08/SpirngBoot%E4%B9%8BIDEA%E4%B8%AD%E5%90%84%E7%B1%BB%E6%A0%87%E5%BF%97%E4%B8%8D%E5%8F%AF%E7%94%A8%E9%97%AE%E9%A2%98/</a>
+                    <a href="http://Mueoil.github.io/2022/04/25/GCC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">http://Mueoil.github.io/2022/04/25/GCC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -568,16 +595,16 @@ java资源跟和resour">
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/IDEA/">
-                                    <span class="chip bg-color">IDEA</span>
+                                <a href="/tags/jvm/">
+                                    <span class="chip bg-color">jvm</span>
                                 </a>
                             
-                                <a href="/tags/SpringBoot/">
-                                    <span class="chip bg-color">SpringBoot</span>
+                                <a href="/tags/%E5%A0%86/">
+                                    <span class="chip bg-color">堆</span>
                                 </a>
                             
-                                <a href="/tags/pom-xml/">
-                                    <span class="chip bg-color">pom.xml</span>
+                                <a href="/tags/gcc/">
+                                    <span class="chip bg-color">gcc</span>
                                 </a>
                             
                         </div>
@@ -755,13 +782,13 @@ java资源跟和resour">
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/04/25/JVM%E5%9F%BA%E7%A1%80/">
+                <a href="/2022/04/25/JMM-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="JVM基础">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="JMM-Java内存模型">
                         
-                        <span class="card-title">JVM基础</span>
+                        <span class="card-title">JMM-Java内存模型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -785,12 +812,12 @@ java资源跟和resour">
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/jvm/">
-                        <span class="chip bg-color">jvm</span>
+                    <a href="/tags/JMM/">
+                        <span class="chip bg-color">JMM</span>
                     </a>
                     
-                    <a href="/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
-                        <span class="chip bg-color">java虚拟机</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>
@@ -804,13 +831,13 @@ java资源跟和resour">
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/04/08/01%E8%83%8C%E5%8C%85%E7%AE%97%E6%B3%95/">
+                <a href="/2022/04/25/JVM%E4%B8%AD%E5%A0%86%E7%9A%84%E8%AE%B2%E8%A7%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="动态规划之01背包算法">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="JVM中堆的讲解">
                         
-                        <span class="card-title">动态规划之01背包算法</span>
+                        <span class="card-title">JVM中堆的讲解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -821,7 +848,7 @@ java资源跟和resour">
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-25
                             </span>
                         <span class="publish-author">
                             
@@ -834,12 +861,16 @@ java资源跟和resour">
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/jvm/">
+                        <span class="chip bg-color">jvm</span>
                     </a>
                     
-                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-                        <span class="chip bg-color">动态规划</span>
+                    <a href="/tags/%E5%A0%86/">
+                        <span class="chip bg-color">堆</span>
+                    </a>
+                    
+                    <a href="/tags/OOM/">
+                        <span class="chip bg-color">OOM</span>
                     </a>
                     
                 </div>

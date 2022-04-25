@@ -4,6 +4,94 @@
   
     
     <entry>
+      <title>JMM-Java内存模型</title>
+      <link href="/2022/04/25/JMM-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+      <url>/2022/04/25/JMM-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
+      
+        <content type="html"><![CDATA[<h2 id="JMM：Java-Memory-Model-—-Java内存模型"><a href="#JMM：Java-Memory-Model-—-Java内存模型" class="headerlink" title="JMM：Java Memory Model      —-    Java内存模型"></a>JMM：Java Memory Model      —-    Java内存模型</h2><ol><li><p><strong>什么是JMM？</strong></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414115257162.png" alt="image-20220414115257162"></p></li></ol><p>sunchronized：同步</p><p>volatile：保证可见性，防止指令重排</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414143038651.png" alt="image-20220414143038651"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414143047122.png" alt="image-20220414143047122"></p><ol start="2"><li>它干嘛的？</li></ol><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414143457593.png" alt="image-20220414143457593"></p><p>作用：缓存一致性协议，用于定义数据读写的规则（因为是一个规则，所以我们要遵守、找到这个规则）。</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414143922790.png" alt="image-20220414143922790"></p><p>解决共享对象可见性这个问腿：volilate </p><ol start="2"><li>它该如何学习</li></ol><p>​    JMM：抽象的概念，理论</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414174523450.png" alt="image-20220414174523450"></p><p>所以学习方向应该是    volilate </p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> JMM </tag>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>GCC垃圾回收</title>
+      <link href="/2022/04/25/GCC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+      <url>/2022/04/25/GCC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</url>
+      
+        <content type="html"><![CDATA[<h2 id="GC介绍引用计数法"><a href="#GC介绍引用计数法" class="headerlink" title="GC介绍引用计数法"></a>GC介绍引用计数法</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220413230057327.png" alt="image-20220413230057327"></p><p>JVM在进行GC时：并不是对这三个区域统一回收的。大部分时候回收都在新生代</p><ul><li>新生代</li><li>幸存区（form，to）</li><li>老年区</li></ul><p>GC有两种类：轻GC（普通的GC）、重GC（全局GC）</p><h2 id="GC题目"><a href="#GC题目" class="headerlink" title="GC题目"></a>GC题目</h2><ul><li>JVM的内存模型和分区 ~ 详细到每个区放什么？</li><li>堆里面的分区有哪些？Eden，from，to，老年区，说说他们的特点</li><li>GC的算法有哪些？复制算法，标记整理算法，标记清除算法，分代收集算法，引用计数法应该与可达性分析归为一类</li><li>GC的算法有哪些？标记清除法，标记压缩，复制算法，引用计数器（狂神课的）</li><li>轻GC和重GC分别在什么时候发生</li></ul><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220413232543116.png" alt="image-20220413232543116"></p><h2 id="GC之复制算法"><a href="#GC之复制算法" class="headerlink" title="GC之复制算法"></a>GC之复制算法</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414000040794.png" alt="image-20220414000040794"></p><h3 id="复制算法动态理解"><a href="#复制算法动态理解" class="headerlink" title="复制算法动态理解"></a>复制算法动态理解</h3><p>To区表示为空</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414093414895.png" alt="image-20220414093414895"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414094445676.png" alt="image-20220414094445676"></p><ul><li>好处：没有内存碎片（不会把东西乱放）</li><li>坏处：浪费多一半的内存空间：多了一半空间永远是空的（浪费一个幸存区的空间）</li></ul><h3 id="复制算法最佳使用场景：对象存活度较低的时候：新手区"><a href="#复制算法最佳使用场景：对象存活度较低的时候：新手区" class="headerlink" title="复制算法最佳使用场景：对象存活度较低的时候：新手区 ~"></a>复制算法最佳使用场景：对象存活度较低的时候：新手区 ~</h3><p>所以我们新生区使用的是复制算法</p><h2 id="GC之标记压缩清除算法"><a href="#GC之标记压缩清除算法" class="headerlink" title="GC之标记压缩清除算法"></a>GC之标记压缩清除算法</h2><h4 id="标记清除法：不被标记的清除，被标记的留下"><a href="#标记清除法：不被标记的清除，被标记的留下" class="headerlink" title="标记清除法：不被标记的清除，被标记的留下"></a>标记清除法：不被标记的清除，被标记的留下</h4><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414103710413.png" alt="image-20220414103710413"></p><ul><li>优点：不需要额外的空间</li><li>缺点：两次扫描，严重浪费时间，会产生内存碎片，（对象用hash存储）</li></ul><h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p>再优化</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220414105416374.png" alt="image-20220414105416374"></p><h2 id="GC总结和鸡汤"><a href="#GC总结和鸡汤" class="headerlink" title="GC总结和鸡汤"></a>GC总结和鸡汤</h2><p>内存效率：复制算法 &gt; 标记清除算法 &gt; 标记压缩算法（时间复杂度）</p><p>内存整齐度：复制算法 &#x3D; 标记压缩算法 &gt; 标记清除算法</p><p>内存利用率：标记压缩算法 &#x3D;  标记清除算法 &gt; 复制算法</p><p>思考一个问题，难道没有最优的算法吗？</p><p>答案：没有最好的算法，只有最合适的的算法</p><h3 id="GC也被称为分代收集算法"><a href="#GC也被称为分代收集算法" class="headerlink" title="GC也被称为分代收集算法"></a>GC也被称为分代收集算法</h3><p>年轻代：</p><ul><li>存活率低</li><li>复制算法</li></ul><p>老年代：</p><ul><li>区域大，存活率高</li><li>标记清除+标记压缩混合实现</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> jvm </tag>
+            
+            <tag> 堆 </tag>
+            
+            <tag> gcc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JVM中堆的讲解</title>
+      <link href="/2022/04/25/JVM%E4%B8%AD%E5%A0%86%E7%9A%84%E8%AE%B2%E8%A7%A3/"/>
+      <url>/2022/04/25/JVM%E4%B8%AD%E5%A0%86%E7%9A%84%E8%AE%B2%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h2 id="走近HotSpot和堆"><a href="#走近HotSpot和堆" class="headerlink" title="走近HotSpot和堆"></a>走近HotSpot和堆</h2><h2 id="三种JVM"><a href="#三种JVM" class="headerlink" title="三种JVM"></a>三种JVM</h2><ul><li>Sun公司 HotSpot （cmd java -version）</li><li>BEA JRockit</li><li>IBM <code>J9 VM</code></li></ul><p>我们学习的都是：HotSpot</p><h2 id="堆（Heap）"><a href="#堆（Heap）" class="headerlink" title="堆（Heap）"></a>堆（Heap）</h2><h3 id="一个JVM只有一个堆内存，堆内存的大小是可以调节的。"><a href="#一个JVM只有一个堆内存，堆内存的大小是可以调节的。" class="headerlink" title="一个JVM只有一个堆内存，堆内存的大小是可以调节的。"></a>一个JVM只有一个堆内存，堆内存的大小是可以调节的。</h3><h3 id="类加载器读取了类文件后，一般会把什么东西放在堆中呢？"><a href="#类加载器读取了类文件后，一般会把什么东西放在堆中呢？" class="headerlink" title="类加载器读取了类文件后，一般会把什么东西放在堆中呢？"></a>类加载器读取了类文件后，一般会把什么东西放在堆中呢？</h3><ul><li>类，方法，常量，变量     （保存所有我们引用类型的真实对象）              —-   而在栈中一般是引用</li></ul><h3 id="堆内存要细分为三个区域："><a href="#堆内存要细分为三个区域：" class="headerlink" title="堆内存要细分为三个区域："></a>堆内存要细分为三个区域：</h3><ul><li>新生区 （也叫伊甸园区）Young&#x2F;New</li><li>养老区    old</li><li>永久区    Perm</li></ul><p>JDK8以后在堆中移出了永久代（区），把这个区移到了本地内存中，即元空间</p><p>永久代（perm区）或者元空间（metspace）是方法区的一种实现</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410210355498.png" alt="image-20220410210355498"></p><p>GC垃圾回收，主要在伊甸园区和养老区</p><p>假如内存满了就会报一个错误，OOM，堆内存不够</p><p>JDK8以后，永久存储区改了个名字（元空间）</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410212058137.png" alt="image-20220410212058137"></p><h2 id="新手区、永久区、堆内存调优"><a href="#新手区、永久区、堆内存调优" class="headerlink" title="新手区、永久区、堆内存调优"></a>新手区、永久区、堆内存调优</h2><p><strong>新生区</strong></p><ul><li>类：诞生和成长的地方，甚至死亡。                  —99%情况下进不到养老区</li><li>伊甸园区，所有的对象都是在伊甸园区new 出来的！</li><li>幸存者区（0，1）</li></ul><p><strong>老年区</strong></p><p><strong>永久区</strong></p><p>这个区域是常驻内存的（跟对象没有关系），用来存放JDK自身的携带的Class对象，Interface元数据</p><p>即存储的是java运行时的一些环境或类信息，<strong>这个区域不存在垃圾回收！关闭VM虚拟机就会释放这个区域的内存</strong></p><p>什么情况下在永久区就崩了呢？<strong>一个启动类，加载了大量的第三方jar包。tomcat部署ll额太多的应用，或者大量动态生成的反射类，不断被加载，直到内存满，就会出现OOM。</strong></p><ul><li>jdk1.6之前：永久代，常量池是在方法区中</li><li>jdk1.7       ：永久代，但是慢慢的退化了，<code>永久代</code>，常量池在堆中</li><li>jdk1.8之后：无永久代，常量池在元空间中</li></ul><h3 id="字符串常量池在堆中，运行时常量池在元空间中"><a href="#字符串常量池在堆中，运行时常量池在元空间中" class="headerlink" title="字符串常量池在堆中，运行时常量池在元空间中"></a>字符串常量池在堆中，运行时常量池在元空间中</h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220411001939693.png" alt="image-20220411001939693"></p><p>元空间是独立出来的，从逻辑，从硬件存储上彻底和堆（伊甸园区【新生区】、老年代【老年区】）</p><p>（方法区）在物理存储上是和堆一起的（堆物理层面包含了，新生，老年，持久）。但是我们在逻辑上要把方法区和堆分开</p><p><strong>方法区也叫非堆，它是一个特殊的堆</strong></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220411204013638.png" alt="image-20220411204013638"></p><p>元空间：<strong>逻辑上存在，物理上不存在</strong></p><h3 id="扩大堆内存"><a href="#扩大堆内存" class="headerlink" title="扩大堆内存"></a>扩大堆内存<img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220411221357717.png" alt="image-20220411221357717"></h3><h3 id=""><a href="#" class="headerlink" title=""></a><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220411221313015.png" alt="image-20220411221313015"></h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220411221304851.png" alt="image-20220411221304851"></p><h2 id="JPofiler工具分析OOM原因"><a href="#JPofiler工具分析OOM原因" class="headerlink" title="JPofiler工具分析OOM原因"></a>JPofiler工具分析OOM原因</h2><p>在一个项目中，突然出现了OOM故障，那么该如何排除~ 研究为什么出错</p><ul><li>能够看到代码第几行出错：内存快照分析工具（早些年的Eclipse的MAT，Jprofiler）</li><li>Debug：一行行分析代码</li></ul><p>MAT、Jprofiler作用</p><ul><li>分析Dump内存文件，快速定位内存泄漏；</li><li>获得堆中的数据</li><li>获得大的对象</li><li>…</li></ul><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220412003526594.png" alt="image-20220412003526594"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220412003607796.png" alt="image-20220412003607796"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220412003533359.png" alt="image-20220412003533359"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220412003950759.png" alt="image-20220412003950759"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220412003910168.png" alt="image-20220412003910168"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> jvm </tag>
+            
+            <tag> 堆 </tag>
+            
+            <tag> OOM </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JVM基础</title>
+      <link href="/2022/04/25/JVM%E5%9F%BA%E7%A1%80/"/>
+      <url>/2022/04/25/JVM%E5%9F%BA%E7%A1%80/</url>
+      
+        <content type="html"><![CDATA[<h2 id="JVM学习路线"><a href="#JVM学习路线" class="headerlink" title="JVM学习路线"></a>JVM学习路线</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410143315056.png" alt="image-20220410143315056"></p><h2 id="JVM的位置"><a href="#JVM的位置" class="headerlink" title="JVM的位置"></a>JVM的位置</h2><h3 id="JVM运行在操作系统之上，JRE包含JVM"><a href="#JVM运行在操作系统之上，JRE包含JVM" class="headerlink" title="JVM运行在操作系统之上，JRE包含JVM"></a>JVM运行在操作系统之上，JRE包含JVM</h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220409181626298.png" alt="image-20220409181626298">、</p><h2 id="JVM的体系结构"><a href="#JVM的体系结构" class="headerlink" title="JVM的体系结构"></a>JVM的体系结构</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220409181651471.png" alt="image-20220409181651471"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220409181959127.png" alt="image-20220409181959127{}"></p><p><img src="https://linpxing.cn/wp-content/uploads/2020/07/37d12f2eb9389b50828b0dfd61271ed9e6116ec5.jpeg"></p><h2 id="类加载器和双亲委派机制"><a href="#类加载器和双亲委派机制" class="headerlink" title="类加载器和双亲委派机制"></a>类加载器和双亲委派机制</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410114517102.png" alt="image-20220410114517102"></p><h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><h3 id="作用：加载class文件"><a href="#作用：加载class文件" class="headerlink" title="作用：加载class文件~"></a>作用：加载class文件~</h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410140321083.png" alt="image-20220410140321083"></p><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ol><li>虚拟机自带的加载器</li><li>启动类（根）加载器</li><li>扩展类加载器</li><li>应用程序加载器（&#x2F;系统加载器）</li></ol><h3 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410142703871.png" alt="image-20220410142703871"></p><h2 id="沙箱安全机制"><a href="#沙箱安全机制" class="headerlink" title="沙箱安全机制"></a>沙箱安全机制</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410144342560.png" alt="image-20220410144342560"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410151540348.png" alt="image-20220410151540348"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410151654422.png" alt="image-20220410151654422"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410152056385.png" alt="image-20220410152056385"></p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410152836357.png" alt="image-20220410152836357"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410154616093.png" alt="image-20220410154616093"></p><h2 id="Native、方法区"><a href="#Native、方法区" class="headerlink" title="Native、方法区"></a>Native、方法区</h2><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410162105035.png" alt="image-20220410162105035"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410162200108.png" alt="image-20220410162200108"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410162237217.png" alt="image-20220410162237217"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410162303420.png" alt="image-20220410162303420"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410162320582.png" alt="image-20220410162320582"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410162938659.png" alt="image-20220410162938659"></p><h2 id="深入理解栈"><a href="#深入理解栈" class="headerlink" title="深入理解栈"></a>深入理解栈</h2><h3 id="栈：数据结构"><a href="#栈：数据结构" class="headerlink" title="栈：数据结构"></a>栈：数据结构</h3><p>​    程序 &#x3D; 数据结构 + 算法</p><p>​    程序 &#x3D; 框架 + 业务逻辑 ： 淘汰！ SSM</p><h4 id="栈：先进后出，后进先出"><a href="#栈：先进后出，后进先出" class="headerlink" title="栈：先进后出，后进先出"></a>栈：先进后出，后进先出</h4><p>​        栈内存，主管程序的运行，生命周期和线程同步</p><p>​        线程结束，栈内存也就释放，栈内存结束，程序就结束了</p><p>​        对于栈来说，不存在垃圾回收问腿&#x3D;&#x3D; </p><h4 id="栈：8大基本类型-对象引用-实例的方法"><a href="#栈：8大基本类型-对象引用-实例的方法" class="headerlink" title="栈：8大基本类型 + 对象引用 + 实例的方法"></a>栈：8大基本类型 + 对象引用 + 实例的方法</h4><h4 id="栈运行原理：栈帧-x3D-局部变量表-操作数栈"><a href="#栈运行原理：栈帧-x3D-局部变量表-操作数栈" class="headerlink" title="栈运行原理：栈帧 &#x3D; 局部变量表 + 操作数栈"></a>栈运行原理：栈帧 &#x3D; 局部变量表 + 操作数栈</h4><p>如果栈满了，就会抛出：StackOverflowError</p><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410171227762.png" alt="image-20220410171227762"></p><h3 id="栈-方法区-：-交互关系"><a href="#栈-方法区-：-交互关系" class="headerlink" title="栈 + 方法区 ： 交互关系"></a>栈 + 方法区 ： 交互关系</h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220410174422720.png" alt="image-20220410174422720"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> jvm </tag>
+            
+            <tag> java虚拟机 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SpirngBoot之IDEA中各类标志不可用问题</title>
       <link href="/2022/04/08/SpirngBoot%E4%B9%8BIDEA%E4%B8%AD%E5%90%84%E7%B1%BB%E6%A0%87%E5%BF%97%E4%B8%8D%E5%8F%AF%E7%94%A8%E9%97%AE%E9%A2%98/"/>
       <url>/2022/04/08/SpirngBoot%E4%B9%8BIDEA%E4%B8%AD%E5%90%84%E7%B1%BB%E6%A0%87%E5%BF%97%E4%B8%8D%E5%8F%AF%E7%94%A8%E9%97%AE%E9%A2%98/</url>
