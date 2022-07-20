@@ -4,8 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="动态规划之01背包算法, 有鱼同学">
-    <meta name="description" content="问题描述给定N个物品和一个背包，背包的容量为W， 假设背包容量范围在[0，15]，第i个物品对应的体积和价值分别为W[i]和v[i]。各种物品的价值和重量如下：物品编号 1 2 3 4 5重量W 3 4 7 8 9价值V 4 5 10 11">
+    <meta name="keywords" content="数组常用方法, 有鱼同学">
+    <meta name="description" content="数组常用的方法 es6新增的方法，与for循环一样，但是没有内置的index。
+#1. for of循环const list = [1, 2, 3];
+for (const item of list) {
+    //do somethin">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>动态规划之01背包算法 | 有鱼同学</title>
+    <title>数组常用方法 | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -309,12 +312,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">动态规划之01背包算法</h1>
+                    <h1 class="description center-align post-title">数组常用方法</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +433,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                <span class="chip bg-color">算法</span>
+                            <a href="/tags/%E5%BE%AA%E7%8E%AF/">
+                                <span class="chip bg-color">循环</span>
                             </a>
                         
-                            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-                                <span class="chip bg-color">动态规划</span>
+                            <a href="/tags/%E7%B4%A2%E5%BC%95/">
+                                <span class="chip bg-color">索引</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8F%96%E5%80%BC/">
+                                <span class="chip bg-color">取值</span>
                             </a>
                         
                     </div>
@@ -450,7 +457,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-08
+                    2022-07-20
                 </div>
                 
 
@@ -471,105 +478,110 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><strong>问题描述</strong><br>给定N个物品和一个背包，背包的容量为W， 假设背包容量范围在[0，15]，第i个物品对应的体积和价值分别为W[i]和v[i]。各种物品的价值和重量如下：<br>物品编号 1 2 3 4 5<br>重量W 3 4 7 8 9<br>价值V 4 5 10 11 13</p>
-<p><strong>解题思路</strong><br>动态规划原理：是一种将问题实例分解为更小的、相似的子问题，并存储子问题的解而避免计算重复的子问题，以解决最优化问题的算法方法。0&#x2F;1背包问题可以看作是决策一个序列（x1,x2,x3,x4,….xn）,对任一变量xi的决策是决定xi&#x3D;1，还是xi&#x3D;0。在对xi-1决策后，已确定了（x1,x2,x3,x4,….xi-1），在决策xi时，问题处于两种状态之一：<br>背包容量不足以装入物品i，则xi&#x3D;0，背包不增加价值；<br>背包容量可以装入物品i，则xi&#x3D;1，背包价值增加了 vi；<br>这两种情况下背包价值的最大者应该是对xi决策后的背包价值。<br>令v（i，j）表示装载前i种物品，总重量不超过j时背包的最大价值<br>面对当前商品有两种可能性：<br>包的容量比该商品体积小，装不下，此时的价值与前i-1个的价值是一样的，即V(i,j)&#x3D;V(i-1,j)；<br>还有足够的容量可以装该商品，但装了也不一定达到当前最优价值，所以在装与不装之间选择最优的一个，即V(i,j)&#x3D;max｛V(i-1,j)，V(i-1,j-w(i))+v(i)｝。<br>其中V(i-1,j)表示不装，V(i-1,j-w(i))+v(i) 表示装了第i个商品，背包容量减少w(i)，但价值增加了v(i)；</p>
-<p>由此可以得出递推关系式：<br>j&lt;w(i) V(i,j)&#x3D;V(i-1,j)<br>j&gt;&#x3D;w(i) V(i,j)&#x3D;max｛V(i-1,j)，V(i-1,j-w(i))+v(i)｝</p>
-<p>根据递推公式,可以逐步求出当物品数为 i ,背包容量为 j 时的背包最大总价值，<br>但在求解之前，要将边界初始化<br>显然的 v(0,j)&#x3D;0，v(i,0)&#x3D;0</p>
-<p><strong>构造最优解</strong><br>通过上面的方法可以求出背包问题的最优解，但还不知道这个最优解由哪些商品组成，可以通过最优解回溯找出解的组成：</p>
-<p>我们可以声明一个长度为6的数组content[6]来标记物品是否选取，content[1]~content[5]分别对应物品1到物品5，将数组初始化为0，<br>1表示选取该物品，0表示不选取<br>V(i,j)&#x3D;V(i-1,j) 或者 j - w[i] &lt;0 时，说明没有选择第i 个商品，则回到V(i-1,j)；<br>否则即说明装了第i个商品，该商品是最优解组成的一部分，content[i]&#x3D;1，然后回到V(i-1,j-w(i))；<br>一直遍历到i＝0结束为止,我们能找到所有解的组成</p>
-<p>(ps:对我来说,单纯看理论概念很容易烦躁而且很难理解，通过源代码结合概念能够有更清晰的认识）</p>
-<p><strong>源代码</strong>：</p>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/*本关任务：给定N个物品和一个背包，背包的容量为W， 假设背包容量范围在[0，15]，第i个物品对应的体积和价值分别为W[i]和v[i]。各种物品的价值和重量如下：
-     物品编号   1   2   3   4   5
-      重量W    3   4   7   8   9
-      价值V    4   5   10  11  13
-求: 如何选择装入背包的物品，使得装入背包的物品的总价值为最大.
-
-*/</span>
-
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-
-<span class="token keyword">int</span> content<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>              <span class="token comment" spellcheck="true">//最优解的物品组成</span>
-<span class="token keyword">int</span> w<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//物品对应的重量</span>
-<span class="token keyword">int</span> v<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">11</span><span class="token punctuation">,</span><span class="token number">13</span><span class="token punctuation">}</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//物品对应的价值</span>
-<span class="token keyword">int</span> bV<span class="token operator">=</span><span class="token number">15</span><span class="token punctuation">;</span>                       <span class="token comment" spellcheck="true">//背包的最大容量为15</span>
-<span class="token keyword">int</span> maxVal<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//存放当物品数为i,背包容量为j的最大总价值</span>
-
-<span class="token keyword">void</span> <span class="token function">findContent</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//找到最优解的物品组成</span>
-
-<span class="token keyword">void</span> <span class="token function">findMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                 <span class="token comment" spellcheck="true">//寻找当物品数为i,背包容量为j时的最大总价值</span>
-
-<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">//打印最优解物品组成</span>
-
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span> <span class="token keyword">void</span> <span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"当物品数为i,背包容量为j时的能装入背包的最大总价值\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">findMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">6</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//打印当物品数为i,背包容量为j时的最大总价值</span>
-    <span class="token punctuation">{</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">16</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%2d  "</span><span class="token punctuation">,</span>maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入当前的物品数："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入当前背包的最大容量: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">findContent</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"最优解的物品组成为： \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">6</span><span class="token punctuation">;</span> k<span class="token operator">++</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>content<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"价值为 %d ,重量为 %d 的 %d 号物品\n"</span><span class="token punctuation">,</span>v<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">,</span>w<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">,</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"物品数为%d 背包容量为 %d时的最大总价值为 %d\n"</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">return</span>  <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-
-<span class="token keyword">void</span> <span class="token function">findMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//寻找当物品数为i,背包容量为j时的最大总价值</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">6</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">16</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
- <span class="token punctuation">{</span>
-       <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>       <span class="token comment" spellcheck="true">//如果背包容量小于物品i重量，表示背包存放不下第i种物品,此时的最大总价值为i-1种物品的最大总价值</span>
-                maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> maxVal<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span>
-    <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">></span><span class="token punctuation">(</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span>w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span>v<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//放下第i种物品时的总价值为第i种物品的价值加上当物品数为i-1背包容量为j-w[i]的最优解</span>
-            maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">// 对比当放下第i种物品时的总价值和物品数位i-1时的总价值，取最大值</span>
-        <span class="token keyword">else</span>
-            maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span>w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span>v<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-
- <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span>
-<span class="token keyword">void</span> <span class="token function">findContent</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> j<span class="token punctuation">)</span> <span class="token punctuation">{</span>                <span class="token comment" spellcheck="true">//最优解组成</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">==</span> maxVal<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">||</span> j <span class="token operator">-</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            content<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-            <span class="token function">findContent</span><span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">else</span>
-         <span class="token punctuation">{</span>
-            content<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-            <span class="token function">findContent</span><span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
+                <h2 id="数组常用的方法"><a href="#数组常用的方法" class="headerlink" title="数组常用的方法"></a>数组常用的方法</h2><p> es6新增的方法，与for循环一样，但是没有内置的index。</p>
+<h3 id="1-for-of循环"><a href="#1-for-of循环" class="headerlink" title="#1. for of循环"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_1-for-of%E5%BE%AA%E7%8E%AF">#</a>1. for of循环</h3><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> item <span class="token keyword">of</span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//do something</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p><strong>运行结果</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200425095631713.png" alt="img"></p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7</p>
+<h3 id="2-forEach"><a href="#2-forEach" class="headerlink" title="#2. forEach"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_2-foreach">#</a>2. forEach</h3><p> Array.prototype上内置的，遍历出item和index,不会改变原数组，没有返回值。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+list<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//do something</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>1<br>2<br>3<br>4</p>
+<h3 id="3-map"><a href="#3-map" class="headerlink" title="#3. map"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_3-map">#</a>3. map</h3><p> 获得原数组的映射，遍历出item和index,不会改变原数组，返回新数组。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> newList <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">*</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//[0,2,6]</span>
+</code></pre>
+<p>1<br>2</p>
+<h3 id="4-filter"><a href="#4-filter" class="headerlink" title="#4. filter"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_4-filter">#</a>4. filter</h3><p> 执行迭代函数的返回值如果为真值，则会将这个成员放进新数组，若为假，则不放入，不会改变原数组，返回新数组。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> newList <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">*</span> index <span class="token operator">>=</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//[3]</span>
+</code></pre>
+<p>1<br>2</p>
+<h3 id="5-find和findIndex"><a href="#5-find和findIndex" class="headerlink" title="#5. find和findIndex"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_5-find%E5%92%8Cfindindex">#</a>5. find和findIndex</h3><p> find()返回值的结果是第一个执行迭代函数的返回值为真值的那一项成员,若都为假，则返回undefined，不会改变原数组。findIndex方法和find方法的原理一样，区别是findIndex方法返回的是第一个符合条件成员的index。如果没有找到符合条件的成员，那么findIndex的返回值是-1。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    label<span class="token punctuation">:</span> <span class="token string">"1"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    label<span class="token punctuation">:</span> <span class="token string">"2"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    label<span class="token punctuation">:</span> <span class="token string">"3"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    label<span class="token punctuation">:</span> <span class="token string">"4"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> item <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//{id: 2,label: "2"}</span>
+<span class="token keyword">const</span> index <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">findIndex</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//1</span>
+</code></pre>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</p>
+<h3 id="6-some和every"><a href="#6-some和every" class="headerlink" title="#6. some和every"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_6-some%E5%92%8Cevery">#</a>6. some和every</h3><p> some方法有返回值，如果原数组的每一项成员执行迭代函数的结果，有一项为真值，那么some方法会返回true。反之，如果每一项成员执行迭代函数的返回值都是false，那么some方法的返回值就是false。（或）</p>
+<p> every方法有返回值，如果原数组的每一项成员执行迭代函数的结果，有一项为假值，那么every方法会返回false。反之，如果每一项成员执行迭代函数的返回值都是true，那么every方法的返回值就是true。（且）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> res <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//true</span>
+<span class="token keyword">const</span> res <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//false</span>
+</code></pre>
+<p>1<br>2<br>3</p>
+<h3 id="7-indexOf"><a href="#7-indexOf" class="headerlink" title="#7. indexOf"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_7-indexof">#</a>7. indexOf</h3><p> indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。如果匹配到则返回当前项的索引，否则返回-1（如果未找到）。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//0</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//-1</span>
+</code></pre>
+<p>1<br>2<br>3</p>
+<h3 id="8-concat"><a href="#8-concat" class="headerlink" title="#8. concat"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_8-concat">#</a>8. concat</h3><p> 把元素衔接到数组中。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str1 <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> str2 <span class="token operator">=</span> <span class="token string">"world!"</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> n <span class="token operator">=</span> str1<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//"Helloworld!"</span>
+</code></pre>
+<p>1<br>2<br>3</p>
+<h3 id="9-join"><a href="#9-join" class="headerlink" title="#9. join"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_9-join">#</a>9. join</h3><p> 将数组的所有元素转化为字符串</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> energy <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//1,2,3,4</span>
+</code></pre>
+<p>1<br>2</p>
+<h3 id="10-reverse"><a href="#10-reverse" class="headerlink" title="#10. reverse"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_10-reverse">#</a>10. reverse</h3><p> 在原数组中颠倒元素的顺序。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+fruits<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//["4", "3", "2", "1"]</span>
+</code></pre>
+<p>1<br>2</p>
+<h3 id="11-slice"><a href="#11-slice" class="headerlink" title="#11. slice"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_11-slice">#</a>11. slice</h3><p>截取数组的一部分。索引从0开始，不包括最后一个参数</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> citrus <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//["2","3"]</span>
+</code></pre>
+<p>1<br>2</p>
+<h3 id="12-splice"><a href="#12-splice" class="headerlink" title="#12. splice"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_12-splice">#</a>12. splice</h3><p>插入、删除或替换数组元素。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//插入 在第一个参数前面插入</span>
+<span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+fruits<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//["1", "5", "6", "2", "3", "4"]</span>
+</code></pre>
+<p>1<br>2<br>3</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//删除   第一个参数是开始删除的位置，第二个参数是删除几个，第三个参数是替换被删除的元素</span>
+<span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+fruits<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ["1", "5", "3", "4"]</span>
+</code></pre>
+<p>1<br>2<br>3</p>
+<h3 id="13-sort"><a href="#13-sort" class="headerlink" title="#13. sort"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_13-sort">#</a>13. sort</h3><p> 在原数组中对数组元素进行排序</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"8"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+fruits<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//["1", "4", "5", "8"]</span>
+</code></pre>
+<p>1<br>2</p>
+<h3 id="14-toString"><a href="#14-toString" class="headerlink" title="#14. toString"></a><a target="_blank" rel="noopener" href="https://sundestiny.github.io/myblog/pages/23a16b/#_14-tostring">#</a>14. toString</h3><p> 将数组转化为字符串。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> newArr <span class="token operator">=</span> arr<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//1,2,3</span>
+</code></pre>
 
                 
             </div>
@@ -596,7 +608,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Mueoil.github.io/2022/04/08/01%E8%83%8C%E5%8C%85%E7%AE%97%E6%B3%95/">http://Mueoil.github.io/2022/04/08/01%E8%83%8C%E5%8C%85%E7%AE%97%E6%B3%95/</a>
+                    <a href="http://Mueoil.github.io/2022/07/20/%E6%95%B0%E7%BB%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/">http://Mueoil.github.io/2022/07/20/%E6%95%B0%E7%BB%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -634,12 +646,16 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                    <span class="chip bg-color">算法</span>
+                                <a href="/tags/%E5%BE%AA%E7%8E%AF/">
+                                    <span class="chip bg-color">循环</span>
                                 </a>
                             
-                                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-                                    <span class="chip bg-color">动态规划</span>
+                                <a href="/tags/%E7%B4%A2%E5%BC%95/">
+                                    <span class="chip bg-color">索引</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8F%96%E5%80%BC/">
+                                    <span class="chip bg-color">取值</span>
                                 </a>
                             
                         </div>
@@ -813,17 +829,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/05/03/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97BlockingQueue%E5%92%8C%E5%9B%9B%E7%BB%84API/">
+                <a href="/2022/07/20/%E6%95%B0%E7%BB%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="阻塞队列BlockingQueue和四组API">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数组常用方法">
                         
-                        <span class="card-title">阻塞队列BlockingQueue和四组API</span>
+                        <span class="card-title">数组常用方法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -833,9 +850,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -844,19 +861,20 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JUC/">
-                        <span class="chip bg-color">JUC</span>
+                    <a href="/tags/%E5%BE%AA%E7%8E%AF/">
+                        <span class="chip bg-color">循环</span>
                     </a>
                     
-                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BA%BF%E7%A8%8B/">
-                        <span class="chip bg-color">并发线程</span>
+                    <a href="/tags/%E7%B4%A2%E5%BC%95/">
+                        <span class="chip bg-color">索引</span>
                     </a>
                     
-                    <a href="/tags/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/">
-                        <span class="chip bg-color">阻塞队列</span>
+                    <a href="/tags/%E5%8F%96%E5%80%BC/">
+                        <span class="chip bg-color">取值</span>
                     </a>
                     
                 </div>
@@ -870,13 +888,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/28/Markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/">
+                <a href="/2022/06/22/Java%E7%9A%84%E5%8F%8D%E5%B0%84%E6%9C%89%E5%A4%9A%E5%BC%BA%E5%A4%A7/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Markdown常用语法">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Java的反射有多强大">
                         
-                        <span class="card-title">Markdown常用语法</span>
+                        <span class="card-title">Java的反射有多强大</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -887,7 +905,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-22
                             </span>
                         <span class="publish-author">
                             
@@ -900,12 +918,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">java</span>
                     </a>
                     
-                    <a href="/tags/Typora/">
-                        <span class="chip bg-color">Typora</span>
+                    <a href="/tags/%E5%8F%8D%E5%B0%84/">
+                        <span class="chip bg-color">反射</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%A5%BF%E6%B1%89%E5%BC%8F/">
+                        <span class="chip bg-color">饿汉式</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%87%92%E6%B1%89%E5%BC%8F/">
+                        <span class="chip bg-color">懒汉式</span>
                     </a>
                     
                 </div>
