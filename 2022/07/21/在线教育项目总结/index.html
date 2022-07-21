@@ -4,11 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="数组常用方法, 有鱼同学">
-    <meta name="description" content="数组常用的方法 es6新增的方法，与for循环一样，但是没有内置的index。
-1. for of循环const list = [1, 2, 3];
-for (const item of list) {
-    //do something">
+    <meta name="keywords" content="在线教育项目总结, 有鱼同学">
+    <meta name="description" content="1、项目描述（1）
+在线教育系统，分为前台网站系统和后台运营平台，B2C模式。
+前台用户系统包括课程、讲师、问答、文章几大大部分，使用了微服务技术架构，前后端分离开发。
+后端的主要技术架构是：SpringBoot + SpringCloud">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +20,7 @@ for (const item of list) {
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>数组常用方法 | 有鱼同学</title>
+    <title>在线教育项目总结 | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -312,12 +312,12 @@ for (const item of list) {
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">数组常用方法</h1>
+                    <h1 class="description center-align post-title">在线教育项目总结</h1>
                 </div>
             </div>
         </div>
@@ -433,16 +433,12 @@ for (const item of list) {
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%BE%AA%E7%8E%AF/">
-                                <span class="chip bg-color">循环</span>
+                            <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                                <span class="chip bg-color">微服务</span>
                             </a>
                         
-                            <a href="/tags/%E7%B4%A2%E5%BC%95/">
-                                <span class="chip bg-color">索引</span>
-                            </a>
-                        
-                            <a href="/tags/%E5%8F%96%E5%80%BC/">
-                                <span class="chip bg-color">取值</span>
+                            <a href="/tags/%E5%85%A8%E6%A0%88/">
+                                <span class="chip bg-color">全栈</span>
                             </a>
                         
                     </div>
@@ -457,7 +453,7 @@ for (const item of list) {
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-20
+                    2022-07-21
                 </div>
                 
 
@@ -478,96 +474,94 @@ for (const item of list) {
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="数组常用的方法"><a href="#数组常用的方法" class="headerlink" title="数组常用的方法"></a>数组常用的方法</h2><p> es6新增的方法，与for循环一样，但是没有内置的index。</p>
-<h3 id="1-for-of循环"><a href="#1-for-of循环" class="headerlink" title="1. for of循环"></a>1. for of循环</h3><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> item <span class="token keyword">of</span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//do something</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h3 id="2-forEach"><a href="#2-forEach" class="headerlink" title="2. forEach"></a>2. forEach</h3><p> Array.prototype上内置的，遍历出item和index,不会改变原数组，没有返回值。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-list<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//do something</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<h3 id="3-map"><a href="#3-map" class="headerlink" title="3. map"></a>3. map</h3><p> 获得原数组的映射，遍历出item和index,不会改变原数组，返回新数组。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> newList <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">*</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//[0,2,6]</span>
-</code></pre>
-<h3 id="4-filter"><a href="#4-filter" class="headerlink" title="4. filter"></a>4. filter</h3><p> 执行迭代函数的返回值如果为真值，则会将这个成员放进新数组，若为假，则不放入，不会改变原数组，返回新数组。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> newList <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">*</span> index <span class="token operator">>=</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//[3]</span>
-</code></pre>
-<h3 id="5-find和findIndex"><a href="#5-find和findIndex" class="headerlink" title="5. find和findIndex"></a>5. find和findIndex</h3><p> find()返回值的结果是第一个执行迭代函数的返回值为真值的那一项成员,若都为假，则返回undefined，不会改变原数组。findIndex方法和find方法的原理一样，区别是findIndex方法返回的是第一个符合条件成员的index。如果没有找到符合条件的成员，那么findIndex的返回值是-1。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span>
-  <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-    label<span class="token punctuation">:</span> <span class="token string">"1"</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-    label<span class="token punctuation">:</span> <span class="token string">"2"</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
-    label<span class="token punctuation">:</span> <span class="token string">"3"</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
-    label<span class="token punctuation">:</span> <span class="token string">"4"</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> item <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//{id: 2,label: "2"}</span>
-<span class="token keyword">const</span> index <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">findIndex</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//1</span>
-</code></pre>
-<h3 id="6-some和every"><a href="#6-some和every" class="headerlink" title="6. some和every"></a>6. some和every</h3><p> some方法有返回值，如果原数组的每一项成员执行迭代函数的结果，有一项为真值，那么some方法会返回true。反之，如果每一项成员执行迭代函数的返回值都是false，那么some方法的返回值就是false。（或）</p>
-<p> every方法有返回值，如果原数组的每一项成员执行迭代函数的结果，有一项为假值，那么every方法会返回false。反之，如果每一项成员执行迭代函数的返回值都是true，那么every方法的返回值就是true。（且）</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> res <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//true</span>
-<span class="token keyword">const</span> res <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//false</span>
-</code></pre>
-<h3 id="7-indexOf"><a href="#7-indexOf" class="headerlink" title="7. indexOf"></a>7. indexOf</h3><p> indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。如果匹配到则返回当前项的索引，否则返回-1（如果未找到）。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//0</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//-1</span>
-</code></pre>
-<h3 id="8-concat"><a href="#8-concat" class="headerlink" title="8. concat"></a>8. concat</h3><p> 把元素衔接到数组中。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str1 <span class="token operator">=</span> <span class="token string">"Hello"</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> str2 <span class="token operator">=</span> <span class="token string">"world!"</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> n <span class="token operator">=</span> str1<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//"Helloworld!"</span>
-</code></pre>
-<h3 id="9-join"><a href="#9-join" class="headerlink" title="9. join"></a>9. join</h3><p> 将数组的所有元素转化为字符串</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> energy <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//1,2,3,4</span>
-</code></pre>
-<h3 id="10-reverse"><a href="#10-reverse" class="headerlink" title="10. reverse"></a>10. reverse</h3><p> 在原数组中颠倒元素的顺序。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-fruits<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//["4", "3", "2", "1"]</span>
-</code></pre>
-<h3 id="11-slice"><a href="#11-slice" class="headerlink" title="11. slice"></a>11. slice</h3><p>截取数组的一部分。索引从0开始，不包括最后一个参数</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> citrus <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//["2","3"]</span>
-</code></pre>
-<h3 id="12-splice"><a href="#12-splice" class="headerlink" title="12. splice"></a>12. splice</h3><p>插入、删除或替换数组元素。</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//插入 在第一个参数前面插入</span>
-<span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-fruits<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//["1", "5", "6", "2", "3", "4"]</span>
-</code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//删除   第一个参数是开始删除的位置，第二个参数是删除几个，第三个参数是替换被删除的元素</span>
-<span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-fruits<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ["1", "5", "3", "4"]</span>
-</code></pre>
-<h3 id="13-sort"><a href="#13-sort" class="headerlink" title="13. sort"></a>13. sort</h3><p> 在原数组中对数组元素进行排序</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"8"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-fruits<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//["1", "4", "5", "8"]</span>
-</code></pre>
-<h3 id="14-toString"><a href="#14-toString" class="headerlink" title="14.toString"></a>14.toString</h3><p> 将数组转化为字符串。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> newArr <span class="token operator">=</span> arr<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//1,2,3</span>
-</code></pre>
+                <h3 id="1、项目描述"><a href="#1、项目描述" class="headerlink" title="1、项目描述"></a>1、项目描述</h3><p>（1）</p>
+<p>在线教育系统，分为前台网站系统和后台运营平台，B2C模式。</p>
+<p>前台用户系统包括课程、讲师、问答、文章几大大部分，使用了微服务技术架构，前后端分离开发。</p>
+<p>后端的主要技术架构是：SpringBoot + SpringCloud + MyBatis-Plus + HttpClient + MySQL + Maven+EasyExcel+ nginx</p>
+<p>前端的架构是：Node.js + Vue.js +element-ui+NUXT+ECharts</p>
+<p>其他涉及到的中间件包括Redis、阿里云OSS、阿里云视频点播</p>
+<p>业务中使用了ECharts做图表展示，使用EasyExcel完成分类批量添加、注册分布式单点登录使用了JWT</p>
+<p>（2）</p>
+<p>项目前后端分离开发，后端采用SpringCloud微服务架构，持久层用的是MyBatis-Plus，微服务分库设计，使用Swagger生成接口文档</p>
+<p>接入了阿里云视频点播、阿里云OSS。</p>
+<p>系统分为前台用户系统和后台管理系统两部分。</p>
+<p>前台用户系统包括：首页、课程、名师、问答、文章。</p>
+<p>后台管理系统包括：讲师管理、课程分类管理、课程管理、统计分析、Banner管理、订单管理、权限管理等功能。</p>
+<p>在线教育计费案例：</p>
+<p>小A是一名杭州的创业者，带领团队研发了一个在线教育平台。他希望把视频托管在阿里云上，存量视频大约1000个，占用存储空间近1T，每月预计新增视频100个，并新增存储约100G，课程视频的时长集中在20-40分钟，并且按照不同课程进行分类管理。为了保障各端的观看效果，计划为用户提供“标清480P”和“高清720P”两种清晰度。目前已有用户400人左右，每日平均视频观看次数1000次，在移动端和PC端观看次数比例大致为3:1。</p>
+<h3 id="2、这是一个项目还是一个产品"><a href="#2、这是一个项目还是一个产品" class="headerlink" title="2、这是一个项目还是一个产品"></a>2、这是一个项目还是一个产品</h3><p>这是一个产品</p>
+<p>1.0版本是单体应用：SSM</p>
+<p>2.0版本加入了SpringCloud，将一些关键业务和访问量比较大的部分分离了出去</p>
+<p>目前独立出来的服务有教学服务、视频点播服务、用户服务、统计分析服务、网关服务</p>
+<h3 id="3、测试要求"><a href="#3、测试要求" class="headerlink" title="3、测试要求"></a>3、测试要求</h3><p>首页和视频详情页qps单机qps要求 2000+</p>
+<p>经常用每秒查询率来衡量域名系统服务器的机器的性能，其即为QPS</p>
+<p>QPS &#x3D; 并发量 &#x2F; 平均响应时间</p>
+<h3 id="4、企业中的项目（产品）开发流程"><a href="#4、企业中的项目（产品）开发流程" class="headerlink" title="4、企业中的项目（产品）开发流程"></a>4、企业中的项目（产品）开发流程</h3><p>一个中大型项目的开发流程</p>
+<p>1、需求调研（产品经理）</p>
+<p>2、需求评审（产品&#x2F;设计&#x2F;前端&#x2F;后端&#x2F;测试&#x2F;运营）</p>
+<p>3、立项（项目经理、品管）</p>
+<p>4、UI设计</p>
+<p>5、开发</p>
+<ul>
+<li>架构、数据库设计、API文档、MOCK数据、开发、单元测试</li>
+<li>前端</li>
+<li>后端</li>
+</ul>
+<p>6、前端后端联调</p>
+<p>7、项目提测：黑盒白盒、压力测试（qps）  loadrunner</p>
+<p>8、bug修改</p>
+<p>9、回归测试</p>
+<p>10、运维和部署上线</p>
+<p>11、灰度发布</p>
+<p>12、全量发布</p>
+<p>13、维护和运营</p>
+<p>5、系统中都有那些角色？数据库是怎么设计的？</p>
+<p>前台：会员（学员）</p>
+<p>后台：系统管理员、运营人员</p>
+<p>后台分库，每个微服务一个独立的数据库，使用了分布式id生成器</p>
+<h3 id="6、视频点播是怎么实现的（流媒体你们是怎么实现的）"><a href="#6、视频点播是怎么实现的（流媒体你们是怎么实现的）" class="headerlink" title="6、视频点播是怎么实现的（流媒体你们是怎么实现的）"></a>6、视频点播是怎么实现的（流媒体你们是怎么实现的）</h3><p>我们直接接入了阿里云的云视频点播。云平台上的功能包括视频上传、转码、加密、智能审核、监控统计等。</p>
+<p>还包括视频播放功能，阿里云还提供了一个视频播放器。</p>
+<h3 id="7、前后端联调经常遇到的问题："><a href="#7、前后端联调经常遇到的问题：" class="headerlink" title="7、前后端联调经常遇到的问题："></a>7、前后端联调经常遇到的问题：</h3><p>   1、请求方式post、get</p>
+<p>   2、json、x-wwww-form-urlencoded混乱的错误</p>
+<p>   3、后台必要的参数，前端省略了</p>
+<p>   4、数据类型不匹配</p>
+<p>   5、空指针异常</p>
+<p>   6、分布式系统中分布式id生成器生成的id 长度过大（19个字符长度的整数），js无法解析（js智能解析16个长度：2的53次幂）</p>
+<p>​     id策略改成 ID_WORKER_STR</p>
+<h3 id="8、前后端分离项目中的跨域问题是如何解决的"><a href="#8、前后端分离项目中的跨域问题是如何解决的" class="headerlink" title="8、前后端分离项目中的跨域问题是如何解决的"></a>8、前后端分离项目中的跨域问题是如何解决的</h3><p>后端服务器配置：我们的项目中是通过Spring注解解决跨域的 @CrossOrigin</p>
+<p>也可以使用nginx反向代理、httpClient、网关</p>
+<h3 id="9、说说你做了哪个部分、遇到了什么问题、怎么解决的"><a href="#9、说说你做了哪个部分、遇到了什么问题、怎么解决的" class="headerlink" title="9、说说你做了哪个部分、遇到了什么问题、怎么解决的"></a>9、说说你做了哪个部分、遇到了什么问题、怎么解决的</h3><p>问题1：</p>
+<p>分布式id生成器在前端无法处理，总是在后三位进行四舍五入。</p>
+<p>分布式id生成器生成的id是19个字符的长度，前端javascript脚本对整数的处理能力只有2的53次方，也就是最多只能处理16个字符</p>
+<p>解决的方案是把id在程序中设置成了字符串的性质</p>
+<p>问题2：</p>
+<p>项目迁移到Spring-Cloud的时候，经过网关时，前端传递的cookie后端一只获取不了，看了cloud中zuul的源码，发现向下游传递数据的时候，zull默认过滤了敏感信息，将cookie过滤掉了</p>
+<p>解决的方案是在配置文件中将请求头的过滤清除掉，使cookie可以向下游传递</p>
+<p>问题3…….</p>
+<h3 id="10、分布式系统的id生成策略"><a href="#10、分布式系统的id生成策略" class="headerlink" title="10、分布式系统的id生成策略"></a>10、分布式系统的id生成策略</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/haoxinyue/p/5208136.html">主键生成策略</a></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="11、项目组有多少人，人员如何组成？"><a href="#11、项目组有多少人，人员如何组成？" class="headerlink" title="11、项目组有多少人，人员如何组成？"></a>11、项目组有多少人，人员如何组成？</h3><h3 id="12、分布式系统的CAP原理"><a href="#12、分布式系统的CAP原理" class="headerlink" title="12、分布式系统的CAP原理"></a>12、分布式系统的CAP原理</h3><p><strong>CAP定理：</strong></p>
+<p>指的是在一个分布式系统中，Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可同时获得。</p>
+<p> 一致性（C）：在分布式系统中的所有数据备份，在同一时刻是否同样的值。（所有节点在同一时间的数据完全一致，越多节点，数据同步越耗时）</p>
+<p>可用性（A）：负载过大后，集群整体是否还能响应客户端的读写请求。（服务一直可用，而且是正常响应时间）</p>
+<p>分区容错性（P）：分区容错性，就是高可用性，一个节点崩了，并不影响其它的节点（100个节点，挂了几个，不影响服务，越多机器越好）</p>
+<p><strong>CA 满足的情况下，P不能满足的原因：</strong></p>
+<p>数据同步(C)需要时间，也要正常的时间内响应(A)，那么机器数量就要少，所以P就不满足</p>
+<p><strong>CP 满足的情况下，A不能满足的原因：</strong></p>
+<p>数据同步(C)需要时间, 机器数量也多(P)，但是同步数据需要时间，所以不能再正常时间内响应，所以A就不满足</p>
+<p><strong>AP 满足的情况下，C不能满足的原因：</strong></p>
+<p>机器数量也多(P)，正常的时间内响应(A)，那么数据就不能及时同步到其他节点，所以C不满足</p>
+<p><strong>注册中心选择的原则：</strong></p>
+<p>Zookeeper：CP设计，保证了一致性，集群搭建的时候，某个节点失效，则会进行选举行的leader，或者半数以上节点不可用，则无法提供服务，因此可用性没法满足</p>
+<p>Eureka：AP原则，无主从节点，一个节点挂了，自动切换其他节点可以使用，去中心化</p>
+<p><strong>结论：</strong></p>
+<p>分布式系统中P,肯定要满足，所以我们只能在一致性和可用性之间进行权衡</p>
+<p>如果要求一致性，则选择zookeeper，如金融行业</p>
+<p>如果要求可用性，则Eureka，如教育、电商系统</p>
+<p>没有最好的选择，最好的选择是根据业务场景来进行架构设计</p>
+<h3 id="13、前端渲染和后端渲染有什么区别"><a href="#13、前端渲染和后端渲染有什么区别" class="headerlink" title="13、前端渲染和后端渲染有什么区别"></a>13、<strong>前端渲染和后端渲染有什么区别</strong></h3><p>前端渲染是返回json给前端，通过javascript将数据绑定到页面上</p>
+<p>后端渲染是在服务器端将页面生成直接发送给服务器，有利于SEO的优化</p>
+<p><strong>14、能画一下系统架构图吗</strong></p>
+<p><img src="https://edu-youyu.oss-cn-beijing.aliyuncs.com/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/af43e6f7168dd36951b3bf819d7a18f.png" alt="img"></p>
 
                 
             </div>
@@ -594,7 +588,7 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Mueoil.github.io/2022/07/20/%E6%95%B0%E7%BB%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/">http://Mueoil.github.io/2022/07/20/%E6%95%B0%E7%BB%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/</a>
+                    <a href="http://Mueoil.github.io/2022/07/21/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">http://Mueoil.github.io/2022/07/21/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -632,16 +626,12 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%BE%AA%E7%8E%AF/">
-                                    <span class="chip bg-color">循环</span>
+                                <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                                    <span class="chip bg-color">微服务</span>
                                 </a>
                             
-                                <a href="/tags/%E7%B4%A2%E5%BC%95/">
-                                    <span class="chip bg-color">索引</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%8F%96%E5%80%BC/">
-                                    <span class="chip bg-color">取值</span>
+                                <a href="/tags/%E5%85%A8%E6%A0%88/">
+                                    <span class="chip bg-color">全栈</span>
                                 </a>
                             
                         </div>
@@ -815,9 +805,10 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2022/07/21/%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">
                     <div class="card-image">
@@ -835,9 +826,9 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -846,6 +837,7 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -868,13 +860,13 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/22/Java%E7%9A%84%E5%8F%8D%E5%B0%84%E6%9C%89%E5%A4%9A%E5%BC%BA%E5%A4%A7/">
+                <a href="/2022/07/20/%E6%95%B0%E7%BB%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Java的反射有多强大">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数组常用方法">
                         
-                        <span class="card-title">Java的反射有多强大</span>
+                        <span class="card-title">数组常用方法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -885,7 +877,7 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-20
                             </span>
                         <span class="publish-author">
                             
@@ -898,20 +890,16 @@ fruits<span class="token punctuation">.</span><span class="token function">sort<
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">java</span>
+                    <a href="/tags/%E5%BE%AA%E7%8E%AF/">
+                        <span class="chip bg-color">循环</span>
                     </a>
                     
-                    <a href="/tags/%E5%8F%8D%E5%B0%84/">
-                        <span class="chip bg-color">反射</span>
+                    <a href="/tags/%E7%B4%A2%E5%BC%95/">
+                        <span class="chip bg-color">索引</span>
                     </a>
                     
-                    <a href="/tags/%E9%A5%BF%E6%B1%89%E5%BC%8F/">
-                        <span class="chip bg-color">饿汉式</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%87%92%E6%B1%89%E5%BC%8F/">
-                        <span class="chip bg-color">懒汉式</span>
+                    <a href="/tags/%E5%8F%96%E5%80%BC/">
+                        <span class="chip bg-color">取值</span>
                     </a>
                     
                 </div>
