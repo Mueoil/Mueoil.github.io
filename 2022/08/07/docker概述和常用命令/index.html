@@ -4,16 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="微信支付, 有鱼同学">
-    <meta name="description" content="微信支付1.准备工作
-你需要注册一个开发者资质的认证(只支持企业类型，收费)
-关联的公众号appId
-商户号
-商户key
-回调地址
-
-2.引入微信支付相关依赖&amp;lt;dependency&gt;
-    &amp;lt;groupId&gt;com.githu">
+    <meta name="keywords" content="docker概述和常用命令, 有鱼同学">
+    <meta name="description" content="1. Docker概述(1)基本介绍Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Li">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -25,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>微信支付 | 有鱼同学</title>
+    <title>docker概述和常用命令 | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -317,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">微信支付</h1>
+                    <h1 class="description center-align post-title">docker概述和常用命令</h1>
                 </div>
             </div>
         </div>
@@ -438,8 +431,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/">
-                                <span class="chip bg-color">微信支付</span>
+                            <a href="/tags/docker/">
+                                <span class="chip bg-color">docker</span>
                             </a>
                         
                     </div>
@@ -454,7 +447,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-21
+                    2022-08-07
                 </div>
                 
 
@@ -475,73 +468,259 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="微信支付"><a href="#微信支付" class="headerlink" title="微信支付"></a>微信支付</h2><h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h3><ol>
-<li>你需要注册一个<a target="_blank" rel="noopener" href="https://open.weixin.qq.com/">开发者资质的认证</a>(只支持企业类型，收费)</li>
-<li>关联的公众号appId</li>
-<li>商户号</li>
-<li>商户key</li>
-<li>回调地址</li>
-</ol>
-<h3 id="2-引入微信支付相关依赖"><a href="#2-引入微信支付相关依赖" class="headerlink" title="2.引入微信支付相关依赖"></a>2.引入微信支付相关依赖</h3><pre class=" language-java"><code class="language-java"><span class="token operator">&lt;</span>dependency<span class="token operator">></span>
-    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com<span class="token punctuation">.</span>github<span class="token punctuation">.</span>wxpay<span class="token operator">&lt;</span><span class="token operator">/</span>groupId<span class="token operator">></span>
-    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>wxpay<span class="token operator">-</span>sdk<span class="token operator">&lt;</span><span class="token operator">/</span>artifactId<span class="token operator">></span>
-    <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token number">0.0</span><span class="token punctuation">.</span><span class="token number">3</span><span class="token operator">&lt;</span><span class="token operator">/</span>version<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>dependency<span class="token operator">></span>
-<span class="token operator">&lt;</span>dependency<span class="token operator">></span>
-    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com<span class="token punctuation">.</span>alibaba<span class="token operator">&lt;</span><span class="token operator">/</span>groupId<span class="token operator">></span>
-    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>fastjson<span class="token operator">&lt;</span><span class="token operator">/</span>artifactId<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>dependency<span class="token operator">></span>
-</code></pre>
-<h3 id="3-生成支付微信二维码"><a href="#3-生成支付微信二维码" class="headerlink" title="3.生成支付微信二维码"></a>3.生成支付微信二维码</h3><pre class=" language-java"><code class="language-java">#支付
-#关联的公众号appid
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>appid<span class="token operator">=</span>微信id
-#商户号
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>partner<span class="token operator">=</span>商户号
-#商户key
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>partnerkey<span class="token operator">=</span>商户key
-#回调地址
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>notifyurl<span class="token operator">=</span>回调地址
-</code></pre>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        2、使用map设置二维码需要的参数</span>
-            Map map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"appid"</span><span class="token punctuation">,</span> appId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"mch_id"</span><span class="token punctuation">,</span> partner<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"nonce_str"</span><span class="token punctuation">,</span> WXPayUtil<span class="token punctuation">.</span><span class="token function">generateNonceStr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"body"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getCourseTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"out_trade_no"</span><span class="token punctuation">,</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"total_fee"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getTotalFee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span><span class="token string">"100"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">longValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//元角分转换成long</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"spbill_create_ip"</span><span class="token punctuation">,</span> <span class="token string">"127.0.0.1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//baidu.com</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"notify_url"</span><span class="token punctuation">,</span> notifyurl<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//回调地址</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"trade_type"</span><span class="token punctuation">,</span> <span class="token string">"NATIVE"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//支付类型</span>
-</code></pre>
-<ol>
-<li><p>发送httpClient请求，传递参数xml格式，微信提供的固定地址</p>
-<pre class=" language-java"><code class="language-java">            HttpClient client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpClient</span><span class="token punctuation">(</span><span class="token string">"https://api.mch.weixin.qq.com/pay/unifiedorder"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//这个地址是固定的</span>
-<span class="token comment" spellcheck="true">//            向请求中设置参数</span>
-            client<span class="token punctuation">.</span><span class="token function">setXmlParam</span><span class="token punctuation">(</span>WXPayUtil<span class="token punctuation">.</span><span class="token function">generateSignedXml</span><span class="token punctuation">(</span>map<span class="token punctuation">,</span>partnerkey<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            client<span class="token punctuation">.</span><span class="token function">setHttps</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//https不支持，要写上这个才支持</span>
-<span class="token comment" spellcheck="true">//            执行请求发送</span>
-            client<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-</li>
-<li><p>请求发送后得到一个结果（xml格式），我们需转换为map格式</p>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        4、得到发送请求返回结果</span>
-<span class="token comment" spellcheck="true">//            返回的内容是xml格式返回的，我们可以把xml格式转为map集合  这里不能用Gson</span>
-String content <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span>String<span class="token operator">></span> resultMap <span class="token operator">=</span> WXPayUtil<span class="token punctuation">.</span><span class="token function">xmlToMap</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <h3 id="1-Docker概述"><a href="#1-Docker概述" class="headerlink" title="1. Docker概述"></a>1. Docker概述</h3><p>(1)基本介绍<br>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。</p>
+<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<p>Docker 从 17.03 版本之后分为 CE（Community Edition: 社区版） 和 EE（Enterprise Edition: 企业版），我们用社区版就可以了。官网：<a target="_blank" rel="noopener" href="https://docs.docker.com/">https://docs.docker.com/</a></p>
+<p>(2)应用场景</p>
+<p>Web 应用的自动化打包和发布。</p>
+<p>自动化测试和持续集成、发布。</p>
+<p>在服务型环境中部署和调整数据库或其他的后台应用。</p>
+<p>从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境。</p>
+<p>(3)Docker 的优势</p>
+<p>Docker 是一个用于开发，交付和运行应用程序的开放平台。Docker 使您能够将应用程序与基础架构分开，从而可以快速交付软件。借助 Docker，您可以与管理应用程序相同的方式来管理基础架构。通过利用 Docker 的方法来快速交付，测试和部署代码，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
+<p>1、快速，一致地交付您的应用程序。Docker 允许开发人员使用您提供的应用程序或服务的本地容器在标准化环境中工作，从而简化了开发的生命周期。</p>
+<p>容器非常适合持续集成和持续交付（CI &#x2F; CD）工作流程，请考虑以下示例方案：</p>
+<p>您的开发人员在本地编写代码，并使用 Docker 容器与同事共享他们的工作。<br>他们使用 Docker 将其应用程序推送到测试环境中，并执行自动或手动测试。<br>当开发人员发现错误时，他们可以在开发环境中对其进行修复，然后将其重新部署到测试环境中，以进行测试和验证。<br>测试完成后，将修补程序推送给生产环境，就像将更新的镜像推送到生产环境一样简单。<br>2、响应式部署和扩展<br>Docker 是基于容器的平台，允许高度可移植的工作负载。Docker 容器可以在开发人员的本机上，数据中心的物理或虚拟机上，云服务上或混合环境中运行。</p>
+<p>Docker 的可移植性和轻量级的特性，还可以使您轻松地完成动态管理的工作负担，并根据业务需求指示，实时扩展或拆除应用程序和服务。</p>
+<p>3、在同一硬件上运行更多工作负载<br>Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可行、经济、高效的替代方案，因此您可以利用更多的计算能力来实现业务目标。Docker 非常适合于高密度环境以及中小型部署，而您可以用更少的资源做更多的事情。</p>
+<h3 id="2-Docker的基本组成"><a href="#2-Docker的基本组成" class="headerlink" title="2. Docker的基本组成"></a>2. Docker的基本组成</h3><p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220807141049417.png" alt="image-20220807141049417"><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220807141115359.png" alt="image-20220807141115359"></p>
+<h3 id="3-Docker的安装、启动和卸载"><a href="#3-Docker的安装、启动和卸载" class="headerlink" title="3. Docker的安装、启动和卸载"></a>3. Docker的安装、启动和卸载</h3><pre class=" language-shell"><code class="language-shell"># 1.查看系统的内核：
+#系统内核版本为3.10.0
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# uname -r
+3.10.0-957.21.3.el7.x86_64
 
-<span class="token comment" spellcheck="true">//            这里返回的resultMap只有二维码地址，而我们还需要其他信息，所以封装</span>
-            Map mapAdd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"out_trade_no"</span><span class="token punctuation">,</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"course_id"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getCourseId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"total_fee"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getTotalFee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"result_code"</span><span class="token punctuation">,</span> resultMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"result_code"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//返回二维码的状态码</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"code_url"</span><span class="token punctuation">,</span> resultMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"code_url"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//返回二维码的地址</span>
-            <span class="token keyword">return</span> mapAdd<span class="token punctuation">;</span>
+# 2.查看系统配置
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# cat /etc/os-release
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+# 3.卸载旧版本
+yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+# 4.下载需要的安装包
+yum install -y yum-utils
+
+# 5.设置镜像的仓库
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo  #国外的地址
+    
+    # 设置阿里云的Docker镜像仓库
+yum-config-manager \
+    --add-repo \
+    https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo  #国外的地址
+
+# 6.更新yum软件包索引
+yum makecache fast
+
+# 7.安装docker相关的配置
+# docker-ce 是社区版，docker-ee 企业版
+ yum install docker-ce docker-ce-cli containerd.io
+
+# 8.启动Docker
+systemctl start docker
+# 查看当前版本号，是否启动成功
+docker version
+# 设置开机自启动
+systemctl enable docker
 </code></pre>
-</li>
-</ol>
-<h3 id="4-生成微信支付二维码成功"><a href="#4-生成微信支付二维码成功" class="headerlink" title="4.生成微信支付二维码成功"></a>4.生成微信支付二维码成功</h3>
+<p>结果：</p>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220807141646294.png" alt="image-20220807141646294"></p>
+<p>下载hello-world镜像进行测试</p>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20220807141718528.png" alt="image-20220807141718528"></p>
+<pre class=" language-shell"><code class="language-shell"># 9. 查看下载的hello world镜像
+[root@iZwz99sm8v95sckz8bd2c4Z lib]# docker images
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    bf756fb1ae65   11 months ago   13.3kB
+
+# 10. Docker的卸载
+# 1. 卸载依赖
+yum remove docker-ce docker-ce-cli containerd.io
+# 2. 删除资源  . /var/lib/docker是docker的默认工作路径
+rm -rf /var/lib/docker
+
+#  11.配置阿里云镜像加速
+（1）进入阿里云官网，搜索容器镜像服务
+ (2) 执行类似下面的四条命令
+ sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://axvfsf7e.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+</code></pre>
+<h3 id="4-Docker常用命令"><a href="#4-Docker常用命令" class="headerlink" title="4. Docker常用命令"></a>4. Docker常用命令</h3><h4 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h4><blockquote>
+<p>docker version          #查看docker的版本信息<br>docker info             #查看docker的系统信息,包括镜像和容器的数量<br>docker 命令 –help       #帮助命令(可查看可选的参数)<br>docker COMMAND –help</p>
+</blockquote>
+<h4 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h4><pre class=" language-shell"><code class="language-shell"># 1.docker images 查看本地主机的所有镜像
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker images
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    bf756fb1ae65   11 months ago   13.3kB
+
+#解释:
+1.REPOSITORY  镜像的仓库源
+
+2.TAG  镜像的标签
+
+3.IMAGE ID 镜像的id
+
+4.CREATED 镜像的创建时间
+
+5.SIZE 镜像的大小
+
+
+# 可选参数
+
+-a/--all 列出所有镜像
+
+-q/--quiet 只显示镜像的id
+
+
+# 2.docker search 搜索镜像
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker search mysql
+
+# 3.docker pull 镜像名[:tag] 下载镜像
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker pull mysql
+
+# 4.指定版本下载
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker pull mysql:5.7
+
+# 5.docker rmi 删除镜像
+    #1.删除指定的镜像id
+    [root@iZwz99sm8v95sckz8bd2c4Z ~]# docker rmi -f  镜像id
+    #2.删除多个镜像id
+    [root@iZwz99sm8v95sckz8bd2c4Z ~]# docker rmi -f  镜像id 镜像id 镜像id
+    #3.删除全部的镜像id
+    [root@iZwz99sm8v95sckz8bd2c4Z ~]# docker rmi -f  $(docker images -aq)
+</code></pre>
+<h4 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h4><pre class=" language-shell"><code class="language-shell"># 如拉取一个centos镜像
+docker pull centos
+
+# 1.运行容器的命令
+docker run [可选参数] image
+
+# 2.运行并进入容器centos
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker run -it centos /bin/bash
+[root@bd1b8900c547 /]# ls      
+bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+# 3.退出容器命令
+[root@bd1b8900c547 /]# exit
+exit
+
+# 4.列出运行过的容器命令
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker ps
+
+# 5.删除容器命令
+docker rm 容器id                 #删除指定的容器,不能删除正在运行的容器,强制删除使用 rm -f
+docker rm -f $(docker ps -aq)   #删除所有的容器
+docker ps -a -q|xargs docker rm #删除所有的容器
+
+# 6.启动和停止容器命令
+docker start 容器id          #启动容器
+docker restart 容器id        #重启容器
+docker stop 容器id           #停止当前运行的容器
+docker kill 容器id           #强制停止当前容器
+</code></pre>
+<h4 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h4><pre class=" language-shell"><code class="language-shell"># 1.日志的查看
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker logs --help
+
+# 2. 查看容器中进程信息
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker top 容器id
+
+# 3.查看容器的元数据
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker inspect 容器id
+
+# 4.进入当前正在运行的容器
+# 因为通常我们的容器都是使用后台方式来运行的，有时需要进入容器修改配置
+方式一： [root@iZwz99sm8v95sckz8bd2c4Z ~]# docker exec -it 容器id /bin/bash
+方式二： [root@iZwz99sm8v95sckz8bd2c4Z ~]# docker attach 容器id
+
+</code></pre>
+<h3 id="5-提交镜像"><a href="#5-提交镜像" class="headerlink" title="5. 提交镜像"></a>5. 提交镜像</h3><pre class=" language-shell"><code class="language-shell"># 使用docker commit 命令提交容器成为一个新的版本
+
+docker commit -m=“提交的描述信息”  -a="作者" 容器id 目标镜像名:[TAG] 
+
+eg:
+# 由于默认的Tomcat镜像的webapps文件夹中没有任何内容，需要从webapps.dist中拷贝文件到webapps文件夹。下面自行制作镜像：就是从webapps.dist中拷贝文件到webapps文件夹下，并提交该镜像作为一个新的镜像。使得该镜像默认的webapps文件夹下就有文件。具体命令如下：
+ 
+ #1.复制文件夹
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker run -it tomcat /bin/bash
+root@2a3bf3eaa2e4:/usr/local/tomcat# cd webapps
+root@2a3bf3eaa2e4:/usr/local/tomcat/webapps# ls
+root@2a3bf3eaa2e4:/usr/local/tomcat/webapps# cd ../
+root@2a3bf3eaa2e4:/usr/local/tomcat# cp -r webapps.dist/* webapps
+root@2a3bf3eaa2e4:/usr/local/tomcat# cd webapps
+root@2a3bf3eaa2e4:/usr/local/tomcat/webapps# ls
+ROOT  docs  examples  host-manager  manager
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker ps
+CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS         PORTS                    NAMES
+2a3bf3eaa2e4   tomcat                "/bin/bash"    4 minutes ago   Up 4 minutes   8080/tcp                 competent_torvalds
+7789d4505a00   portainer/portainer   "/portainer"   24 hours ago    Up 24 hours    0.0.0.0:8088->9000/tcp   quirky_sinoussi
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker exec -it 2a3bf3eaa2e4 /bin/bash
+root@2a3bf3eaa2e4:/usr/local/tomcat# cd webapps
+root@2a3bf3eaa2e4:/usr/local/tomcat/webapps# ls
+ROOT  docs  examples  host-manager  manager
+root@2a3bf3eaa2e4:/usr/local/tomcat/webapps# cd ../
+root@2a3bf3eaa2e4:/usr/local/tomcat# read escape sequence
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker ps
+CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS         PORTS                    NAMES
+2a3bf3eaa2e4   tomcat                "/bin/bash"    8 minutes ago   Up 8 minutes   8080/tcp                 competent_torvalds
+7789d4505a00   portainer/portainer   "/portainer"   24 hours ago    Up 24 hours    0.0.0.0:8088->9000/tcp   quirky_sinoussi
+#2.提交镜像作为一个新的镜像
+
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker commit -m="add webapps" -a="Ethan" 2a3bf3eaa2e4 mytomcat:1.0
+sha256:f189aac861de51087af5bc88a5f1de02d9574e7ee2d163c647dd7503a2d3982b
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker images
+REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+mytomcat              1.0       f189aac861de   7 seconds ago   653MB
+mysql                 5.7       f07dfa83b528   6 days ago      448MB
+tomcat                latest    feba8d001e3f   10 days ago     649MB
+nginx                 latest    ae2feff98a0c   12 days ago     133MB
+centos                latest    300e315adb2f   2 weeks ago     209MB
+portainer/portainer   latest    62771b0b9b09   5 months ago    79.1MB
+elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
+
+#3.运行容器
+
+[root@iZwz99sm8v95sckz8bd2c4Z ~]# docker run -it mytomcat:1.0 /bin/bash
+root@1645774d4605:/usr/local/tomcat# cd webapps
+root@1645774d4605:/usr/local/tomcat/webapps# ls
+ROOT  docs  examples  host-manager  manager
+wz99sm8v95sckz8bd2c4Z ~]# docker images
+REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+mytomcat              1.0       f189aac861de   7 seconds ago   653MB
+mysql                 5.7       f07dfa83b528   6 days ago      448MB
+tomcat                latest    feba8d001e3f   10 days ago     649MB
+nginx                 latest    ae2feff98a0c   12 days ago     133MB
+centos                latest    300e315adb2f   2 weeks ago     209MB
+portainer/portainer   latest    62771b0b9b09   5 months ago    79.1MB
+elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
+</code></pre>
+<h3 id="总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！"><a href="#总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！" class="headerlink" title="总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！"></a>总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！</h3>
                 
             </div>
             <hr/>
@@ -567,7 +746,7 @@ String content <span class="token operator">=</span> client<span class="token pu
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Mueoil.github.io/2022/07/21/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/">http://Mueoil.github.io/2022/07/21/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/</a>
+                    <a href="http://Mueoil.github.io/2022/08/07/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">http://Mueoil.github.io/2022/08/07/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -605,8 +784,8 @@ String content <span class="token operator">=</span> client<span class="token pu
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/">
-                                    <span class="chip bg-color">微信支付</span>
+                                <a href="/tags/docker/">
+                                    <span class="chip bg-color">docker</span>
                                 </a>
                             
                         </div>
@@ -780,9 +959,56 @@ String content <span class="token operator">=</span> client<span class="token pu
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/08/07/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="docker概述和常用命令">
+                        
+                        <span class="card-title">docker概述和常用命令</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            有鱼同学
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/docker/">
+                        <span class="chip bg-color">docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2022/07/26/Java%E7%AE%97%E6%B3%95%E5%B8%B8%E7%94%A8Api/">
                     <div class="card-image">
@@ -800,9 +1026,9 @@ String content <span class="token operator">=</span> client<span class="token pu
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-26
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-26
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -820,51 +1046,6 @@ String content <span class="token operator">=</span> client<span class="token pu
                     
                     <a href="/tags/%E7%AE%97%E6%B3%95/">
                         <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/07/21/%E5%BE%AE%E4%BF%A1%E7%99%BB%E5%BD%95/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="微信登录">
-                        
-                        <span class="card-title">微信登录</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-21
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            有鱼同学
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%BE%AE%E4%BF%A1%E7%99%BB%E5%BD%95/">
-                        <span class="chip bg-color">微信登录</span>
                     </a>
                     
                 </div>
