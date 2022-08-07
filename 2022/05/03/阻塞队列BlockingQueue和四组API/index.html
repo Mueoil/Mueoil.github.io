@@ -477,9 +477,6 @@ BlockingQueue 不是新的东西
         <hr class="clearfix">
 
         
-        <!-- 是否加载使用自带的 prismjs. -->
-        <link rel="stylesheet" href="/libs/prism/prism.css">
-        
 
         
 
@@ -524,139 +521,137 @@ BlockingQueue 不是新的东西
 <td></td>
 </tr>
 </tbody></table>
-<h3 id="抛出异常"><a href="#抛出异常" class="headerlink" title="抛出异常"></a>抛出异常</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">package com.lin.BlockingQueue;
+<h3 id="抛出异常"><a href="#抛出异常" class="headerlink" title="抛出异常"></a>抛出异常</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>BlockingQueue<span class="token punctuation">;</span>
 
-import java.util.concurrent.ArrayBlockingQueue;
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>ArrayBlockingQueue<span class="token punctuation">;</span>
 
-public class BlockingQueueTest &#123;
-    public static void main(String[] args) &#123;
-&#x2F;&#x2F;        Collection
-&#x2F;&#x2F;        List
-&#x2F;&#x2F;        Set
-&#x2F;&#x2F;        BlockingQueue 不是新的东西
-        test1();
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BlockingQueueTest</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//        Collection</span>
+<span class="token comment" spellcheck="true">//        List</span>
+<span class="token comment" spellcheck="true">//        Set</span>
+<span class="token comment" spellcheck="true">//        BlockingQueue 不是新的东西</span>
+        <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    &#125;
+    <span class="token punctuation">}</span>
 
 
 
-    &#x2F;**
+    <span class="token comment" spellcheck="true">/**
      * 抛出异常
      * IllegalStateException: Queue full
      * NoSuchElementException：Queue empty
-     *&#x2F;
-    public static void test1()&#123;
-&#x2F;&#x2F;        &lt;&gt;是要写泛型吗？不是，而是队列的大小，例如车位只能放几个车        ()
-        ArrayBlockingQueue arrayBlockingQueue &#x3D; new ArrayBlockingQueue&lt;&gt;(3);
-&#x2F;&#x2F;        add入队操作
-        System.out.println(arrayBlockingQueue.add(&quot;a&quot;));
-        System.out.println(arrayBlockingQueue.add(&quot;b&quot;));
-        System.out.println(arrayBlockingQueue.add(&quot;c&quot;));
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//        &lt;>是要写泛型吗？不是，而是队列的大小，例如车位只能放几个车        ()</span>
+        ArrayBlockingQueue arrayBlockingQueue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBlockingQueue</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        add入队操作</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-&#x2F;**
+<span class="token comment" spellcheck="true">/**
  * IllegalStateException: Queue full
- *&#x2F;
-&#x2F;&#x2F;        System.out.println(arrayBlockingQueue.add(&quot;d&quot;));
+ */</span>
+<span class="token comment" spellcheck="true">//        System.out.println(arrayBlockingQueue.add("d"));</span>
 
 
-        System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"================="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
 
 
-&#x2F;&#x2F;         FIFO
-        for (int i &#x3D; 0; i &lt; 3; i++) &#123;
-&#x2F;&#x2F;            remove出队操作
-            System.out.println(arrayBlockingQueue.remove());
-        &#125;
+<span class="token comment" spellcheck="true">//         FIFO</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//            remove出队操作</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-&#x2F;**
+<span class="token comment" spellcheck="true">/**
  * NoSuchElementException
- *&#x2F;
-&#x2F;&#x2F;        remove以后队列为空，再取抛异常
-        System.out.println(arrayBlockingQueue.remove());
+ */</span>
+<span class="token comment" spellcheck="true">//        remove以后队列为空，再取抛异常</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
 
 
 
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<h3 id="不抛出异常，有返回值"><a href="#不抛出异常，有返回值" class="headerlink" title="不抛出异常，有返回值"></a>不抛出异常，有返回值</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"> &#x2F;**
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="不抛出异常，有返回值"><a href="#不抛出异常，有返回值" class="headerlink" title="不抛出异常，有返回值"></a>不抛出异常，有返回值</h3><pre class=" language-java"><code class="language-java"> <span class="token comment" spellcheck="true">/**
      * 不会抛出异常，有返回值
-     *&#x2F;
-    public static void test2()&#123;
-        ArrayBlockingQueue arrayBlockingQueue &#x3D; new ArrayBlockingQueue&lt;&gt;(3);
-&#x2F;&#x2F;        入队
-        System.out.println(arrayBlockingQueue.offer(&quot;a&quot;));
-        System.out.println(arrayBlockingQueue.offer(&quot;b&quot;));
-        System.out.println(arrayBlockingQueue.offer(&quot;c&quot;));
-        &#x2F;**
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        ArrayBlockingQueue arrayBlockingQueue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBlockingQueue</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        入队</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/**
          * 返回 false
-          *&#x2F;
-        System.out.println(arrayBlockingQueue.offer(&quot;d&quot;));
+          */</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-        System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"============="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-&#x2F;&#x2F;        出队
-        for (int i &#x3D; 0; i &lt; 3; i++) &#123;
-            System.out.println(arrayBlockingQueue.poll());
-        &#125;
-        &#x2F;**
+<span class="token comment" spellcheck="true">//        出队</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">/**
          * 返回 null
-         *&#x2F;
-        System.out.println(arrayBlockingQueue.poll());
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="阻塞，等待"><a href="#阻塞，等待" class="headerlink" title="阻塞，等待"></a>阻塞，等待</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+         */</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="阻塞，等待"><a href="#阻塞，等待" class="headerlink" title="阻塞，等待"></a>阻塞，等待</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
      * 阻塞，等待（一直阻塞）
-     *&#x2F;
-    public static void test3() throws InterruptedException &#123;
-        ArrayBlockingQueue arrayBlockingQueue &#x3D; new ArrayBlockingQueue&lt;&gt;(3);
-&#x2F;&#x2F;        入队
-&#x2F;&#x2F;        无返回值，一直阻塞
-        arrayBlockingQueue.put(&quot;a&quot;);
-        arrayBlockingQueue.put(&quot;b&quot;);
-        arrayBlockingQueue.put(&quot;c&quot;);
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+        ArrayBlockingQueue arrayBlockingQueue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBlockingQueue</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        入队</span>
+<span class="token comment" spellcheck="true">//        无返回值，一直阻塞</span>
+        arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-&#x2F;&#x2F;        阻塞（一直）
-&#x2F;&#x2F;        arrayBlockingQueue.put(&quot;d&quot;);
+<span class="token comment" spellcheck="true">//        阻塞（一直）</span>
+<span class="token comment" spellcheck="true">//        arrayBlockingQueue.put("d");</span>
 
-&#x2F;&#x2F; 		  出队
-        for (int i &#x3D; 0; i &lt; 3; i++) &#123;
-            System.out.println(arrayBlockingQueue.take());
-        &#125;
-&#x2F;&#x2F;        阻塞（一直）
-&#x2F;&#x2F;        System.out.println(arrayBlockingQueue.take());
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="超时等待"><a href="#超时等待" class="headerlink" title="超时等待"></a>超时等待</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">public static void test4() throws InterruptedException &#123;
-        ArrayBlockingQueue arrayBlockingQueue &#x3D; new ArrayBlockingQueue&lt;&gt;(3);
-&#x2F;&#x2F;        入队
-        System.out.println(arrayBlockingQueue.offer(&quot;a&quot;));
-        System.out.println(arrayBlockingQueue.offer(&quot;b&quot;));
-        System.out.println(arrayBlockingQueue.offer(&quot;c&quot;));
-&#x2F;&#x2F;        如果满了就等2s，如果还是满的就超时退出
-        System.out.println(arrayBlockingQueue.offer(&quot;d&quot;,2,TimeUnit.SECONDS));
-
-
-        System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
-&#x2F;&#x2F;        出队
-        for (int i &#x3D; 0; i &lt; 3; i++) &#123;
-            System.out.println(arrayBlockingQueue.poll());
-        &#125;
-&#x2F;&#x2F;        如果取不出，就超时退出
-        System.out.println(arrayBlockingQueue.poll(2,TimeUnit.SECONDS));
+<span class="token comment" spellcheck="true">//           出队</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//        阻塞（一直）</span>
+<span class="token comment" spellcheck="true">//        System.out.println(arrayBlockingQueue.take());</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<h3 id="超时等待"><a href="#超时等待" class="headerlink" title="超时等待"></a>超时等待</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">test4</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+        ArrayBlockingQueue arrayBlockingQueue <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBlockingQueue</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        入队</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        如果满了就等2s，如果还是满的就超时退出</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">offer</span><span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span>TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"=========="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        出队</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//        如果取不出，就超时退出</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>arrayBlockingQueue<span class="token punctuation">.</span><span class="token function">poll</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span>TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+
+    <span class="token punctuation">}</span>
+</code></pre>
 
                 
             </div>

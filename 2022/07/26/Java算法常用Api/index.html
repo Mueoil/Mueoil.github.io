@@ -11,9 +11,10 @@ int 型 转 String 型
 String.valueOf(int x)
 
 
+
 字符串反转工具StringBuffer（安全），StringBuild（不安全）
 
-StringBuffer start &amp;#x3D; new Strin">
+StringBuffer start = new StringBuf">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -474,9 +475,6 @@ StringBuffer start &amp;#x3D; new Strin">
         <hr class="clearfix">
 
         
-        <!-- 是否加载使用自带的 prismjs. -->
-        <link rel="stylesheet" href="/libs/prism/prism.css">
-        
 
         
 
@@ -485,26 +483,29 @@ StringBuffer start &amp;#x3D; new Strin">
                 <ol>
 <li><p>int 型 转 String 型</p>
 <blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">String.valueOf(int x)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class=" language-java"><code class="language-java">String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span>
+</code></pre>
 </blockquote>
 </li>
 <li><p>字符串反转工具StringBuffer（安全），StringBuild（不安全）</p>
 <blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">StringBuffer start &#x3D; new StringBuffer(String str);
-StringBuffer end&#x3D; start.reverse();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class=" language-java"><code class="language-java">StringBuffer start <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuffer</span><span class="token punctuation">(</span>String str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+StringBuffer end<span class="token operator">=</span> start<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 </blockquote>
 </li>
 <li><p>数组去长度，和字符串取长度</p>
 </li>
 </ol>
 <blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;	数组
-String[] strs &#x3D; &#123;1,2,3&#125;;
-strs.length
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//    数组</span>
+String<span class="token punctuation">[</span><span class="token punctuation">]</span> strs <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+strs<span class="token punctuation">.</span>length
     
-&#x2F;&#x2F; 字符串
-String str &#x3D; &quot;123456&quot;;
-str.length()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment" spellcheck="true">// 字符串</span>
+String str <span class="token operator">=</span> <span class="token string">"123456"</span><span class="token punctuation">;</span>
+str<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
 </blockquote>
 
                 

@@ -466,9 +466,6 @@
         <hr class="clearfix">
 
         
-        <!-- 是否加载使用自带的 prismjs. -->
-        <link rel="stylesheet" href="/libs/prism/prism.css">
-        
 
         
 
@@ -482,99 +479,95 @@
 <p>我们可以声明一个长度为6的数组content[6]来标记物品是否选取，content[1]~content[5]分别对应物品1到物品5，将数组初始化为0，<br>1表示选取该物品，0表示不选取<br>V(i,j)&#x3D;V(i-1,j) 或者 j - w[i] &lt;0 时，说明没有选择第i 个商品，则回到V(i-1,j)；<br>否则即说明装了第i个商品，该商品是最优解组成的一部分，content[i]&#x3D;1，然后回到V(i-1,j-w(i))；<br>一直遍历到i＝0结束为止,我们能找到所有解的组成</p>
 <p>(ps:对我来说,单纯看理论概念很容易烦躁而且很难理解，通过源代码结合概念能够有更清晰的认识）</p>
 <p><strong>源代码</strong>：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;*本关任务：给定N个物品和一个背包，背包的容量为W， 假设背包容量范围在[0，15]，第i个物品对应的体积和价值分别为W[i]和v[i]。各种物品的价值和重量如下：
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/*本关任务：给定N个物品和一个背包，背包的容量为W， 假设背包容量范围在[0，15]，第i个物品对应的体积和价值分别为W[i]和v[i]。各种物品的价值和重量如下：
      物品编号   1   2   3   4   5
       重量W    3   4   7   8   9
       价值V    4   5   10  11  13
 求: 如何选择装入背包的物品，使得装入背包的物品的总价值为最大.
 
-*&#x2F;
+*/</span>
 
-#include &lt;stdio.h&gt;
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
 
-int content[6]&#x3D;&#123;0&#125;;              &#x2F;&#x2F;最优解的物品组成
-int w[6]&#x3D;&#123;0,3,4,7,8,9&#125;;          &#x2F;&#x2F;物品对应的重量
-int v[6]&#x3D;&#123;0,4,5,10,11,13&#125;;       &#x2F;&#x2F;物品对应的价值
-int bV&#x3D;15;                       &#x2F;&#x2F;背包的最大容量为15
-int maxVal[6][16]&#x3D;&#123;0&#125;;          &#x2F;&#x2F;存放当物品数为i,背包容量为j的最大总价值
+<span class="token keyword">int</span> content<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>              <span class="token comment" spellcheck="true">//最优解的物品组成</span>
+<span class="token keyword">int</span> w<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//物品对应的重量</span>
+<span class="token keyword">int</span> v<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">11</span><span class="token punctuation">,</span><span class="token number">13</span><span class="token punctuation">}</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//物品对应的价值</span>
+<span class="token keyword">int</span> bV<span class="token operator">=</span><span class="token number">15</span><span class="token punctuation">;</span>                       <span class="token comment" spellcheck="true">//背包的最大容量为15</span>
+<span class="token keyword">int</span> maxVal<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//存放当物品数为i,背包容量为j的最大总价值</span>
 
-void findContent(int i, int j);  &#x2F;&#x2F;找到最优解的物品组成
+<span class="token keyword">void</span> <span class="token function">findContent</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//找到最优解的物品组成</span>
 
-void findMax();                 &#x2F;&#x2F;寻找当物品数为i,背包容量为j时的最大总价值
+<span class="token keyword">void</span> <span class="token function">findMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                 <span class="token comment" spellcheck="true">//寻找当物品数为i,背包容量为j时的最大总价值</span>
 
-void print();                    &#x2F;&#x2F;打印最优解物品组成
-
-
-int main( void )
-&#123;
-    int i,j;
-    printf(&quot;当物品数为i,背包容量为j时的能装入背包的最大总价值\n&quot;);
-    findMax();
-    for (int i&#x3D;0;i&lt;6;i++)  &#x2F;&#x2F;打印当物品数为i,背包容量为j时的最大总价值
-    &#123;
-        for(int j&#x3D;0;j&lt;16;j++)
-        &#123;
-            printf(&quot;%2d  &quot;,maxVal[i][j]);
-        &#125;
-        printf(&quot;\n&quot;);
-    &#125;
-    printf(&quot;请输入当前的物品数：&quot;);
-    scanf(&quot;%d&quot;,&amp;i);
-    printf(&quot;请输入当前背包的最大容量: &quot;);
-    scanf(&quot;%d&quot;,&amp;j);
-    findContent(i,j);
-     printf(&quot;最优解的物品组成为： \n&quot;);
-    for (int k &#x3D; 1; k &lt; 6; k++)
-    &#123;
-        if(content[k])
-        printf(&quot;价值为 %d ,重量为 %d 的 %d 号物品\n&quot;,v[k],w[k],k);
-    &#125;
-
-    printf(&quot;物品数为%d 背包容量为 %d时的最大总价值为 %d\n&quot;,i,j,maxVal[i][j]);
-
-    return  0;
-&#125;
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">//打印最优解物品组成</span>
 
 
-void findMax() &#x2F;&#x2F;寻找当物品数为i,背包容量为j时的最大总价值
-&#123;
-    for(int i&#x3D;1;i&lt;6;i++)
-        for(int j&#x3D;1;j&lt;16;j++)
- &#123;
-       if (j &lt; w[i])       &#x2F;&#x2F;如果背包容量小于物品i重量，表示背包存放不下第i种物品,此时的最大总价值为i-1种物品的最大总价值
-                maxVal[i][j] &#x3D; maxVal[i - 1][j];
-        else
-    &#123;
-        if(maxVal[i-1][j]&gt;(maxVal[i-1][j-w[i]]+v[i]))&#x2F;&#x2F;放下第i种物品时的总价值为第i种物品的价值加上当物品数为i-1背包容量为j-w[i]的最优解
-            maxVal[i][j]&#x3D;maxVal[i-1][j];             &#x2F;&#x2F; 对比当放下第i种物品时的总价值和物品数位i-1时的总价值，取最大值
-        else
-            maxVal[i][j]&#x3D;maxVal[i-1][j-w[i]]+v[i];
-    &#125;
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span> <span class="token keyword">void</span> <span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"当物品数为i,背包容量为j时的能装入背包的最大总价值\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">findMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">6</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//打印当物品数为i,背包容量为j时的最大总价值</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">16</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%2d  "</span><span class="token punctuation">,</span>maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入当前的物品数："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入当前背包的最大容量: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">findContent</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"最优解的物品组成为： \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">6</span><span class="token punctuation">;</span> k<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>content<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"价值为 %d ,重量为 %d 的 %d 号物品\n"</span><span class="token punctuation">,</span>v<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">,</span>w<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">,</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"物品数为%d 背包容量为 %d时的最大总价值为 %d\n"</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span>  <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
 
- &#125;
-
-&#125;
-void findContent(int i, int j) &#123;                &#x2F;&#x2F;最优解组成
-    if (i &gt; 0 )
-        &#123;
-        if (maxVal[i][j] &#x3D;&#x3D; maxVal[i - 1][j] || j - w[i] &lt;0)
-        &#123;
-            content[i] &#x3D; 0;
-            findContent(i - 1, j);
-        &#125;
-        else
-         &#123;
-            content[i] &#x3D; 1;
-            findContent(i - 1, j - w[i]);
-        &#125;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">void</span> <span class="token function">findMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//寻找当物品数为i,背包容量为j时的最大总价值</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">6</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">16</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
+ <span class="token punctuation">{</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>       <span class="token comment" spellcheck="true">//如果背包容量小于物品i重量，表示背包存放不下第i种物品,此时的最大总价值为i-1种物品的最大总价值</span>
+                maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> maxVal<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">></span><span class="token punctuation">(</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span>w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span>v<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//放下第i种物品时的总价值为第i种物品的价值加上当物品数为i-1背包容量为j-w[i]的最优解</span>
+            maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">// 对比当放下第i种物品时的总价值和物品数位i-1时的总价值，取最大值</span>
+        <span class="token keyword">else</span>
+            maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>maxVal<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span>w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span>v<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
 
+ <span class="token punctuation">}</span>
 
-
-
+<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">findContent</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> j<span class="token punctuation">)</span> <span class="token punctuation">{</span>                <span class="token comment" spellcheck="true">//最优解组成</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">></span> <span class="token number">0</span> <span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>maxVal<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">==</span> maxVal<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">||</span> j <span class="token operator">-</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            content<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token function">findContent</span><span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+         <span class="token punctuation">{</span>
+            content<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token function">findContent</span><span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p><strong>运行结果</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20200425095631713.png" alt="img"></p>
 
