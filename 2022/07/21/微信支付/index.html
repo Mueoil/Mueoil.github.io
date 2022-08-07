@@ -12,8 +12,8 @@
 商户key
 回调地址
 
-2.引入微信支付相关依赖&amp;lt;dependency&gt;
-    &amp;lt;groupId&gt;com.githu">
+2.引入微信支付相关依赖&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;com">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -470,6 +470,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -482,64 +485,61 @@
 <li>商户key</li>
 <li>回调地址</li>
 </ol>
-<h3 id="2-引入微信支付相关依赖"><a href="#2-引入微信支付相关依赖" class="headerlink" title="2.引入微信支付相关依赖"></a>2.引入微信支付相关依赖</h3><pre class=" language-java"><code class="language-java"><span class="token operator">&lt;</span>dependency<span class="token operator">></span>
-    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com<span class="token punctuation">.</span>github<span class="token punctuation">.</span>wxpay<span class="token operator">&lt;</span><span class="token operator">/</span>groupId<span class="token operator">></span>
-    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>wxpay<span class="token operator">-</span>sdk<span class="token operator">&lt;</span><span class="token operator">/</span>artifactId<span class="token operator">></span>
-    <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token number">0.0</span><span class="token punctuation">.</span><span class="token number">3</span><span class="token operator">&lt;</span><span class="token operator">/</span>version<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>dependency<span class="token operator">></span>
-<span class="token operator">&lt;</span>dependency<span class="token operator">></span>
-    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com<span class="token punctuation">.</span>alibaba<span class="token operator">&lt;</span><span class="token operator">/</span>groupId<span class="token operator">></span>
-    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>fastjson<span class="token operator">&lt;</span><span class="token operator">/</span>artifactId<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>dependency<span class="token operator">></span>
-</code></pre>
-<h3 id="3-生成支付微信二维码"><a href="#3-生成支付微信二维码" class="headerlink" title="3.生成支付微信二维码"></a>3.生成支付微信二维码</h3><pre class=" language-java"><code class="language-java">#支付
+<h3 id="2-引入微信支付相关依赖"><a href="#2-引入微信支付相关依赖" class="headerlink" title="2.引入微信支付相关依赖"></a>2.引入微信支付相关依赖</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">&lt;dependency&gt;
+    &lt;groupId&gt;com.github.wxpay&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;wxpay-sdk&lt;&#x2F;artifactId&gt;
+    &lt;version&gt;0.0.3&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;fastjson&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="3-生成支付微信二维码"><a href="#3-生成支付微信二维码" class="headerlink" title="3.生成支付微信二维码"></a>3.生成支付微信二维码</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">#支付
 #关联的公众号appid
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>appid<span class="token operator">=</span>微信id
+weixin.pay.appid&#x3D;微信id
 #商户号
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>partner<span class="token operator">=</span>商户号
+weixin.pay.partner&#x3D;商户号
 #商户key
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>partnerkey<span class="token operator">=</span>商户key
+weixin.pay.partnerkey&#x3D;商户key
 #回调地址
-weixin<span class="token punctuation">.</span>pay<span class="token punctuation">.</span>notifyurl<span class="token operator">=</span>回调地址
-</code></pre>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        2、使用map设置二维码需要的参数</span>
-            Map map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"appid"</span><span class="token punctuation">,</span> appId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"mch_id"</span><span class="token punctuation">,</span> partner<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"nonce_str"</span><span class="token punctuation">,</span> WXPayUtil<span class="token punctuation">.</span><span class="token function">generateNonceStr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"body"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getCourseTitle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"out_trade_no"</span><span class="token punctuation">,</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"total_fee"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getTotalFee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span><span class="token string">"100"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">longValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//元角分转换成long</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"spbill_create_ip"</span><span class="token punctuation">,</span> <span class="token string">"127.0.0.1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//baidu.com</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"notify_url"</span><span class="token punctuation">,</span> notifyurl<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//回调地址</span>
-            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"trade_type"</span><span class="token punctuation">,</span> <span class="token string">"NATIVE"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//支付类型</span>
-</code></pre>
+weixin.pay.notifyurl&#x3D;回调地址<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;        2、使用map设置二维码需要的参数
+            Map map &#x3D; new HashMap&lt;&gt;();
+            map.put(&quot;appid&quot;, appId);
+            map.put(&quot;mch_id&quot;, partner);
+            map.put(&quot;nonce_str&quot;, WXPayUtil.generateNonceStr());
+            map.put(&quot;body&quot;, order.getCourseTitle());
+            map.put(&quot;out_trade_no&quot;, orderId);
+            map.put(&quot;total_fee&quot;, order.getTotalFee().multiply(new BigDecimal(&quot;100&quot;)).longValue() + &quot;&quot;);   &#x2F;&#x2F;元角分转换成long
+            map.put(&quot;spbill_create_ip&quot;, &quot;127.0.0.1&quot;);   &#x2F;&#x2F;baidu.com
+            map.put(&quot;notify_url&quot;, notifyurl); &#x2F;&#x2F;回调地址
+            map.put(&quot;trade_type&quot;, &quot;NATIVE&quot;);&#x2F;&#x2F;支付类型<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ol>
 <li><p>发送httpClient请求，传递参数xml格式，微信提供的固定地址</p>
-<pre class=" language-java"><code class="language-java">            HttpClient client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpClient</span><span class="token punctuation">(</span><span class="token string">"https://api.mch.weixin.qq.com/pay/unifiedorder"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//这个地址是固定的</span>
-<span class="token comment" spellcheck="true">//            向请求中设置参数</span>
-            client<span class="token punctuation">.</span><span class="token function">setXmlParam</span><span class="token punctuation">(</span>WXPayUtil<span class="token punctuation">.</span><span class="token function">generateSignedXml</span><span class="token punctuation">(</span>map<span class="token punctuation">,</span>partnerkey<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            client<span class="token punctuation">.</span><span class="token function">setHttps</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//https不支持，要写上这个才支持</span>
-<span class="token comment" spellcheck="true">//            执行请求发送</span>
-            client<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">            HttpClient client &#x3D; new HttpClient(&quot;https:&#x2F;&#x2F;api.mch.weixin.qq.com&#x2F;pay&#x2F;unifiedorder&quot;);  &#x2F;&#x2F;这个地址是固定的
+&#x2F;&#x2F;			向请求中设置参数
+            client.setXmlParam(WXPayUtil.generateSignedXml(map,partnerkey));
+            client.setHttps(true);&#x2F;&#x2F;https不支持，要写上这个才支持
+&#x2F;&#x2F;            执行请求发送
+            client.post();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>请求发送后得到一个结果（xml格式），我们需转换为map格式</p>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        4、得到发送请求返回结果</span>
-<span class="token comment" spellcheck="true">//            返回的内容是xml格式返回的，我们可以把xml格式转为map集合  这里不能用Gson</span>
-String content <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span>String<span class="token operator">></span> resultMap <span class="token operator">=</span> WXPayUtil<span class="token punctuation">.</span><span class="token function">xmlToMap</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;        4、得到发送请求返回结果
+&#x2F;&#x2F;            返回的内容是xml格式返回的，我们可以把xml格式转为map集合  这里不能用Gson
+String content &#x3D; client.getContent();
+            Map&lt;String,String&gt; resultMap &#x3D; WXPayUtil.xmlToMap(content);
 
-<span class="token comment" spellcheck="true">//            这里返回的resultMap只有二维码地址，而我们还需要其他信息，所以封装</span>
-            Map mapAdd <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"out_trade_no"</span><span class="token punctuation">,</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"course_id"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getCourseId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"total_fee"</span><span class="token punctuation">,</span> order<span class="token punctuation">.</span><span class="token function">getTotalFee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"result_code"</span><span class="token punctuation">,</span> resultMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"result_code"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//返回二维码的状态码</span>
-            mapAdd<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"code_url"</span><span class="token punctuation">,</span> resultMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"code_url"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//返回二维码的地址</span>
-            <span class="token keyword">return</span> mapAdd<span class="token punctuation">;</span>
-</code></pre>
-</li>
+&#x2F;&#x2F;            这里返回的resultMap只有二维码地址，而我们还需要其他信息，所以封装
+            Map mapAdd &#x3D; new HashMap&lt;&gt;();
+            mapAdd.put(&quot;out_trade_no&quot;, orderId);
+            mapAdd.put(&quot;course_id&quot;, order.getCourseId());
+            mapAdd.put(&quot;total_fee&quot;, order.getTotalFee());
+            mapAdd.put(&quot;result_code&quot;, resultMap.get(&quot;result_code&quot;));    &#x2F;&#x2F;返回二维码的状态码
+            mapAdd.put(&quot;code_url&quot;, resultMap.get(&quot;code_url&quot;));  &#x2F;&#x2F;返回二维码的地址
+            return mapAdd;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <h3 id="4-生成微信支付二维码成功"><a href="#4-生成微信支付二维码成功" class="headerlink" title="4.生成微信支付二维码成功"></a>4.生成微信支付二维码成功</h3>
                 

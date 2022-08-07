@@ -468,6 +468,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -479,15 +482,17 @@
 <li>扫完微信二维码后需要得到一个域名的地址</li>
 </ol>
 <p>所以我们使用微信登陆需要三个东西（微信id，微信密钥，域名地址）</p>
-<pre class=" language-java"><code class="language-java"># 微信登录配置
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"># 微信登录配置
 # 微信开放平台 appid
-wx<span class="token punctuation">.</span>open<span class="token punctuation">.</span>app_id<span class="token operator">=</span>微信id
+wx.open.app_id&#x3D;微信id
 # 微信开放平台 appsecret
-wx<span class="token punctuation">.</span>open<span class="token punctuation">.</span>app_secret<span class="token operator">=</span>微信密钥
+wx.open.app_secret&#x3D;微信密钥
 # 微信开放平台 重定向url
-wx<span class="token punctuation">.</span>open<span class="token punctuation">.</span>redirect_url<span class="token operator">=</span>域名地址
-<span class="token comment" spellcheck="true">//    特别注明：=两边不能出现空格，否则将会解析错误</span>
-</code></pre>
+wx.open.redirect_url&#x3D;域名地址
+&#x2F;&#x2F;	特别注明：&#x3D;两边不能出现空格，否则将会解析错误<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 <h3 id="2-生成微信二维码"><a href="#2-生成微信二维码" class="headerlink" title="2.生成微信二维码"></a>2.生成微信二维码</h3><ol>
 <li>我们需要去请求一个固定的地址，并且传一些参数</li>
 </ol>
@@ -529,28 +534,26 @@ wx<span class="token punctuation">.</span>open<span class="token punctuation">.<
 </tbody></table>
 <ol start="2">
 <li><p>参数填充</p>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//       %s相当于?，表示占位符</span>
-        String baseUrl <span class="token operator">=</span> <span class="token string">"https://open.weixin.qq.com/connect/qrconnect"</span> <span class="token operator">+</span>
-        <span class="token string">"?appid=%s"</span> <span class="token operator">+</span>
-        <span class="token string">"&amp;redirect_uri=%s"</span> <span class="token operator">+</span>
-        <span class="token string">"&amp;response_type=code"</span> <span class="token operator">+</span>
-        <span class="token string">"&amp;scope=snsapi_login"</span> <span class="token operator">+</span>
-        <span class="token string">"&amp;state=%s"</span> <span class="token operator">+</span>
-        <span class="token string">"#wechat_redirect"</span><span class="token punctuation">;</span>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;       %s相当于?，表示占位符
+        String baseUrl &#x3D; &quot;https:&#x2F;&#x2F;open.weixin.qq.com&#x2F;connect&#x2F;qrconnect&quot; +
+        &quot;?appid&#x3D;%s&quot; +
+        &quot;&amp;redirect_uri&#x3D;%s&quot; +
+        &quot;&amp;response_type&#x3D;code&quot; +
+        &quot;&amp;scope&#x3D;snsapi_login&quot; +
+        &quot;&amp;state&#x3D;%s&quot; +
+        &quot;#wechat_redirect&quot;;
 
-<span class="token comment" spellcheck="true">//        需要对url进行编码，将特殊符合进行处理</span>
-        String redirectUrl <span class="token operator">=</span> URLEncoder<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>域名地址<span class="token punctuation">,</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String url <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span>
-                baseUrl<span class="token punctuation">,</span>
-                wxOpenAppId<span class="token punctuation">,</span>
-                redirectUrl<span class="token punctuation">,</span>
-                <span class="token string">"秋有鱼"</span>
-        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+&#x2F;&#x2F;        需要对url进行编码，将特殊符合进行处理
+        String redirectUrl &#x3D; URLEncoder.encode(域名地址,&quot;utf-8&quot;);
+        String url &#x3D; String.format(
+                baseUrl,
+                wxOpenAppId,
+                redirectUrl,
+                &quot;秋有鱼&quot;
+        );
 
-<span class="token comment" spellcheck="true">//    最终这个固定地址里面就包含了我们所需要的参数值</span>
-        <span class="token keyword">return</span> <span class="token string">"redirect:"</span><span class="token operator">+</span>url<span class="token punctuation">;</span>
-</code></pre>
-</li>
+&#x2F;&#x2F;	最终这个固定地址里面就包含了我们所需要的参数值
+        return &quot;redirect:&quot;+url;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <p>这样去访问到的url就能得到一个微信二维码</p>
 <h3 id="3-微信扫描二维码"><a href="#3-微信扫描二维码" class="headerlink" title="3. 微信扫描二维码"></a>3. 微信扫描二维码</h3><ol>
@@ -558,70 +561,71 @@ wx<span class="token punctuation">.</span>open<span class="token punctuation">.<
 <p><strong>因为我们是个人项目，以后公司项目就不用下面所说的步骤那么麻烦</strong></p>
 </li>
 <li><p>把本地服务端口号改成，地址栏显示的端口号</p>
-<pre class=" language-java"><code class="language-java">server<span class="token punctuation">.</span>port<span class="token operator">=</span><span class="token number">8160</span>
-</code></pre>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">server.port&#x3D;8160<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>回调接口的地址和域名跳转的地址写成一样</p>
-<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/api/ucenter/wx"</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">//    这种规则只是为了测试使用，在实际开发中，把程序直接部署到域名服务器上即可    </span>
-<span class="token comment" spellcheck="true">//    http://localhost:8160/api/ucenter/wx/callback?code=021P2o000LHZ8O1Wr7300m9CmP3P2o09&amp;state=秋有鱼</span>
-<span class="token comment" spellcheck="true">//    这个路径必须是callback</span>
-<span class="token comment" spellcheck="true">//    获取扫描人信息</span>
-<span class="token comment" spellcheck="true">//    扫完二维码后，默认调用callback方法</span>
-    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/callback"</span><span class="token punctuation">)</span> 
-</code></pre>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">@RequestMapping(&quot;&#x2F;api&#x2F;ucenter&#x2F;wx&quot;)
+&#x2F;&#x2F;    这种规则只是为了测试使用，在实际开发中，把程序直接部署到域名服务器上即可	
+&#x2F;&#x2F;    http:&#x2F;&#x2F;localhost:8160&#x2F;api&#x2F;ucenter&#x2F;wx&#x2F;callback?code&#x3D;021P2o000LHZ8O1Wr7300m9CmP3P2o09&amp;state&#x3D;秋有鱼
+&#x2F;&#x2F;    这个路径必须是callback
+&#x2F;&#x2F;    获取扫描人信息
+&#x2F;&#x2F;    扫完二维码后，默认调用callback方法
+    @GetMapping(&quot;&#x2F;callback&quot;) <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 </li>
 <li><p>写一个方法接收这两个参数，拿着获取到的code值，再去请求微信提供的固定地址</p>
-<pre class=" language-java"><code class="language-java">String baseAccessTokenUrl <span class="token operator">=</span> <span class="token string">"https://api.weixin.qq.com/sns/oauth2/access_token"</span> <span class="token operator">+</span>
-<span class="token string">"?appid=%s"</span> <span class="token operator">+</span>
-<span class="token string">"&amp;secret=%s"</span> <span class="token operator">+</span>
-<span class="token string">"&amp;code=%s"</span> <span class="token operator">+</span>
-<span class="token string">"&amp;grant_type=authorization_code"</span><span class="token punctuation">;</span>
-String accessTokenUrl <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span>
-        baseAccessTokenUrl<span class="token punctuation">,</span>
-        wxOpenAppId<span class="token punctuation">,</span>
-        wxOpenAppSecret<span class="token punctuation">,</span>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">String baseAccessTokenUrl &#x3D; &quot;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;sns&#x2F;oauth2&#x2F;access_token&quot; +
+&quot;?appid&#x3D;%s&quot; +
+&quot;&amp;secret&#x3D;%s&quot; +
+&quot;&amp;code&#x3D;%s&quot; +
+&quot;&amp;grant_type&#x3D;authorization_code&quot;;
+String accessTokenUrl &#x3D; String.format(
+        baseAccessTokenUrl,
+        wxOpenAppId,
+        wxOpenAppSecret,
         code
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//    access_token：访问凭证</span>
-<span class="token comment" spellcheck="true">//    openid：每个微信的一个唯一标识   </span>
-</code></pre>
+);
+&#x2F;&#x2F;	access_token：访问凭证
+&#x2F;&#x2F;	openid：每个微信的一个唯一标识   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 </li>
 <li><p>accessToken，openid转换</p>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        请求这个拼接好的地址，得到access_token(访问凭证)，openid</span>
-<span class="token comment" spellcheck="true">//        我们并不需要请求这个页面，所以要用到httpclient，得到返回结果</span>
-<span class="token comment" spellcheck="true">//        httpclient，不用浏览器，能模拟出浏览器的请求和响应</span>
-        String accessTokenInfo <span class="token operator">=</span> HttpClientUtils<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>accessTokenUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//        要从accessTokenInfo中获取access_token(访问凭证)，openid</span>
-<span class="token comment" spellcheck="true">//        因为accessTokenInfo是json格式，要获取其中变量和值，转为map格式</span>
-<span class="token comment" spellcheck="true">//        使用json转换工具Gson</span>
-        Gson gson <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Gson</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        HashMap map <span class="token operator">=</span> gson<span class="token punctuation">.</span><span class="token function">fromJson</span><span class="token punctuation">(</span>accessTokenInfo<span class="token punctuation">,</span> HashMap<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String access_token <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"access_token"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String openid <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"openid"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;        请求这个拼接好的地址，得到access_token(访问凭证)，openid
+&#x2F;&#x2F;        我们并不需要请求这个页面，所以要用到httpclient，得到返回结果
+&#x2F;&#x2F;        httpclient，不用浏览器，能模拟出浏览器的请求和响应
+        String accessTokenInfo &#x3D; HttpClientUtils.get(accessTokenUrl);
+&#x2F;&#x2F;        要从accessTokenInfo中获取access_token(访问凭证)，openid
+&#x2F;&#x2F;        因为accessTokenInfo是json格式，要获取其中变量和值，转为map格式
+&#x2F;&#x2F;        使用json转换工具Gson
+        Gson gson &#x3D; new Gson();
+        HashMap map &#x3D; gson.fromJson(accessTokenInfo, HashMap.class);
+        String access_token &#x3D; (String) map.get(&quot;access_token&quot;);
+        String openid &#x3D; (String) map.get(&quot;openid&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 </li>
 <li><p>拿着上一步获得的access_token和openid，再去请求微信提供的固定地址</p>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        3.拿着得到的access_token，openid，再去访问微信提供的固定地址，获取到扫面人的信息</span>
-        String baseUserInfoUrl <span class="token operator">=</span> <span class="token string">"https://api.weixin.qq.com/sns/userinfo"</span> <span class="token operator">+</span>
-        <span class="token string">"?access_token=%s"</span> <span class="token operator">+</span>
-        <span class="token string">"&amp;openid=%s"</span><span class="token punctuation">;</span>
-        String userInfoUrl <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span>
-                baseUserInfoUrl<span class="token punctuation">,</span>
-                access_token<span class="token punctuation">,</span>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;        3.拿着得到的access_token，openid，再去访问微信提供的固定地址，获取到扫面人的信息
+        String baseUserInfoUrl &#x3D; &quot;https:&#x2F;&#x2F;api.weixin.qq.com&#x2F;sns&#x2F;userinfo&quot; +
+        &quot;?access_token&#x3D;%s&quot; +
+        &quot;&amp;openid&#x3D;%s&quot;;
+        String userInfoUrl &#x3D; String.format(
+                baseUserInfoUrl,
+                access_token,
                 openid
-        <span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
+        );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 </li>
 <li><p>最终可以得到扫描微信二维码人的信息</p>
-<pre class=" language-java"><code class="language-java">        String userInfo <span class="token operator">=</span> HttpClientUtils<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>userInfoUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//        System.out.println(userInfo);</span>
-        HashMap map1 <span class="token operator">=</span> gson<span class="token punctuation">.</span><span class="token function">fromJson</span><span class="token punctuation">(</span>userInfo<span class="token punctuation">,</span> HashMap<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String openid1 <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span> map1<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"openid"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String nickname <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span> map1<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"nickname"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String headimgurl <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span> map1<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"headimgurl"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-</li>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">        String userInfo &#x3D; HttpClientUtils.get(userInfoUrl);
+&#x2F;&#x2F;        System.out.println(userInfo);
+        HashMap map1 &#x3D; gson.fromJson(userInfo, HashMap.class);
+        String openid1 &#x3D; (String) map1.get(&quot;openid&quot;);
+        String nickname &#x3D; (String) map1.get(&quot;nickname&quot;);
+        String headimgurl &#x3D; (String) map1.get(&quot;headimgurl&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <h3 id="4-最后得到微信扫描人的信息"><a href="#4-最后得到微信扫描人的信息" class="headerlink" title="4.最后得到微信扫描人的信息"></a>4.最后得到微信扫描人的信息</h3>
                 

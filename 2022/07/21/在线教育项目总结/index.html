@@ -469,6 +469,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -564,69 +567,70 @@
 <h3 id="15、值得学习的技术"><a href="#15、值得学习的技术" class="headerlink" title="15、值得学习的技术"></a>15、值得学习的技术</h3><h4 id="oss"><a href="#oss" class="headerlink" title="oss"></a>oss</h4><ul>
 <li>上传（文件&#x2F;头像）若没有用到数据库，则需要取消数据库的配置</li>
 </ul>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//    MultipartFile</span>
-<span class="token keyword">public</span> R <span class="token function">uploadOssFile</span><span class="token punctuation">(</span>MultipartFile file<span class="token punctuation">)</span>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F;	MultipartFile
+public R uploadOssFile(MultipartFile file)
     
-<span class="token comment" spellcheck="true">// 利用oss存储图片文件</span>
-<span class="token comment" spellcheck="true">//        创建OSSClient实例</span>
-        OSS ossClient <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OSSClientBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>endPoint<span class="token punctuation">,</span> keyId<span class="token punctuation">,</span> keySecret<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//        上传文件流</span>
-        <span class="token keyword">try</span> <span class="token punctuation">{</span>
-            InputStream inputStream <span class="token operator">=</span> file<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//            获取文件名称</span>
-            String uuid <span class="token operator">=</span> UUID<span class="token punctuation">.</span><span class="token function">randomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replaceAll</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            String filename <span class="token operator">=</span> uuid <span class="token operator">+</span> file<span class="token punctuation">.</span><span class="token function">getOriginalFilename</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+&#x2F;&#x2F; 利用oss存储图片文件
+&#x2F;&#x2F;        创建OSSClient实例
+        OSS ossClient &#x3D; new OSSClientBuilder().build(endPoint, keyId, keySecret);
+&#x2F;&#x2F;        上传文件流
+        try &#123;
+            InputStream inputStream &#x3D; file.getInputStream();
+&#x2F;&#x2F;            获取文件名称
+            String uuid &#x3D; UUID.randomUUID().toString().replaceAll(&quot;-&quot;, &quot;&quot;);
+            String filename &#x3D; uuid + file.getOriginalFilename();
 
-<span class="token comment" spellcheck="true">//            调用oss的方法实现上传</span>
-<span class="token comment" spellcheck="true">//            1.Bucket名称</span>
-<span class="token comment" spellcheck="true">//            2.上传到oss文件路径和文件名称 aa/bb/1.jpg     1.jpg（一般写文件名称）</span>
-<span class="token comment" spellcheck="true">//            3.上传文件的输入流</span>
+&#x2F;&#x2F;            调用oss的方法实现上传
+&#x2F;&#x2F;            1.Bucket名称
+&#x2F;&#x2F;            2.上传到oss文件路径和文件名称 aa&#x2F;bb&#x2F;1.jpg     1.jpg（一般写文件名称）
+&#x2F;&#x2F;            3.上传文件的输入流
 
 
-<span class="token comment" spellcheck="true">//            第二个参数可以按aa/bb/1.jpg</span>
-<span class="token comment" spellcheck="true">//            把文件按照日期进行分类       2019/11/12/1.jpg</span>
-            String date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DateTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">"yyyy/MM/dd"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//            最终拼接</span>
-            filename <span class="token operator">=</span> date <span class="token operator">+</span> <span class="token string">"/"</span> <span class="token operator">+</span> filename<span class="token punctuation">;</span>
-            ossClient<span class="token punctuation">.</span><span class="token function">putObject</span><span class="token punctuation">(</span>bucketName<span class="token punctuation">,</span>filename<span class="token punctuation">,</span>inputStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+&#x2F;&#x2F;            第二个参数可以按aa&#x2F;bb&#x2F;1.jpg
+&#x2F;&#x2F;            把文件按照日期进行分类       2019&#x2F;11&#x2F;12&#x2F;1.jpg
+            String date &#x3D; new DateTime().toString(&quot;yyyy&#x2F;MM&#x2F;dd&quot;);
+&#x2F;&#x2F;            最终拼接
+            filename &#x3D; date + &quot;&#x2F;&quot; + filename;
+            ossClient.putObject(bucketName,filename,inputStream);
 
-<span class="token comment" spellcheck="true">//            关闭oss</span>
-            ossClient<span class="token punctuation">.</span><span class="token function">shutdown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+&#x2F;&#x2F;            关闭oss
+            ossClient.shutdown();
 
-<span class="token comment" spellcheck="true">//            把上传之后的文件路径返回</span>
-<span class="token comment" spellcheck="true">//            需要把上传到阿里云oss路径手动拼接出来</span>
-<span class="token comment" spellcheck="true">//            https://edu-youyu.oss-cn-beijing.aliyuncs.com/a.jpg</span>
-            String url <span class="token operator">=</span> <span class="token string">"https://"</span><span class="token operator">+</span>bucketName<span class="token operator">+</span><span class="token string">"."</span><span class="token operator">+</span>endPoint<span class="token operator">+</span><span class="token string">"/"</span><span class="token operator">+</span>filename<span class="token punctuation">;</span>
+&#x2F;&#x2F;            把上传之后的文件路径返回
+&#x2F;&#x2F;            需要把上传到阿里云oss路径手动拼接出来
+&#x2F;&#x2F;            https:&#x2F;&#x2F;edu-youyu.oss-cn-beijing.aliyuncs.com&#x2F;a.jpg
+            String url &#x3D; &quot;https:&#x2F;&#x2F;&quot;+bucketName+&quot;.&quot;+endPoint+&quot;&#x2F;&quot;+filename;
 
-            <span class="token keyword">return</span> url<span class="token punctuation">;</span>
-</code></pre>
+            return url;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="二层（章节包含小节情况）"><a href="#二层（章节包含小节情况）" class="headerlink" title="二层（章节包含小节情况）"></a>二层（章节包含小节情况）</h4><ul>
 <li><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        1、根据课程id查询课程所有章节</span>
-        QueryWrapper<span class="token operator">&lt;</span>EduChapter<span class="token operator">></span> wrapperChapter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">QueryWrapper</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">QueryWrapper</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">EduChapter</span><span class="token punctuation">></span></span> wrapperChapter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">QueryWrapper</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         wrapperChapter<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token string">"course_id"</span><span class="token punctuation">,</span>courseId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        List<span class="token operator">&lt;</span>EduChapter<span class="token operator">></span> eduChapterList <span class="token operator">=</span> baseMapper<span class="token punctuation">.</span><span class="token function">selectList</span><span class="token punctuation">(</span>wrapperChapter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">EduChapter</span><span class="token punctuation">></span></span> eduChapterList <span class="token operator">=</span> baseMapper<span class="token punctuation">.</span><span class="token function">selectList</span><span class="token punctuation">(</span>wrapperChapter<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">//        2、根据课程id查询章节的所有小节</span>
-        QueryWrapper<span class="token operator">&lt;</span>EduVideo<span class="token operator">></span> wrapperVideo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">QueryWrapper</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">QueryWrapper</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">EduVideo</span><span class="token punctuation">></span></span> wrapperVideo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">QueryWrapper</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         wrapperVideo<span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token string">"course_id"</span><span class="token punctuation">,</span>courseId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        List<span class="token operator">&lt;</span>EduVideo<span class="token operator">></span> listVideoList<span class="token operator">=</span> eduVideoService<span class="token punctuation">.</span><span class="token function">list</span><span class="token punctuation">(</span>wrapperVideo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">EduVideo</span><span class="token punctuation">></span></span> listVideoList<span class="token operator">=</span> eduVideoService<span class="token punctuation">.</span><span class="token function">list</span><span class="token punctuation">(</span>wrapperVideo<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//        创建list集合，用于最终封装的数据</span>
-        ArrayList<span class="token operator">&lt;</span>ChapterVo<span class="token operator">></span> finalist <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ChapterVo</span><span class="token punctuation">></span></span> finalist <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">//        3、遍历查询章节list集合进行封装</span>
         <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> eduChapterList<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 <span class="token comment" spellcheck="true">//            得到每个章节</span>
-            EduChapter eduChapter <span class="token operator">=</span> eduChapterList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            ChapterVo chapterVo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ChapterVo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            BeanUtils<span class="token punctuation">.</span><span class="token function">copyProperties</span><span class="token punctuation">(</span>eduChapter<span class="token punctuation">,</span>chapterVo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">EduChapter</span> eduChapter <span class="token operator">=</span> eduChapterList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">ChapterVo</span> chapterVo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ChapterVo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">BeanUtils</span><span class="token punctuation">.</span><span class="token function">copyProperties</span><span class="token punctuation">(</span>eduChapter<span class="token punctuation">,</span>chapterVo<span class="token punctuation">)</span><span class="token punctuation">;</span>
             finalist<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>chapterVo<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            ArrayList<span class="token operator">&lt;</span>VideoVo<span class="token operator">></span> videoList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">VideoVo</span><span class="token punctuation">></span></span> videoList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//        4、便利查询小节list集合进行封装</span>
             <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> listVideoList<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                EduVideo eduVideo <span class="token operator">=</span> listVideoList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">EduVideo</span> eduVideo <span class="token operator">=</span> listVideoList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token keyword">if</span><span class="token punctuation">(</span>chapterVo<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>eduVideo<span class="token punctuation">.</span><span class="token function">getChapterId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                    VideoVo videoVo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VideoVo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    BeanUtils<span class="token punctuation">.</span><span class="token function">copyProperties</span><span class="token punctuation">(</span>eduVideo<span class="token punctuation">,</span>videoVo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token class-name">VideoVo</span> videoVo <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VideoVo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token class-name">BeanUtils</span><span class="token punctuation">.</span><span class="token function">copyProperties</span><span class="token punctuation">(</span>eduVideo<span class="token punctuation">,</span>videoVo<span class="token punctuation">)</span><span class="token punctuation">;</span>
                     videoList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>videoVo<span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token punctuation">}</span>
         <span class="token punctuation">}</span>
