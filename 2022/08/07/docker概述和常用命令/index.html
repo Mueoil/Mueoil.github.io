@@ -539,7 +539,7 @@ yum makecache fast
 
 <span class="token comment" spellcheck="true"># 7.安装docker相关的配置</span>
 <span class="token comment" spellcheck="true"># docker-ce 是社区版，docker-ee 企业版</span>
- yum <span class="token function">install</span> docker-ce docker-ce-cli containerd.io
+ yum <span class="token function">install</span> -y docker-ce docker-ce-cli containerd.io
 
 <span class="token comment" spellcheck="true"># 8.启动Docker</span>
 systemctl start docker
