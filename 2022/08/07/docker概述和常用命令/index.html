@@ -485,7 +485,10 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
 <p>Docker 的可移植性和轻量级的特性，还可以使您轻松地完成动态管理的工作负担，并根据业务需求指示，实时扩展或拆除应用程序和服务。</p>
 <p>3、在同一硬件上运行更多工作负载<br>Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可行、经济、高效的替代方案，因此您可以利用更多的计算能力来实现业务目标。Docker 非常适合于高密度环境以及中小型部署，而您可以用更少的资源做更多的事情。</p>
 <h3 id="2-Docker的基本组成"><a href="#2-Docker的基本组成" class="headerlink" title="2. Docker的基本组成"></a>2. Docker的基本组成</h3><p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/image-20220807141049417.png" alt="image-20220807141049417"><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/image-20220807141115359.png" alt="image-20220807141115359"></p>
-<h3 id="3-Docker的安装、启动和卸载"><a href="#3-Docker的安装、启动和卸载" class="headerlink" title="3. Docker的安装、启动和卸载"></a>3. Docker的安装、启动和卸载</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 1.查看系统的内核：</span>
+<h3 id="3-Docker的安装、启动和卸载"><a href="#3-Docker的安装、启动和卸载" class="headerlink" title="3. Docker的安装、启动和卸载"></a>3. Docker的安装、启动和卸载</h3><pre class=" language-bash"><code class="language-bash">yum -y <span class="token function">install</span> gcc
+yum -y <span class="token function">install</span> gcc-c++
+
+<span class="token comment" spellcheck="true"># 1.查看系统的内核：</span>
 <span class="token comment" spellcheck="true">#系统内核版本为3.10.0</span>
 <span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># uname -r</span>
 3.10.0-957.21.3.el7.x86_64
