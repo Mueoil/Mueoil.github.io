@@ -4,9 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="docker概述和常用命令, 有鱼同学">
-    <meta name="description" content="1. Docker概述(1)基本介绍Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
-Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Li">
+    <meta name="keywords" content="阿里云OSS对象存储, 有鱼同学">
+    <meta name="description" content="阿里云OSS对象存储准备工作：
+你需要阿里云的id和密钥（这个可以在RAM控制台找到）
+需要有你的服务器地址和bucket的名字
+
+所以我们需要4个值（keyid，keysecret，endpoint，bucketName）
+aliyun.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +22,7 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>docker概述和常用命令 | 有鱼同学</title>
+    <title>阿里云OSS对象存储 | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -310,12 +314,12 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">docker概述和常用命令</h1>
+                    <h1 class="description center-align post-title">阿里云OSS对象存储</h1>
                 </div>
             </div>
         </div>
@@ -431,8 +435,12 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/docker/">
-                                <span class="chip bg-color">docker</span>
+                            <a href="/tags/oss/">
+                                <span class="chip bg-color">oss</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
+                                <span class="chip bg-color">文件上传</span>
                             </a>
                         
                     </div>
@@ -447,7 +455,7 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-08-07
+                    2022-08-12
                 </div>
                 
 
@@ -468,262 +476,58 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-Docker概述"><a href="#1-Docker概述" class="headerlink" title="1. Docker概述"></a>1. Docker概述</h3><p>(1)基本介绍<br>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。</p>
-<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
-<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
-<p>Docker 从 17.03 版本之后分为 CE（Community Edition: 社区版） 和 EE（Enterprise Edition: 企业版），我们用社区版就可以了。官网：<a target="_blank" rel="noopener" href="https://docs.docker.com/">https://docs.docker.com/</a></p>
-<p>(2)应用场景</p>
-<p>Web 应用的自动化打包和发布。</p>
-<p>自动化测试和持续集成、发布。</p>
-<p>在服务型环境中部署和调整数据库或其他的后台应用。</p>
-<p>从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境。</p>
-<p>(3)Docker 的优势</p>
-<p>Docker 是一个用于开发，交付和运行应用程序的开放平台。Docker 使您能够将应用程序与基础架构分开，从而可以快速交付软件。借助 Docker，您可以与管理应用程序相同的方式来管理基础架构。通过利用 Docker 的方法来快速交付，测试和部署代码，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
-<p>1、快速，一致地交付您的应用程序。Docker 允许开发人员使用您提供的应用程序或服务的本地容器在标准化环境中工作，从而简化了开发的生命周期。</p>
-<p>容器非常适合持续集成和持续交付（CI &#x2F; CD）工作流程，请考虑以下示例方案：</p>
-<p>您的开发人员在本地编写代码，并使用 Docker 容器与同事共享他们的工作。<br>他们使用 Docker 将其应用程序推送到测试环境中，并执行自动或手动测试。<br>当开发人员发现错误时，他们可以在开发环境中对其进行修复，然后将其重新部署到测试环境中，以进行测试和验证。<br>测试完成后，将修补程序推送给生产环境，就像将更新的镜像推送到生产环境一样简单。<br>2、响应式部署和扩展<br>Docker 是基于容器的平台，允许高度可移植的工作负载。Docker 容器可以在开发人员的本机上，数据中心的物理或虚拟机上，云服务上或混合环境中运行。</p>
-<p>Docker 的可移植性和轻量级的特性，还可以使您轻松地完成动态管理的工作负担，并根据业务需求指示，实时扩展或拆除应用程序和服务。</p>
-<p>3、在同一硬件上运行更多工作负载<br>Docker 轻巧快速。它为基于虚拟机管理程序的虚拟机提供了可行、经济、高效的替代方案，因此您可以利用更多的计算能力来实现业务目标。Docker 非常适合于高密度环境以及中小型部署，而您可以用更少的资源做更多的事情。</p>
-<h3 id="2-Docker的基本组成"><a href="#2-Docker的基本组成" class="headerlink" title="2. Docker的基本组成"></a>2. Docker的基本组成</h3><p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/image-20220807141049417.png" alt="image-20220807141049417"><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/image-20220807141115359.png" alt="image-20220807141115359"></p>
-<h3 id="3-Docker的安装、启动和卸载"><a href="#3-Docker的安装、启动和卸载" class="headerlink" title="3. Docker的安装、启动和卸载"></a>3. Docker的安装、启动和卸载</h3><pre class=" language-bash"><code class="language-bash">yum -y <span class="token function">install</span> gcc
-yum -y <span class="token function">install</span> gcc-c++
-
-<span class="token comment" spellcheck="true"># 1.查看系统的内核：</span>
-<span class="token comment" spellcheck="true">#系统内核版本为3.10.0</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># uname -r</span>
-3.10.0-957.21.3.el7.x86_64
-
-<span class="token comment" spellcheck="true"># 2.查看系统配置</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># cat /etc/os-release</span>
-NAME<span class="token operator">=</span><span class="token string">"CentOS Linux"</span>
-VERSION<span class="token operator">=</span><span class="token string">"7 (Core)"</span>
-ID<span class="token operator">=</span><span class="token string">"centos"</span>
-ID_LIKE<span class="token operator">=</span><span class="token string">"rhel fedora"</span>
-VERSION_ID<span class="token operator">=</span><span class="token string">"7"</span>
-PRETTY_NAME<span class="token operator">=</span><span class="token string">"CentOS Linux 7 (Core)"</span>
-ANSI_COLOR<span class="token operator">=</span><span class="token string">"0;31"</span>
-CPE_NAME<span class="token operator">=</span><span class="token string">"cpe:/o:centos:centos:7"</span>
-HOME_URL<span class="token operator">=</span><span class="token string">"https://www.centos.org/"</span>
-BUG_REPORT_URL<span class="token operator">=</span><span class="token string">"https://bugs.centos.org/"</span>
-
-CENTOS_MANTISBT_PROJECT<span class="token operator">=</span><span class="token string">"CentOS-7"</span>
-CENTOS_MANTISBT_PROJECT_VERSION<span class="token operator">=</span><span class="token string">"7"</span>
-REDHAT_SUPPORT_PRODUCT<span class="token operator">=</span><span class="token string">"centos"</span>
-REDHAT_SUPPORT_PRODUCT_VERSION<span class="token operator">=</span><span class="token string">"7"</span>
-
-<span class="token comment" spellcheck="true"># 3.卸载旧版本</span>
-yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
-
-<span class="token comment" spellcheck="true"># 4.下载需要的安装包</span>
-yum <span class="token function">install</span> -y yum-utils
-
-<span class="token comment" spellcheck="true"># 5.设置镜像的仓库</span>
-yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo  <span class="token comment" spellcheck="true">#国外的地址</span>
-    
-    <span class="token comment" spellcheck="true"># 设置阿里云的Docker镜像仓库</span>
-yum-config-manager \
-    --add-repo \
-    https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo  <span class="token comment" spellcheck="true">#国内的地址</span>
-
-<span class="token comment" spellcheck="true"># 6.更新yum软件包索引</span>
-yum makecache fast
-
-<span class="token comment" spellcheck="true"># 7.安装docker相关的配置</span>
-<span class="token comment" spellcheck="true"># docker-ce 是社区版，docker-ee 企业版</span>
- yum <span class="token function">install</span> -y docker-ce docker-ce-cli containerd.io
-
-<span class="token comment" spellcheck="true"># 8.启动Docker</span>
-systemctl start docker
-<span class="token comment" spellcheck="true"># 查看当前版本号，是否启动成功</span>
-docker version
-<span class="token comment" spellcheck="true"># 设置开机自启动</span>
-systemctl <span class="token function">enable</span> docker
+                <h3 id="阿里云OSS对象存储"><a href="#阿里云OSS对象存储" class="headerlink" title="阿里云OSS对象存储"></a>阿里云OSS对象存储</h3><h4 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h4><ol>
+<li>你需要阿里云的id和密钥（这个可以在RAM控制台找到）</li>
+<li>需要有你的服务器地址和bucket的名字</li>
+</ol>
+<p>所以我们需要4个值（keyid，keysecret，endpoint，bucketName）</p>
+<pre class=" language-java"><code class="language-java">aliyun<span class="token punctuation">.</span>oss<span class="token punctuation">.</span>file<span class="token punctuation">.</span>endpoint<span class="token operator">=</span>endpoint
+aliyun<span class="token punctuation">.</span>oss<span class="token punctuation">.</span>file<span class="token punctuation">.</span>keyid<span class="token operator">=</span>keyid
+aliyun<span class="token punctuation">.</span>oss<span class="token punctuation">.</span>file<span class="token punctuation">.</span>keysecret<span class="token operator">=</span>keysecret
+<span class="token comment" spellcheck="true">// bucket 可以在控制台创建，也可以使用java代码创建</span>
+aliyun<span class="token punctuation">.</span>oss<span class="token punctuation">.</span>file<span class="token punctuation">.</span>bunketname<span class="token operator">=</span>bucketName
 </code></pre>
-<p>结果：</p>
-<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/image-20220807141646294.png" alt="image-20220807141646294"></p>
-<p>下载hello-world镜像进行测试</p>
-<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/image-20220807141718528.png" alt="image-20220807141718528"></p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 9. 查看下载的hello world镜像</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z lib<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker images</span>
-REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
-hello-world   latest    bf756fb1ae65   11 months ago   13.3kB
+<h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//        工具类取值</span>
+        String endPoint <span class="token operator">=</span> ConstantPropertiesUtils<span class="token punctuation">.</span>END_POINT<span class="token punctuation">;</span>
+        String keyId <span class="token operator">=</span> ConstantPropertiesUtils<span class="token punctuation">.</span>KEY_ID<span class="token punctuation">;</span>
+        String keySecret <span class="token operator">=</span> ConstantPropertiesUtils<span class="token punctuation">.</span>KEY_SECRET<span class="token punctuation">;</span>
+        String bucketName <span class="token operator">=</span> ConstantPropertiesUtils<span class="token punctuation">.</span>BUCKET_NAME<span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true"># 10. Docker的卸载</span>
-<span class="token comment" spellcheck="true"># 1. 卸载依赖</span>
-yum remove docker-ce docker-ce-cli containerd.io
-<span class="token comment" spellcheck="true"># 2. 删除资源  . /var/lib/docker是docker的默认工作路径</span>
-<span class="token function">rm</span> -rf /var/lib/docker
+<span class="token comment" spellcheck="true">//        创建OSSClient实例</span>
+        OSS ossClient <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OSSClientBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>endPoint<span class="token punctuation">,</span> keyId<span class="token punctuation">,</span> keySecret<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true">#  11.配置阿里云镜像加速</span>
-（1）进入阿里云官网，搜索容器镜像服务
- <span class="token punctuation">(</span>2<span class="token punctuation">)</span> 执行类似下面的四条命令
- <span class="token function">sudo</span> <span class="token function">mkdir</span> -p /etc/docker
-<span class="token function">sudo</span> <span class="token function">tee</span> /etc/docker/daemon.json <span class="token operator">&lt;&lt;</span>-<span class="token string">'EOF'</span>
-<span class="token punctuation">{</span>
-  <span class="token string">"registry-mirrors"</span><span class="token keyword">:</span> <span class="token punctuation">[</span><span class="token string">"https://axvfsf7e.mirror.aliyuncs.com"</span><span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
-EOF
-<span class="token function">sudo</span> systemctl daemon-reload
-<span class="token function">sudo</span> systemctl restart docker
+<span class="token comment" spellcheck="true">//        上传文件流</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                InputStream inputStream <span class="token operator">=</span> file<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//            获取文件名称</span>
+            String uuid <span class="token operator">=</span> UUID<span class="token punctuation">.</span><span class="token function">randomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replaceAll</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            String filename <span class="token operator">=</span> uuid <span class="token operator">+</span> file<span class="token punctuation">.</span><span class="token function">getOriginalFilename</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//            调用oss的方法实现上传</span>
+<span class="token comment" spellcheck="true">//            1.Bucket名称</span>
+<span class="token comment" spellcheck="true">//            2.上传到oss文件路径和文件名称 aa/bb/1.jpg     1.jpg（一般写文件名称）</span>
+<span class="token comment" spellcheck="true">//            3.上传文件的输入流</span>
+
+
+<span class="token comment" spellcheck="true">//            第二个参数可以按aa/bb/1.jpg</span>
+<span class="token comment" spellcheck="true">//            把文件按照日期进行分类       2019/11/12/1.jpg</span>
+            String date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DateTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">"yyyy/MM/dd"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//            最终拼接</span>
+            filename <span class="token operator">=</span> date <span class="token operator">+</span> <span class="token string">"/"</span> <span class="token operator">+</span> filename<span class="token punctuation">;</span>
+            ossClient<span class="token punctuation">.</span><span class="token function">putObject</span><span class="token punctuation">(</span>bucketName<span class="token punctuation">,</span>filename<span class="token punctuation">,</span>inputStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//            关闭oss</span>
+            ossClient<span class="token punctuation">.</span><span class="token function">shutdown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//            把上传之后的文件路径返回</span>
+<span class="token comment" spellcheck="true">//            需要把上传到阿里云oss路径手动拼接出来</span>
+<span class="token comment" spellcheck="true">//            https://edu-youyu.oss-cn-beijing.aliyuncs.com/a.jpg</span>
+            String url <span class="token operator">=</span> <span class="token string">"https://"</span><span class="token operator">+</span>bucketName<span class="token operator">+</span><span class="token string">"."</span><span class="token operator">+</span>endPoint<span class="token operator">+</span><span class="token string">"/"</span><span class="token operator">+</span>filename<span class="token punctuation">;</span>
+
+            <span class="token keyword">return</span> url<span class="token punctuation">;</span>
 </code></pre>
-<h3 id="4-Docker常用命令"><a href="#4-Docker常用命令" class="headerlink" title="4. Docker常用命令"></a>4. Docker常用命令</h3><h4 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h4><blockquote>
-<p>docker version          #查看docker的版本信息<br>docker info             #查看docker的系统信息,包括镜像和容器的数量<br>docker 命令 –help       #帮助命令(可查看可选的参数)<br>docker COMMAND –help</p>
-</blockquote>
-<h4 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 1.docker images 查看本地主机的所有镜像</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker images</span>
-REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
-hello-world   latest    bf756fb1ae65   11 months ago   13.3kB
+<p><strong>最后我们放回得到的这个路径就是文件&#x2F;图片的具体路径</strong></p>
 
-<span class="token comment" spellcheck="true">#解释:</span>
-1.REPOSITORY  镜像的仓库源
-
-2.TAG  镜像的标签
-
-3.IMAGE ID 镜像的id
-
-4.CREATED 镜像的创建时间
-
-5.SIZE 镜像的大小
-
-
-<span class="token comment" spellcheck="true"># 可选参数</span>
-
--a/--all 列出所有镜像
-
--q/--quiet 只显示镜像的id
-
-
-<span class="token comment" spellcheck="true"># 2.docker search 搜索镜像</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker search mysql</span>
-
-<span class="token comment" spellcheck="true"># 3.docker pull 镜像名[:tag] 下载镜像</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker pull mysql</span>
-
-<span class="token comment" spellcheck="true"># 4.指定版本下载</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker pull mysql:5.7</span>
-
-<span class="token comment" spellcheck="true"># 5.docker rmi 删除镜像</span>
-    <span class="token comment" spellcheck="true">#1.删除指定的镜像id</span>
-    <span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker rmi -f  镜像id</span>
-    <span class="token comment" spellcheck="true">#2.删除多个镜像id</span>
-    <span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker rmi -f  镜像id 镜像id 镜像id</span>
-    <span class="token comment" spellcheck="true">#3.删除全部的镜像id</span>
-    <span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker rmi -f  $(docker images -aq)</span>
-</code></pre>
-<h4 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 如拉取一个centos镜像</span>
-docker pull centos
-
-<span class="token comment" spellcheck="true"># 1.运行容器的命令</span>
-docker run <span class="token punctuation">[</span>可选参数<span class="token punctuation">]</span> image
-
-<span class="token comment" spellcheck="true"># 2.运行并进入容器centos</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker run -it centos /bin/bash</span>
-<span class="token punctuation">[</span>root@bd1b8900c547 /<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># ls      </span>
-bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
-
-<span class="token comment" spellcheck="true"># 3.退出容器命令</span>
-<span class="token punctuation">[</span>root@bd1b8900c547 /<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># exit</span>
-<span class="token keyword">exit</span>
-
-<span class="token comment" spellcheck="true"># 4.列出运行过的容器命令</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker ps</span>
-
-<span class="token comment" spellcheck="true"># 5.删除容器命令</span>
-docker <span class="token function">rm</span> 容器id                 <span class="token comment" spellcheck="true">#删除指定的容器,不能删除正在运行的容器,强制删除使用 rm -f</span>
-docker <span class="token function">rm</span> -f <span class="token variable"><span class="token variable">$(</span>docker <span class="token function">ps</span> -aq<span class="token variable">)</span></span>   <span class="token comment" spellcheck="true">#删除所有的容器</span>
-docker <span class="token function">ps</span> -a -q<span class="token operator">|</span><span class="token function">xargs</span> docker <span class="token function">rm</span> <span class="token comment" spellcheck="true">#删除所有的容器</span>
-
-<span class="token comment" spellcheck="true"># 6.启动和停止容器命令</span>
-docker start 容器id          <span class="token comment" spellcheck="true">#启动容器</span>
-docker restart 容器id        <span class="token comment" spellcheck="true">#重启容器</span>
-docker stop 容器id           <span class="token comment" spellcheck="true">#停止当前运行的容器</span>
-docker <span class="token function">kill</span> 容器id           <span class="token comment" spellcheck="true">#强制停止当前容器</span>
-</code></pre>
-<h4 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 1.日志的查看</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker logs --help</span>
-
-<span class="token comment" spellcheck="true"># 2. 查看容器中进程信息</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker top 容器id</span>
-
-<span class="token comment" spellcheck="true"># 3.查看容器的元数据</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker inspect 容器id</span>
-
-<span class="token comment" spellcheck="true"># 4.进入当前正在运行的容器</span>
-<span class="token comment" spellcheck="true"># 因为通常我们的容器都是使用后台方式来运行的，有时需要进入容器修改配置</span>
-方式一： <span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker exec -it 容器id /bin/bash</span>
-方式二： <span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker attach 容器id</span>
-
-</code></pre>
-<h3 id="5-提交镜像"><a href="#5-提交镜像" class="headerlink" title="5. 提交镜像"></a>5. 提交镜像</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 使用docker commit 命令提交容器成为一个新的版本</span>
-
-docker commit -m<span class="token operator">=</span>“提交的描述信息”  -a<span class="token operator">=</span><span class="token string">"作者"</span> 容器id 目标镜像名:<span class="token punctuation">[</span>TAG<span class="token punctuation">]</span> 
-
-eg:
-<span class="token comment" spellcheck="true"># 由于默认的Tomcat镜像的webapps文件夹中没有任何内容，需要从webapps.dist中拷贝文件到webapps文件夹。下面自行制作镜像：就是从webapps.dist中拷贝文件到webapps文件夹下，并提交该镜像作为一个新的镜像。使得该镜像默认的webapps文件夹下就有文件。具体命令如下：</span>
- 
- <span class="token comment" spellcheck="true">#1.复制文件夹</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker run -it tomcat /bin/bash</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat<span class="token comment" spellcheck="true"># cd webapps</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat/webapps<span class="token comment" spellcheck="true"># ls</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat/webapps<span class="token comment" spellcheck="true"># cd ../</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat<span class="token comment" spellcheck="true"># cp -r webapps.dist/* webapps</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat<span class="token comment" spellcheck="true"># cd webapps</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat/webapps<span class="token comment" spellcheck="true"># ls</span>
-ROOT  docs  examples  host-manager  manager
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker ps</span>
-CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS         PORTS                    NAMES
-2a3bf3eaa2e4   tomcat                <span class="token string">"/bin/bash"</span>    4 minutes ago   Up 4 minutes   8080/tcp                 competent_torvalds
-7789d4505a00   portainer/portainer   <span class="token string">"/portainer"</span>   24 hours ago    Up 24 hours    0.0.0.0:8088-<span class="token operator">></span>9000/tcp   quirky_sinoussi
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker exec -it 2a3bf3eaa2e4 /bin/bash</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat<span class="token comment" spellcheck="true"># cd webapps</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat/webapps<span class="token comment" spellcheck="true"># ls</span>
-ROOT  docs  examples  host-manager  manager
-root@2a3bf3eaa2e4:/usr/local/tomcat/webapps<span class="token comment" spellcheck="true"># cd ../</span>
-root@2a3bf3eaa2e4:/usr/local/tomcat<span class="token comment" spellcheck="true"># read escape sequence</span>
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker ps</span>
-CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS         PORTS                    NAMES
-2a3bf3eaa2e4   tomcat                <span class="token string">"/bin/bash"</span>    8 minutes ago   Up 8 minutes   8080/tcp                 competent_torvalds
-7789d4505a00   portainer/portainer   <span class="token string">"/portainer"</span>   24 hours ago    Up 24 hours    0.0.0.0:8088-<span class="token operator">></span>9000/tcp   quirky_sinoussi
-<span class="token comment" spellcheck="true">#2.提交镜像作为一个新的镜像</span>
-
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker commit -m="add webapps" -a="Ethan" 2a3bf3eaa2e4 mytomcat:1.0</span>
-sha256:f189aac861de51087af5bc88a5f1de02d9574e7ee2d163c647dd7503a2d3982b
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker images</span>
-REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
-mytomcat              1.0       f189aac861de   7 seconds ago   653MB
-mysql                 5.7       f07dfa83b528   6 days ago      448MB
-tomcat                latest    feba8d001e3f   10 days ago     649MB
-nginx                 latest    ae2feff98a0c   12 days ago     133MB
-centos                latest    300e315adb2f   2 weeks ago     209MB
-portainer/portainer   latest    62771b0b9b09   5 months ago    79.1MB
-elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
-
-<span class="token comment" spellcheck="true">#3.运行容器</span>
-
-<span class="token punctuation">[</span>root@iZwz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker run -it mytomcat:1.0 /bin/bash</span>
-root@1645774d4605:/usr/local/tomcat<span class="token comment" spellcheck="true"># cd webapps</span>
-root@1645774d4605:/usr/local/tomcat/webapps<span class="token comment" spellcheck="true"># ls</span>
-ROOT  docs  examples  host-manager  manager
-wz99sm8v95sckz8bd2c4Z ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker images</span>
-REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
-mytomcat              1.0       f189aac861de   7 seconds ago   653MB
-mysql                 5.7       f07dfa83b528   6 days ago      448MB
-tomcat                latest    feba8d001e3f   10 days ago     649MB
-nginx                 latest    ae2feff98a0c   12 days ago     133MB
-centos                latest    300e315adb2f   2 weeks ago     209MB
-portainer/portainer   latest    62771b0b9b09   5 months ago    79.1MB
-elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
-</code></pre>
-<h3 id="总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！"><a href="#总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！" class="headerlink" title="总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！"></a>总结：掌握了以上基本的Docker命令，才是Docker入门的基础哦！！！</h3>
                 
             </div>
             <hr/>
@@ -749,7 +553,7 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Mueoil.github.io/2022/08/07/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">http://Mueoil.github.io/2022/08/07/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a>
+                    <a href="http://Mueoil.github.io/2022/08/12/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/">http://Mueoil.github.io/2022/08/12/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -787,8 +591,12 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/docker/">
-                                    <span class="chip bg-color">docker</span>
+                                <a href="/tags/oss/">
+                                    <span class="chip bg-color">oss</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
+                                    <span class="chip bg-color">文件上传</span>
                                 </a>
                             
                         </div>
@@ -962,9 +770,10 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2022/08/12/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/">
                     <div class="card-image">
@@ -982,9 +791,9 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -993,6 +802,7 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1015,13 +825,13 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/07/26/Java%E7%AE%97%E6%B3%95%E5%B8%B8%E7%94%A8Api/">
+                <a href="/2022/08/07/docker%E6%A6%82%E8%BF%B0%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Java算法常用Api">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="docker概述和常用命令">
                         
-                        <span class="card-title">Java算法常用Api</span>
+                        <span class="card-title">docker概述和常用命令</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1032,7 +842,7 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-26
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-07
                             </span>
                         <span class="publish-author">
                             
@@ -1045,12 +855,8 @@ elasticsearch         7.6.2     f29a1ee41030   9 months ago    791MB
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/docker/">
+                        <span class="chip bg-color">docker</span>
                     </a>
                     
                 </div>
