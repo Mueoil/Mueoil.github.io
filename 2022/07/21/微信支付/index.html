@@ -541,7 +541,33 @@ String content <span class="token operator">=</span> client<span class="token pu
 </code></pre>
 </li>
 </ol>
-<h3 id="4-生成微信支付二维码成功"><a href="#4-生成微信支付二维码成功" class="headerlink" title="4.生成微信支付二维码成功"></a>4.生成微信支付二维码成功</h3>
+<h3 id="4-生成微信支付二维码成功"><a href="#4-生成微信支付二维码成功" class="headerlink" title="4.生成微信支付二维码成功"></a>4.生成微信支付二维码成功</h3><h3 id="5-查询订单支付状态"><a href="#5-查询订单支付状态" class="headerlink" title="5.查询订单支付状态"></a>5.<strong>查询订单支付状态</strong></h3><pre class=" language-java"><code class="language-java">    <span class="token keyword">public</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">></span> <span class="token function">queryPayStatus</span><span class="token punctuation">(</span>String orderId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            String appId <span class="token operator">=</span> ConstantWxOrderUtils<span class="token punctuation">.</span>WX_OPEN_APP_ID<span class="token punctuation">;</span>
+            String partner <span class="token operator">=</span> ConstantWxOrderUtils<span class="token punctuation">.</span>WX_OPEN_APP_PARTNER<span class="token punctuation">;</span>
+            String partnerkey <span class="token operator">=</span> ConstantWxOrderUtils<span class="token punctuation">.</span>WX_OPEN_APP_PARTNERKEY<span class="token punctuation">;</span>
+            String notifyurl <span class="token operator">=</span> ConstantWxOrderUtils<span class="token punctuation">.</span>WX_OPEN_APP_NOTIFYURL<span class="token punctuation">;</span>
+            Map map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"appid"</span><span class="token punctuation">,</span> appId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"mch_id"</span><span class="token punctuation">,</span> partner<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"out_trade_no"</span><span class="token punctuation">,</span> orderId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"nonce_str"</span><span class="token punctuation">,</span> WXPayUtil<span class="token punctuation">.</span><span class="token function">generateNonceStr</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//        2、发送httpclient请求</span>
+            HttpClient client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpClient</span><span class="token punctuation">(</span><span class="token string">"https://api.mch.weixin.qq.com/pay/orderquery"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//这个地址是固定的</span>
+            client<span class="token punctuation">.</span><span class="token function">setXmlParam</span><span class="token punctuation">(</span>WXPayUtil<span class="token punctuation">.</span><span class="token function">generateSignedXml</span><span class="token punctuation">(</span>map<span class="token punctuation">,</span> partnerkey<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            client<span class="token punctuation">.</span><span class="token function">setHttps</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            client<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            String content <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span>String<span class="token operator">></span> resultMap <span class="token operator">=</span> WXPayUtil<span class="token punctuation">.</span><span class="token function">xmlToMap</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> resultMap<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//返回支付状态</span>
+        <span class="token punctuation">}</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">GuliException</span><span class="token punctuation">(</span><span class="token number">20001</span><span class="token punctuation">,</span><span class="token string">"获取支付状态失败"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+
                 
             </div>
             <hr/>
