@@ -4,9 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="pig微服务项目-解读, 有鱼同学">
-    <meta name="description" content="pig技术指南：https://www.yuque.com/pig4cloud/pig/vsdox9
-pig是什么？有什么功能？基于Spring Boot 2.4、 Spring Cloud 2020 &amp;amp; Alibaba、 OAut">
+    <meta name="keywords" content="nginx, 有鱼同学">
+    <meta name="description" content="Nginx概述负载均衡域名访问
+可以将我们的公网ip地址通过xxx.com的形式就行访问项目；
+方式一：付费购买服务器，进行域名访问
+方式二：模拟访问，更改本地hosts文件
+
+这里讲述方式二的具体使用方法：
+1.配置本地hosts文件，将">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +23,7 @@ pig是什么？有什么功能？基于Spring Boot 2.4、 Spring Cloud 2020 &amp
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>pig微服务项目-解读 | 有鱼同学</title>
+    <title>nginx | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -310,12 +315,12 @@ pig是什么？有什么功能？基于Spring Boot 2.4、 Spring Cloud 2020 &amp
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">pig微服务项目-解读</h1>
+                    <h1 class="description center-align post-title">nginx</h1>
                 </div>
             </div>
         </div>
@@ -431,12 +436,16 @@ pig是什么？有什么功能？基于Spring Boot 2.4、 Spring Cloud 2020 &amp
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/pig/">
-                                <span class="chip bg-color">pig</span>
+                            <a href="/tags/nginx/">
+                                <span class="chip bg-color">nginx</span>
                             </a>
                         
-                            <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-                                <span class="chip bg-color">微服务</span>
+                            <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+                                <span class="chip bg-color">负载均衡</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AE/">
+                                <span class="chip bg-color">域名访问</span>
                             </a>
                         
                     </div>
@@ -451,7 +460,7 @@ pig是什么？有什么功能？基于Spring Boot 2.4、 Spring Cloud 2020 &amp
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-02-15
+                    2023-02-22
                 </div>
                 
 
@@ -472,133 +481,36 @@ pig是什么？有什么功能？基于Spring Boot 2.4、 Spring Cloud 2020 &amp
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>pig技术指南：<a target="_blank" rel="noopener" href="https://www.yuque.com/pig4cloud/pig/vsdox9">https://www.yuque.com/pig4cloud/pig/vsdox9</a></p>
-<h2 id="pig是什么？有什么功能？"><a href="#pig是什么？有什么功能？" class="headerlink" title="pig是什么？有什么功能？"></a>pig是什么？有什么功能？</h2><p>基于Spring Boot 2.4、 Spring Cloud 2020 &amp; Alibaba、 OAuth2 的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%BE%AE%E6%9C%8D%E5%8A%A1&spm=1001.2101.3001.7020">微服务</a>RBAC 权限管理系统。</p>
-<ul>
-<li>基于 Spring Cloud Hoxton 、Spring Boot 2.4、 OAuth2 的 RBAC <strong>权限管理系统</strong></li>
-<li>基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手</li>
-<li>提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持</li>
-<li>提供 lambda 、stream api 、webflux 的生产实践</li>
-</ul>
-<h2 id="核心依赖"><a href="#核心依赖" class="headerlink" title="核心依赖"></a>核心依赖</h2><table>
-<thead>
-<tr>
-<th align="left">依赖</th>
-<th align="left">版本</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Spring Boot</td>
-<td align="left">2.4.3</td>
-</tr>
-<tr>
-<td align="left">Spring Cloud</td>
-<td align="left">2020</td>
-</tr>
-<tr>
-<td align="left">Spring Cloud Alibaba</td>
-<td align="left">2.2.5.RELEASE</td>
-</tr>
-<tr>
-<td align="left">Spring Security OAuth2</td>
-<td align="left">2.3.6</td>
-</tr>
-<tr>
-<td align="left">Mybatis Plus</td>
-<td align="left">3.4.2</td>
-</tr>
-<tr>
-<td align="left">hutool</td>
-<td align="left">5.5.8</td>
-</tr>
-<tr>
-<td align="left">Avue</td>
-<td align="left">2.6.16</td>
-</tr>
-</tbody></table>
-<h2 id="模块说明"><a href="#模块说明" class="headerlink" title="模块说明"></a>模块说明</h2><pre class=" language-lua"><code class="language-lua">pig<span class="token operator">-</span>ui  <span class="token comment" spellcheck="true">-- https://gitee.com/log4j/pig-ui</span>
-
-pig
-├── pig<span class="token operator">-</span>auth <span class="token comment" spellcheck="true">-- 授权服务提供[3000]</span>
-└── pig<span class="token operator">-</span>common <span class="token comment" spellcheck="true">-- 系统公共模块</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>core <span class="token comment" spellcheck="true">-- 公共工具类核心包</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>datasource <span class="token comment" spellcheck="true">-- 动态数据源包</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>job <span class="token comment" spellcheck="true">-- xxl-job 封装</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>log <span class="token comment" spellcheck="true">-- 日志服务</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>mybatis <span class="token comment" spellcheck="true">-- mybatis 扩展封装</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>security <span class="token comment" spellcheck="true">-- 安全工具类</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>swagger <span class="token comment" spellcheck="true">-- 接口文档</span>
-     ├── pig<span class="token operator">-</span>common<span class="token operator">-</span>feign <span class="token comment" spellcheck="true">-- feign 扩展封装</span>
-     └── pig<span class="token operator">-</span>common<span class="token operator">-</span>test <span class="token comment" spellcheck="true">-- oauth2.0 单元测试扩展封装</span>
-├── pig<span class="token operator">-</span>register <span class="token comment" spellcheck="true">-- Nacos Server[8848]</span>
-├── pig<span class="token operator">-</span>gateway <span class="token comment" spellcheck="true">-- Spring Cloud Gateway网关[9999]</span>
-└── pig<span class="token operator">-</span>upms <span class="token comment" spellcheck="true">-- 通用用户权限管理模块</span>
-     └── pig<span class="token operator">-</span>upms<span class="token operator">-</span>api <span class="token comment" spellcheck="true">-- 通用用户权限管理系统公共api模块</span>
-     └── pig<span class="token operator">-</span>upms<span class="token operator">-</span>biz <span class="token comment" spellcheck="true">-- 通用用户权限管理系统业务处理模块[4000]</span>
-└── pig<span class="token operator">-</span>visual
-     └── pig<span class="token operator">-</span>monitor <span class="token comment" spellcheck="true">-- 服务监控 [5001]</span>
-     ├── pig<span class="token operator">-</span>codegen <span class="token comment" spellcheck="true">-- 图形化代码生成 [5002]</span>
-     ├── pig<span class="token operator">-</span>sentinel<span class="token operator">-</span>dashboard <span class="token comment" spellcheck="true">-- 流量高可用 [5003]</span>
-     └── pig<span class="token operator">-</span>xxl<span class="token operator">-</span>job<span class="token operator">-</span>admin <span class="token comment" spellcheck="true">-- 分布式定时任务管理台 [5004]</span>
-</code></pre>
-<h2 id="核心基础框架"><a href="#核心基础框架" class="headerlink" title="核心基础框架"></a>核心基础框架</h2><pre class=" language-yaml"><code class="language-yaml">依赖                     <span class="token punctuation">|</span> 版本      <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> <span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">-</span> <span class="token punctuation">|</span> <span class="token punctuation">---</span><span class="token punctuation">---</span><span class="token punctuation">-</span><span class="token punctuation">-</span> <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> Spring Boot            <span class="token punctuation">|</span> 2.6.3    <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> Spring Cloud           <span class="token punctuation">|</span> 2021.0.0 <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> Spring Cloud Alibaba   <span class="token punctuation">|</span> 2021.1   <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> Spring Security OAuth2 <span class="token punctuation">|</span> 2.3.6    <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> Mybatis Plus           <span class="token punctuation">|</span> 3.5.1    <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> hutool                 <span class="token punctuation">|</span> 5.7.19   <span class="token punctuation">|</span>
-<span class="token punctuation">|</span> Avue                   <span class="token punctuation">|</span> 2.6.18   <span class="token punctuation">|</span>
-</code></pre>
-<h2 id="项目涉及技术及主要功能"><a href="#项目涉及技术及主要功能" class="headerlink" title="项目涉及技术及主要功能"></a>项目涉及技术及主要功能</h2><table>
-<thead>
-<tr>
-<th>框架</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Lombok</td>
-<td>代码简化</td>
-</tr>
-<tr>
-<td>Java 8 Stream Lambda</td>
-<td>Java 8语法</td>
-</tr>
-<tr>
-<td>Nacos</td>
-<td>实现服务注册与发现、nacos配置中心</td>
-</tr>
-<tr>
-<td>Oauth2.0</td>
-<td>实现认证授权</td>
-</tr>
-<tr>
-<td>sentinel</td>
-<td>流量控制与保护</td>
-</tr>
-<tr>
-<td>LoadBalancer</td>
-<td>客户端负载均衡器实现负载均衡</td>
-</tr>
-<tr>
-<td>Spring Cloud Gateway</td>
-<td>服务网关配置</td>
-</tr>
-<tr>
-<td>feign</td>
-<td>feign实现服务调用及服务间鉴权</td>
-</tr>
-</tbody></table>
-<h2 id="核心技术点说明"><a href="#核心技术点说明" class="headerlink" title="核心技术点说明"></a>核心技术点说明</h2><ul>
-<li><a href="https://link.juejin.cn/?target=https://www.yuque.com/pig4cloud/pig/egcx5x">session、token、jwt、OAuth2区别和介绍</a></li>
-<li><a href="https://link.juejin.cn/?target=https://www.yuque.com/pig4cloud/pig/qgzu55">服务注册与发现的作用</a></li>
-<li><a href="https://link.juejin.cn/?target=https://www.yuque.com/pig4cloud/pig/don4zs">nacos配置中心的作用</a></li>
-<li><a href="https://link.juejin.cn/?target=https://www.yuque.com/pig4cloud/pig/pkv4iy">业务网关的作用</a></li>
-</ul>
-<p>我总结了网关的主要作用：</p>
-<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/pig%E5%BE%AE%E6%9C%8D%E5%8A%A1/9cfa1ff7ed6818d964b3621195fe6e8.png" alt="网关主要作用"></p>
+                <h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><h2 id="域名访问"><a href="#域名访问" class="headerlink" title="域名访问"></a>域名访问</h2><blockquote>
+<p>可以将我们的公网ip地址通过xxx.com的形式就行访问项目；</p>
+<p>方式一：付费购买服务器，进行域名访问</p>
+<p>方式二：模拟访问，更改本地hosts文件</p>
+</blockquote>
+<p>这里讲述方式二的具体使用方法：</p>
+<h3 id="1-配置本地hosts文件，将自己的公网ip和域名进行映射"><a href="#1-配置本地hosts文件，将自己的公网ip和域名进行映射" class="headerlink" title="1.配置本地hosts文件，将自己的公网ip和域名进行映射"></a>1.配置本地hosts文件，将自己的公网ip和域名进行映射</h3><blockquote>
+<p>注意：这里配置完需保存hosts文件，若保存不了查看hosts属性是不是只可读，去掉勾选即可。</p>
+</blockquote>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222171919317.png" alt="image-20230222171919317"></p>
+<h3 id="2-配置nginx，更改nginx-conf的监听地址和服务（docker演示）"><a href="#2-配置nginx，更改nginx-conf的监听地址和服务（docker演示）" class="headerlink" title="2.配置nginx，更改nginx.conf的监听地址和服务（docker演示）"></a>2.配置nginx，更改nginx.conf的监听地址和服务（docker演示）</h3><p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222172148116.png" alt="image-20230222172148116"></p>
+<p>容器的默认启动（这样的话，就不必每次都进入容器手动启动容器了）</p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222172327915.png" alt="image-20230222172327915"></p>
+<p>进入nginx，找到其nginx.conf，若怕出错可以拷贝一份</p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222172446912.png" alt="image-20230222172446912"></p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222172520951.png" alt="image-20230222172520951"></p>
+<h3 id="进入conf文件，更改其我们hosts与公网对应-等待域名。"><a href="#进入conf文件，更改其我们hosts与公网对应-等待域名。" class="headerlink" title="进入conf文件，更改其我们hosts与公网对应 等待域名。"></a>进入conf文件，更改其我们hosts与公网对应 等待域名。</h3><blockquote>
+<p>proxy_pass 的地址我们可通过本机ipconfig ipv4地址对应，端口号就是我们项目运行启动的端口号</p>
+<p>nginx.conf的各个块解释</p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222173918127.png" alt="image-20230222173918127"></p>
+</blockquote>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222172604334.png" alt="image-20230222172604334"></p>
+<blockquote>
+<p>保存并退出，docker restart nginx</p>
+</blockquote>
+<h3 id="3-测试并访问"><a href="#3-测试并访问" class="headerlink" title="3.测试并访问"></a>3.测试并访问</h3><p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222172919990.png" alt="image-20230222172919990"></p>
+<h1 id="网关-Nginx实现负载均衡"><a href="#网关-Nginx实现负载均衡" class="headerlink" title="网关+Nginx实现负载均衡"></a>网关+Nginx实现负载均衡</h1><h2 id="为什么不直接用Nginx？"><a href="#为什么不直接用Nginx？" class="headerlink" title="为什么不直接用Nginx？"></a>为什么不直接用Nginx？</h2><blockquote>
+<p>如果遇到我们的服务是微服务项目，我们项目存在多个端口的问题，每次都进入Nginx配置就太麻烦了，于是是想一下可否通过我们的Nginx监听我们的网关，让我们的网关转发到各个服务，这样实现负载均衡就方便多了。</p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222173700174.png" alt="image-20230222173700174"></p>
+</blockquote>
 
                 
             </div>
@@ -625,7 +537,7 @@ pig
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Mueoil.github.io/2023/02/15/pig%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%A1%B9%E7%9B%AE-%E8%A7%A3%E8%AF%BB/">http://Mueoil.github.io/2023/02/15/pig%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%A1%B9%E7%9B%AE-%E8%A7%A3%E8%AF%BB/</a>
+                    <a href="http://Mueoil.github.io/2023/02/22/nginx/">http://Mueoil.github.io/2023/02/22/nginx/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -663,12 +575,16 @@ pig
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/pig/">
-                                    <span class="chip bg-color">pig</span>
+                                <a href="/tags/nginx/">
+                                    <span class="chip bg-color">nginx</span>
                                 </a>
                             
-                                <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-                                    <span class="chip bg-color">微服务</span>
+                                <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+                                    <span class="chip bg-color">负载均衡</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AE/">
+                                    <span class="chip bg-color">域名访问</span>
                                 </a>
                             
                         </div>
@@ -842,9 +758,10 @@ pig
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2023/02/22/nginx/">
                     <div class="card-image">
@@ -862,9 +779,9 @@ pig
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-02-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-02-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -873,6 +790,7 @@ pig
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -899,13 +817,13 @@ pig
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/11/04/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+                <a href="/2023/02/15/pig%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%A1%B9%E7%9B%AE-%E8%A7%A3%E8%AF%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="设计模式">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="pig微服务项目-解读">
                         
-                        <span class="card-title">设计模式</span>
+                        <span class="card-title">pig微服务项目-解读</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -916,7 +834,7 @@ pig
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-02-15
                             </span>
                         <span class="publish-author">
                             
@@ -929,8 +847,12 @@ pig
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                        <span class="chip bg-color">设计模式</span>
+                    <a href="/tags/pig/">
+                        <span class="chip bg-color">pig</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                        <span class="chip bg-color">微服务</span>
                     </a>
                     
                 </div>
