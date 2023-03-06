@@ -515,6 +515,17 @@
 <p>如果遇到我们的服务是微服务项目，我们项目存在多个端口的问题，每次都进入Nginx配置就太麻烦了，于是是想一下可否通过我们的Nginx监听我们的网关，让我们的网关转发到各个服务，这样实现负载均衡就方便多了。</p>
 <p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/nginx/image-20230222173700174.png" alt="image-20230222173700174"></p>
 </blockquote>
+<h2 id="nginx配置到网关步骤"><a href="#nginx配置到网关步骤" class="headerlink" title="nginx配置到网关步骤"></a>nginx配置到网关步骤</h2><h3 id="1-进入到总nginx-conf，配置上游服务器"><a href="#1-进入到总nginx-conf，配置上游服务器" class="headerlink" title="1.进入到总nginx.conf，配置上游服务器"></a>1.进入到总nginx.conf，配置上游服务器</h3><p><img src="D:\Typroa\images\image-20230227112325884.png" alt="image-20230227112325884"></p>
+<p><img src="D:\Typroa\images\image-20230227112457470.png" alt="image-20230227112457470"></p>
+<h3 id="2-更改conf-d下的default-conf-或者-你自己定义的xxx-conf"><a href="#2-更改conf-d下的default-conf-或者-你自己定义的xxx-conf" class="headerlink" title="2.更改conf.d下的default.conf 或者 你自己定义的xxx.conf"></a>2.更改conf.d下的default.conf 或者 你自己定义的xxx.conf</h3><blockquote>
+<p>不再单个配置到一个服务，而是直接配置到网关（http:&#x2F;&#x2F; + 上游名）</p>
+</blockquote>
+<p><img src="D:\Typroa\images\image-20230227112635442.png" alt="image-20230227112635442"></p>
+<blockquote>
+<p>重启 nginbx</p>
+</blockquote>
+<h3 id="3-网关配置路由"><a href="#3-网关配置路由" class="headerlink" title="3. 网关配置路由"></a>3. 网关配置路由</h3><p><img src="D:\Typroa\images\image-20230228112928491.png" alt="路由断言规则"></p>
+<p><img src="D:\Typroa\images\image-20230228112647790.png" alt="后端断言改为本机地址"></p>
 
                 
             </div>
@@ -762,18 +773,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/02/22/nginx/">
+                <a href="/2023/03/06/SpringCloud%E4%B9%8BEureka/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="nginx">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="SpringCloud基础篇">
                         
-                        <span class="card-title">nginx</span>
+                        <span class="card-title">SpringCloud基础篇</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -783,9 +793,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-02-22
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-06
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -794,20 +804,19 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/nginx/">
-                        <span class="chip bg-color">nginx</span>
+                    <a href="/tags/SpringCloud/">
+                        <span class="chip bg-color">SpringCloud</span>
                     </a>
                     
-                    <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
-                        <span class="chip bg-color">负载均衡</span>
+                    <a href="/tags/Eureka/">
+                        <span class="chip bg-color">Eureka</span>
                     </a>
                     
-                    <a href="/tags/%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AE/">
-                        <span class="chip bg-color">域名访问</span>
+                    <a href="/tags/Eureka%E9%9B%86%E7%BE%A4/">
+                        <span class="chip bg-color">Eureka集群</span>
                     </a>
                     
                 </div>
