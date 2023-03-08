@@ -573,6 +573,127 @@ Feign是一个声明式WebService客户端。使用Feign能让编写Web Service�
 <ol start="6">
 <li>启动OpenFeign，测试可发现 Feign自带负载均衡的效果</li>
 </ol>
+<h1 id="OpenFeign-超时控制"><a href="#OpenFeign-超时控制" class="headerlink" title="OpenFeign 超时控制"></a>OpenFeign 超时控制</h1><p><strong>超时设置，故意设置超时演示出错情况</strong></p>
+<ol>
+<li>服务提供方8001&#x2F;8002故意写暂停程序</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentController</span> <span class="token punctuation">{</span>
+    
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${server.port}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> String serverPort<span class="token punctuation">;</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/payment/feign/timeout"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentFeignTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 业务逻辑处理正确，但是需要耗费3秒钟</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> serverPort<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="2">
+<li>服务消费方80添加超时方法PaymentFeignService</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"CLOUD-PAYMENT-SERVICE"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">PaymentFeignService</span><span class="token punctuation">{</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/payment/feign/timeout"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentFeignTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="3">
+<li>服务消费方80添加超时方法OrderFeignController</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderFeignController</span>
+<span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Resource</span>
+    <span class="token keyword">private</span> PaymentFeignService paymentFeignService<span class="token punctuation">;</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/consumer/payment/feign/timeout"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentFeignTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// OpenFeign客户端一般默认等待1秒钟</span>
+        <span class="token keyword">return</span> paymentFeignService<span class="token punctuation">.</span><span class="token function">paymentFeignTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="4">
+<li>测试</li>
+</ol>
+<p>多次刷新<a target="_blank" rel="noopener" href="http://localhost/consumer/payment/feign/timeout">http://localhost/consumer/payment/feign/timeout</a></p>
+<blockquote>
+<p>将会跳出错误Spring Boot默认错误页面，</p>
+<p>主要异常：feign.RetryableException:Read timed out executing GET <a target="_blank" rel="noopener" href="http://cloud-payment-servce/payment/feign/timeout%E3%80%82">http://CLOUD-PAYMENT-SERVCE/payment/feign/timeout。</a></p>
+</blockquote>
+<p><strong>OpenFeign默认等待1秒钟，超过后报错</strong></p>
+<p><font color=red><strong>原因：</strong></font>默认Feign客户端只等待1s中，但是服务端处理需要超过1s中，导致Feign客户端不想等待了，直接返回报错。</p>
+<p>为了避免这个情况，有时候我们需要设置Feign客户端的超时控制。</p>
+<p><strong>YML文件里需要开启OpenFeign客户端超时控制</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true">#设置feign客户端超时时间(OpenFeign默认支持ribbon)(单位：毫秒)</span>
+<span class="token key atrule">ribbon</span><span class="token punctuation">:</span>
+  <span class="token comment" spellcheck="true">#指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间</span>
+  <span class="token key atrule">ReadTimeout</span><span class="token punctuation">:</span> <span class="token number">5000</span>
+  <span class="token comment" spellcheck="true">#指的是建立连接后从服务器读取到可用资源所用的时间</span>
+  <span class="token key atrule">ConnectTimeout</span><span class="token punctuation">:</span> <span class="token number">5000</span>
+</code></pre>
+<h1 id="OpenFeign日志打印功能"><a href="#OpenFeign日志打印功能" class="headerlink" title="OpenFeign日志打印功能"></a>OpenFeign日志打印功能</h1><p><strong>日志打印功能</strong></p>
+<blockquote>
+<p>Feign提供了日志打印功能，我们可以通过配置来调整日恙级别，从而了解Feign 中 Http请求的细节。</p>
+</blockquote>
+<p>说白了就是对Feign接口的调用情况进行监控和输出</p>
+<p><strong>日志级别</strong></p>
+<ul>
+<li>NONE：默认的，不显示任何日志;</li>
+<li>BASIC：仅记录请求方法、URL、响应状态码及执行时间;</li>
+<li>HEADERS：除了BASIC中定义的信息之外，还有请求和响应的头信息;</li>
+<li>FULL：除了HEADERS中定义的信息之外，还有请求和响应的正文及元数据。</li>
+</ul>
+<h3 id="那么该如何配置日志呢？"><a href="#那么该如何配置日志呢？" class="headerlink" title="那么该如何配置日志呢？"></a>那么该如何配置日志呢？</h3><ol>
+<li>配置日志Bean</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> feign<span class="token punctuation">.</span>Logger<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>context<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Bean<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>context<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Configuration<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FeignConfig</span>
+<span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Bean</span>
+    Logger<span class="token punctuation">.</span>Level <span class="token function">feignLoggerLevel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Logger<span class="token punctuation">.</span>Level<span class="token punctuation">.</span>FULL<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="2">
+<li>YML文件里需要开启日志的Feign客户端</li>
+</ol>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">logging</span><span class="token punctuation">:</span>
+  <span class="token key atrule">level</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># feign日志以什么级别监控哪个接口</span>
+    <span class="token key atrule">com.lun.springcloud.service.PaymentFeignService</span><span class="token punctuation">:</span> debug
+</code></pre>
+<p><strong>后台日志查看</strong></p>
+<p>得到更多日志信息。</p>
 
                 
             </div>
@@ -871,13 +992,13 @@ Feign是一个声明式WebService客户端。使用Feign能让编写Web Service�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/06/SpringcCoud%E4%B9%8BRibbon/">
+                <a href="/2023/03/06/SpringCoud%E4%B9%8BRibbon/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Springcloud之Ribbon">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SpringCloud之Ribbon">
                         
-                        <span class="card-title">Springcloud之Ribbon</span>
+                        <span class="card-title">SpringCloud之Ribbon</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
