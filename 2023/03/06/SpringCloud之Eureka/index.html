@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="SpringCloud基础篇, 有鱼同学">
+    <meta name="keywords" content="SpringCloud之Eureka, 有鱼同学">
     <meta name="description" content="前言什么是微服务？
 微服务是一种架构风格
 一个应用拆分为一组小型服务
@@ -24,7 +24,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>SpringCloud基础篇 | 有鱼同学</title>
+    <title>SpringCloud之Eureka | 有鱼同学</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -316,12 +316,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">SpringCloud基础篇</h1>
+                    <h1 class="description center-align post-title">SpringCloud之Eureka</h1>
                 </div>
             </div>
         </div>
@@ -775,7 +775,7 @@
 <blockquote>
 <p>解决办法：搭建Eureka注册中心集群，实现负载均衡+故障容错。</p>
 </blockquote>
-<h2 id="Eureka集群环境构建"><a href="#Eureka集群环境构建" class="headerlink" title="Eureka集群环境构建"></a>Eureka集群环境构建</h2><p><img src="D:\Typroa\images\image-20230306135436653.png" alt="互相注册，相互守望"></p>
+<h2 id="Eureka集群环境构建"><a href="#Eureka集群环境构建" class="headerlink" title="Eureka集群环境构建"></a>Eureka集群环境构建</h2><p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/springcloud/image-20230306135436653.png" alt="互相注册，相互守望"></p>
 <h3 id="1-找到C-Windows-System32-drivers-etc路径下的hosts文件，修改映射配置添加进hosts文件"><a href="#1-找到C-Windows-System32-drivers-etc路径下的hosts文件，修改映射配置添加进hosts文件" class="headerlink" title="1. 找到C:\Windows\System32\drivers\etc路径下的hosts文件，修改映射配置添加进hosts文件"></a>1. 找到C:\Windows\System32\drivers\etc路径下的hosts文件，修改映射配置添加进hosts文件</h3><pre class=" language-java"><code class="language-java"><span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span> eureka7001<span class="token punctuation">.</span>com
 <span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span> eureka7002<span class="token punctuation">.</span>com
 </code></pre>
@@ -838,7 +838,7 @@
 <p><strong>可能遇到的问题</strong></p>
 <blockquote>
 <p>单单配置的<a target="_blank" rel="noopener" href="http://cloud-payment-service,会出现如下问题/">http://CLOUD-PAYMENT-SERVICE，会出现如下问题</a></p>
-<p><img src="D:\Typroa\images\image-20230306140642450.png" alt="image-20230306140642450"></p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/springcloud/image-20230306140642450.png" alt="image-20230306140642450"></p>
 </blockquote>
 <h3 id="6-使用-LoadBalanced注解赋予RestTemplate负载均衡的能力"><a href="#6-使用-LoadBalanced注解赋予RestTemplate负载均衡的能力" class="headerlink" title="6.  使用@LoadBalanced注解赋予RestTemplate负载均衡的能力"></a>6.  使用@LoadBalanced注解赋予RestTemplate负载均衡的能力</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>client<span class="token punctuation">.</span>loadbalancer<span class="token punctuation">.</span>LoadBalanced<span class="token punctuation">;</span>
 <span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>context<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Bean<span class="token punctuation">;</span>
@@ -903,7 +903,7 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p><img src="D:\Typroa\images\image-20230306143908800.png" alt="discovery效果"></p>
+<p><img src="https://youyu-blog.oss-cn-beijing.aliyuncs.com/springcloud/image-20230306143908800.png" alt="discovery效果"></p>
 <h1 id="Eureka自我保护理论知识（思想分布式CAP中的AP）"><a href="#Eureka自我保护理论知识（思想分布式CAP中的AP）" class="headerlink" title="Eureka自我保护理论知识（思想分布式CAP中的AP）"></a>Eureka自我保护理论知识（思想分布式CAP中的AP）</h1><blockquote>
 <p>某时刻某一个微服务不可用了，Eureka不会立刻清理，依旧会对该微服务的信息进行保存  ——— （属于CAP里面的AP分支）</p>
 </blockquote>
@@ -1180,18 +1180,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/03/06/SpringCloud%E4%B9%8BEureka/">
+                <a href="/2023/03/06/Springcloud%E4%B9%8BRibbon/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="SpringCloud基础篇">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Springcloud之Ribbon">
                         
-                        <span class="card-title">SpringCloud基础篇</span>
+                        <span class="card-title">Springcloud之Ribbon</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1201,9 +1200,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-06
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-06
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1212,20 +1211,15 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/SpringCloud/">
-                        <span class="chip bg-color">SpringCloud</span>
+                    <a href="/tags/springcloud/">
+                        <span class="chip bg-color">springcloud</span>
                     </a>
                     
-                    <a href="/tags/Eureka/">
-                        <span class="chip bg-color">Eureka</span>
-                    </a>
-                    
-                    <a href="/tags/Eureka%E9%9B%86%E7%BE%A4/">
-                        <span class="chip bg-color">Eureka集群</span>
+                    <a href="/tags/Ribbon/">
+                        <span class="chip bg-color">Ribbon</span>
                     </a>
                     
                 </div>
