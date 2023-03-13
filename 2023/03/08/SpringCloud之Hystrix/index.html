@@ -519,6 +519,9 @@
 <h1 id="服务熔断（break）"><a href="#服务熔断（break）" class="headerlink" title="服务熔断（break）"></a>服务熔断（break）</h1><p>类比保险丝达到最大服务访问后，直接拒绝访问，拉闸限电，然后调用服务降级的方法并返回友好提示。</p>
 <p><strong>服务的降级 -&gt; 进而熔断 -&gt; 恢复调用链路</strong></p>
 <h1 id="服务限流（flowlimit）"><a href="#服务限流（flowlimit）" class="headerlink" title="服务限流（flowlimit）"></a>服务限流（flowlimit）</h1><p>秒杀高并发等操作，严禁一窝蜂的过来拥挤，大家排队，一秒钟N个，有序进行。</p>
+<blockquote>
+<p>后期讲解到 Alibaba 的 Sentinel 后再讲解 Hystrix 的服务限流</p>
+</blockquote>
 <h1 id="Hystrix支付微服务的构建"><a href="#Hystrix支付微服务的构建" class="headerlink" title="Hystrix支付微服务的构建"></a>Hystrix支付微服务的构建</h1><ol>
 <li>将cloud-eureka-server7001改配置成单机版</li>
 <li>新建cloud-provider-hygtrix-payment8001</li>
@@ -1012,7 +1015,7 @@
 <li>客户端只接受1.5秒钟，客户端超1.5s走善后方法，服务端运行3秒钟，服务端超5s走善后方法，超时异常。</li>
 </ol>
 <p><font color=blue>当前服务不可用了，做服务降级，兜底的方案都是 </font><font color=red>paymentTimeOutFallbackMethod</font></p>
-<h2 id="Hystrix之全局服务降级DefaultProperties"><a href="#Hystrix之全局服务降级DefaultProperties" class="headerlink" title="Hystrix之全局服务降级DefaultProperties"></a>Hystrix之全局服务降级DefaultProperties</h2><blockquote>
+<blockquote>
 <p>从上述我们知道了，降级的一些基本配置，<strong>但是同时我们也发现出现了两个问题：</strong></p>
 <ol>
 <li><p><strong>我们的业务代码和我们的服务降级代码写在一块，导致高耦合</strong></p>
@@ -1021,6 +1024,533 @@
 </li>
 </ol>
 </blockquote>
+<h2 id="Hystrix之全局服务降级DefaultProperties"><a href="#Hystrix之全局服务降级DefaultProperties" class="headerlink" title="Hystrix之全局服务降级DefaultProperties"></a>Hystrix之全局服务降级DefaultProperties</h2><p><strong>目前问题1</strong> 每个业务方法对应一个兜底的方法，代码膨胀</p>
+<p>1:N除了个别重要核心业务有专属，其它普通的可以通过@DefaultProperties(defaultFallback &#x3D; “”)统一跳转到统一处理结果页面</p>
+<p><strong>通用的和独享的各自分开，避免了代码膨胀，合理减少了代码量</strong></p>
+<p><font color=blue>意思是，没有配置fallbackMethod，就找全局通用的@DefaultProperties(defaultFallback) </font></p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> com<span class="token punctuation">.</span>lun<span class="token punctuation">.</span>springcloud<span class="token punctuation">.</span>service<span class="token punctuation">.</span>PaymentHystrixService<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>javanica<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>DefaultProperties<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>javanica<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>HystrixCommand<span class="token punctuation">;</span>
+<span class="token keyword">import</span> lombok<span class="token punctuation">.</span>extern<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span>Slf4j<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>GetMapping<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>PathVariable<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>RestController<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> javax<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Resource<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token annotation punctuation">@DefaultProperties</span><span class="token punctuation">(</span>defaultFallback <span class="token operator">=</span> <span class="token string">"payment_Global_FallbackMethod"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderHystirxController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Resource</span>
+    <span class="token keyword">private</span> PaymentHystrixService paymentHystrixService<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/consumer/payment/hystrix/ok/{id}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_OK</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        String result <span class="token operator">=</span> paymentHystrixService<span class="token punctuation">.</span><span class="token function">paymentInfo_OK</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/consumer/payment/hystrix/timeout/{id}"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//    @HystrixCommand(fallbackMethod = "paymentTimeOutFallbackMethod",commandProperties = {</span>
+<span class="token comment" spellcheck="true">//            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1500")</span>
+<span class="token comment" spellcheck="true">//    })</span>
+    <span class="token annotation punctuation">@HystrixCommand</span><span class="token comment" spellcheck="true">//用全局的fallback方法</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_TimeOut</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//int age = 10/0;</span>
+        String result <span class="token operator">=</span> paymentHystrixService<span class="token punctuation">.</span><span class="token function">paymentInfo_TimeOut</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentTimeOutFallbackMethod</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"我是消费者80,对方支付系统繁忙请10秒钟后再试或者自己运行出错请检查自己,o(╥﹏╥)o"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 下面是全局fallback方法</span>
+    <span class="token keyword">public</span> String <span class="token function">payment_Global_FallbackMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"Global异常处理信息，请稍后再试，/(ㄒoㄒ)/~~"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="Hystrix之通配服务降级FeignFallback"><a href="#Hystrix之通配服务降级FeignFallback" class="headerlink" title="Hystrix之通配服务降级FeignFallback"></a>Hystrix之通配服务降级FeignFallback</h2><p><strong>目前问题2</strong> 统一和自定义的分开，代码混乱</p>
+<p><strong>服务降级，客户端去调用服务端，碰上服务端宕机或关闭</strong></p>
+<blockquote>
+<p>本次案例服务降级处理是在客户端80实现完成的，与服务端8001没有关系，只需要为Feign客户端定义的接口添加一个服务降级处理的实现类即可实现解耦</p>
+</blockquote>
+<p><strong>未来我们要面对的异常</strong></p>
+<ul>
+<li>运行</li>
+<li>超时</li>
+<li>宕机</li>
+</ul>
+<p><strong>修改cloud-consumer-feign-hystrix-order80</strong></p>
+<blockquote>
+<p>根据cloud-consumer-feign-hystrix-order80已经有的PaymentHystrixService接口，<br>重新新建一个类(PaymentFallbackService)实现该接口，<font color=red>统一为接口里面的方法进行异常处理</font></p>
+</blockquote>
+<ol>
+<li>PaymentFallbackService类实现PaymentHystrixService接口</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span>Component<span class="token punctuation">;</span>
+
+
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentFallbackService</span> <span class="token keyword">implements</span> <span class="token class-name">PaymentHystrixService</span>
+<span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_OK</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"-----PaymentFallbackService fall back-paymentInfo_OK ,o(╥﹏╥)o"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_TimeOut</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"-----PaymentFallbackService fall back-paymentInfo_TimeOut ,o(╥﹏╥)o"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span>Component<span class="token punctuation">;</span>
+
+
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentFallbackService</span> <span class="token keyword">implements</span> <span class="token class-name">PaymentHystrixService</span>
+<span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_OK</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"-----PaymentFallbackService fall back-paymentInfo_OK ,o(╥﹏╥)o"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_TimeOut</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"-----PaymentFallbackService fall back-paymentInfo_TimeOut ,o(╥﹏╥)o"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="2">
+<li>yml</li>
+</ol>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>
+
+<span class="token key atrule">eureka</span><span class="token punctuation">:</span>
+  <span class="token key atrule">client</span><span class="token punctuation">:</span>
+    <span class="token key atrule">register-with-eureka</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">service-url</span><span class="token punctuation">:</span>
+      <span class="token key atrule">defaultZone</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//eureka7001.com<span class="token punctuation">:</span>7001/eureka/
+
+<span class="token comment" spellcheck="true">#开启</span>
+<span class="token key atrule">feign</span><span class="token punctuation">:</span>
+  <span class="token key atrule">hystrix</span><span class="token punctuation">:</span>
+    <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre>
+<ol start="3">
+<li>PaymentHystrixService接口</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>openfeign<span class="token punctuation">.</span>FeignClient<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span>Component<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>GetMapping<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>PathVariable<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@Component</span>
+<span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"CLOUD-PROVIDER-HYSTRIX-PAYMENT"</span> <span class="token punctuation">,</span><span class="token comment" spellcheck="true">//</span>
+             fallback <span class="token operator">=</span> PaymentFallbackService<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//指定PaymentFallbackService类</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">PaymentHystrixService</span>
+<span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/payment/hystrix/ok/{id}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_OK</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/payment/hystrix/timeout/{id}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentInfo_TimeOut</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>测试</p>
+<p>单个eureka先启动7001</p>
+<p>PaymentHystrixMain8001启动</p>
+<p>正常访问测试 - <a target="_blank" rel="noopener" href="http://localhost/consumer/payment/hystrix/ok/1">http://localhost/consumer/payment/hystrix/ok/1</a></p>
+<p>故意关闭微服务8001</p>
+<p>客户端自己调用提示 - 此时服务端provider已经down了，但是我们做了服务降级处理，让客户端在服务端不可用时也会获得提示信息而不会挂起耗死服务器。</p>
+<h1 id="Hystrix之服务熔断理论"><a href="#Hystrix之服务熔断理论" class="headerlink" title="Hystrix之服务熔断理论"></a>Hystrix之服务熔断理论</h1><p><strong>熔断机制概述</strong></p>
+<blockquote>
+<p>熔断机制是应对雪崩效应的一种微服务链路保护机制。当扇出链路的某个微服务出错不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回错误的响应信息。<font color=blue>当检测到该节点微服务调用响应正常后，恢复调用链路。</font>    </p>
+</blockquote>
+<p>在Spring Cloud框架里，熔断机制通过Hystrix实现。Hystrix会监控微服务间调用的状况，当失败的调用到一定阈值，缺省是5秒内20次调用失败，就会启动熔断机制。熔断机制的注解是@HystrixCommand。</p>
+<p><a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/CircuitBreaker.html">Martin Fowler的相关论文</a></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/84d60234d01c4b7e9cae515066eb711b.png"></p>
+<h2 id="Hystrix之服务熔断案例-上"><a href="#Hystrix之服务熔断案例-上" class="headerlink" title="Hystrix之服务熔断案例(上)"></a>Hystrix之服务熔断案例(上)</h2><p><a target="_blank" rel="noopener" href="https://hutool.cn/">Hutool国产工具类</a></p>
+<ol>
+<li>修改cloud-provider-hystrix-payment8001</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> cn<span class="token punctuation">.</span>hutool<span class="token punctuation">.</span>core<span class="token punctuation">.</span>util<span class="token punctuation">.</span>IdUtil<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>javanica<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>HystrixCommand<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>javanica<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>HystrixProperty<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>stereotype<span class="token punctuation">.</span>Service<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>PathVariable<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>TimeUnit<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentService</span><span class="token punctuation">{</span>    
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    
+    <span class="token comment" spellcheck="true">//=====服务熔断</span>
+    <span class="token annotation punctuation">@HystrixCommand</span><span class="token punctuation">(</span>fallbackMethod <span class="token operator">=</span> <span class="token string">"paymentCircuitBreaker_fallback"</span><span class="token punctuation">,</span>commandProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.enabled"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 是否开启断路器</span>
+            <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.requestVolumeThreshold"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 请求次数</span>
+            <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.sleepWindowInMilliseconds"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"10000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 时间窗口期</span>
+            <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.errorThresholdPercentage"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"60"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 失败率达到多少后跳闸</span>
+        <span class="token comment" spellcheck="true">//  在10s中，你10次请求里面有60%都是失败的，则断路器不起作用</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentCircuitBreaker</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>id <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"******id 不能负数"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        String serialNumber <span class="token operator">=</span> IdUtil<span class="token punctuation">.</span><span class="token function">simpleUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"\t"</span><span class="token operator">+</span><span class="token string">"调用成功，流水号: "</span> <span class="token operator">+</span> serialNumber<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentCircuitBreaker_fallback</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"id 不能负数，请稍后再试，/(ㄒoㄒ)/~~   id: "</span> <span class="token operator">+</span>id<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>一种是说在这个时间内如果发生断路的请求数超过了设置数则会熔断；</p>
+<p>另一种是说如果发生了熔断，那么在这个时间后会成为半开状态；</p>
+<p>其实以上两种都对，因为这两个时间都是一个窗口期</p>
+</blockquote>
+<p>了解HystrixCommandProperties配置类</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">;</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">HystrixCommandProperties</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Logger logger <span class="token operator">=</span> LoggerFactory<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span>HystrixCommandProperties<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/* defaults */</span>
+    <span class="token comment" spellcheck="true">/* package */</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Integer default_metricsRollingStatisticalWindow <span class="token operator">=</span> <span class="token number">10000</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => statisticalWindow: 10000 = 10 seconds (and default of 10 buckets so each bucket is 1 second)</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Integer default_metricsRollingStatisticalWindowBuckets <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => statisticalWindowBuckets: 10 = 10 buckets in a 10 second window so each bucket is 1 second</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Integer default_circuitBreakerRequestVolumeThreshold <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => statisticalWindowVolumeThreshold: 20 requests in 10 seconds must occur before statistics matter</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Integer default_circuitBreakerSleepWindowInMilliseconds <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => sleepWindow: 5000 = 5 seconds that we will sleep before trying again after tripping the circuit</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Integer default_circuitBreakerErrorThresholdPercentage <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => errorThresholdPercentage = 50 = if 50%+ of requests in 10 seconds are failures or latent then we will trip the circuit</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Boolean default_circuitBreakerForceOpen <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => forceCircuitOpen = false (we want to allow traffic)</span>
+    <span class="token comment" spellcheck="true">/* package */</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Boolean default_circuitBreakerForceClosed <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// default => ignoreErrors = false </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Integer default_executionTimeoutInMilliseconds <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// default => executionTimeoutInMilliseconds: 1000 = 1 second</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Boolean default_executionTimeoutEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="Hystrix之服务熔断案例-下"><a href="#Hystrix之服务熔断案例-下" class="headerlink" title="Hystrix之服务熔断案例(下)"></a>Hystrix之服务熔断案例(下)</h2><ol>
+<li>controller</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentController</span>
+<span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Resource</span>
+    <span class="token keyword">private</span> PaymentService paymentService<span class="token punctuation">;</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    
+    <span class="token comment" spellcheck="true">//====服务熔断</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/payment/circuit/{id}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">paymentCircuitBreaker</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        String result <span class="token operator">=</span> paymentService<span class="token punctuation">.</span><span class="token function">paymentCircuitBreaker</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"****result: "</span><span class="token operator">+</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>测试</p>
+<p>自测cloud-provider-hystrix-payment8001</p>
+<p>正确 - <a target="_blank" rel="noopener" href="http://localhost:8001/payment/circuit/1">http://localhost:8001/payment/circuit/1</a></p>
+<p>错误 - <a target="_blank" rel="noopener" href="http://localhost:8001/payment/circuit/-1">http://localhost:8001/payment/circuit/-1</a></p>
+<p>多次错误，再来次正确，但错误得显示</p>
+<p>重点测试 - 多次错误，然后慢慢正确，发现刚开始不满足条件，就算是正确的访问地址也不能进行</p>
+<h1 id="Hystrix之服务熔断总结"><a href="#Hystrix之服务熔断总结" class="headerlink" title="Hystrix之服务熔断总结"></a>Hystrix之服务熔断总结</h1><p><strong>大神结论</strong></p>
+<p><a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/CircuitBreaker.html">Martin Fowler的相关论文</a></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/84d60234d01c4b7e9cae515066eb711b.png"></p>
+<p><strong>熔断类型</strong></p>
+<ul>
+<li>熔断打开：请求不再进行调用当前服务，内部设置时钟一般为MTTR(平均故障处理时间)，当打开时长达到所设时钟则进入半熔断状态。</li>
+<li>熔断关闭：熔断关闭不会对服务进行熔断。</li>
+<li>熔断半开：部分请求根据规则调用当前服务，如果请求成功且符合规则则认为当前服务恢复正常，关闭熔断。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/825d02fd7925521b1d76be0a21c15db0.png" alt="官网断路器流程图"></p>
+<p><strong>断路器在什么情况下开始起作用</strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//=====服务熔断</span>
+<span class="token annotation punctuation">@HystrixCommand</span><span class="token punctuation">(</span>fallbackMethod <span class="token operator">=</span> <span class="token string">"paymentCircuitBreaker_fallback"</span><span class="token punctuation">,</span>commandProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.enabled"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 是否开启断路器</span>
+    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.requestVolumeThreshold"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 请求次数</span>
+    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.sleepWindowInMilliseconds"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"10000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 时间窗口期</span>
+    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.errorThresholdPercentage"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"60"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 失败率达到多少后跳闸</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">paymentCircuitBreaker</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Integer id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>涉及到断路器的三个重要参数：</p>
+<p> <strong>快照时间窗</strong>：断路器确定是否打开需要统计一些请求和错误数据，而统计的时间范围就是快照时间窗，默认为最近的10秒。</p>
+<p><strong>请求总数阀值</strong>：在快照时间窗内，必须满足请求总数阀值才有资格熔断。默认为20，意味着在10秒内，如果该hystrix命令的调用次数不足20次7,即使所有的请求都超时或其他原因失败，断路器都不会打开。</p>
+<p><strong>错误百分比阀值</strong>：当请求总数在快照时间窗内超过了阀值，比如发生了30次调用，如果在这30次调用中，有15次发生了超时异常，也就是超过50%的错误百分比，在默认设定50%阀值情况下，这时候就会将断路器打开。</p>
+<p><strong>断路器开启或者关闭的条件</strong></p>
+<ul>
+<li>当满足一定的阀值的时候（默认10秒内超过20个请求次数)</li>
+<li>当失败率达到一定的时候（默认10秒内超过50%的请求失败)</li>
+<li>到达以下阀值，断路器将会开启：</li>
+<li>当开启的时候，所有请求都不会进行转发</li>
+<li>一段时间之后（默认是5秒)，这个时候断路器是半开状态，会让其中一个请求进行转发。如果成功，断路器会关闭，若失败，继续开启。</li>
+</ul>
+<p><strong>断路器打开之后</strong></p>
+<blockquote>
+<p>1：再有请求调用的时候，将不会调用主逻辑，而是直接调用降级fallback。通过断路器，实现了自动地发现错误并将降级逻辑切换为主逻辑，减少响应延迟的效果。</p>
+</blockquote>
+<p><strong>原来的主逻辑要如何恢复呢？</strong></p>
+<p><strong>对于这一问题，hystrix也为我们实现了自动恢复功能。</strong></p>
+<blockquote>
+<p>当断路器打开，对主逻辑进行熔断之后，hystrix会启动一个休眠时间窗，在这个时间窗内，降级逻辑是临时的成为主逻辑，当休眠时间窗到期，断路器将进入半开状态，释放一次请求到原来的主逻辑上，如果此次请求正常返回，那么断路器将继续闭合，主逻辑恢复，如果这次请求依然有问题，断路器继续进入打开状态，休眠时间窗重新计时。</p>
+</blockquote>
+<p>所有配置</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@HystrixCommand</span><span class="token punctuation">(</span>fallbackMethod <span class="token operator">=</span> <span class="token string">"fallbackMethod"</span><span class="token punctuation">,</span> 
+                groupKey <span class="token operator">=</span> <span class="token string">"strGroupCommand"</span><span class="token punctuation">,</span> 
+                commandKey <span class="token operator">=</span> <span class="token string">"strCommand"</span><span class="token punctuation">,</span> 
+                threadPoolKey <span class="token operator">=</span> <span class="token string">"strThreadPool"</span><span class="token punctuation">,</span>
+                
+                commandProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 设置隔离策略，THREAD 表示线程池 SEMAPHORE：信号池隔离</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"execution.isolation.strategy"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"THREAD"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 当隔离策略选择信号池隔离的时候，用来设置信号池的大小（最大并发数）</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"execution.isolation.semaphore.maxConcurrentRequests"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 配置命令执行的超时时间</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"execution.isolation.thread.timeoutinMilliseconds"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 是否启用超时时间</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"execution.timeout.enabled"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 执行超时的时候是否中断</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"execution.isolation.thread.interruptOnTimeout"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    
+                    <span class="token comment" spellcheck="true">// 执行被取消的时候是否中断</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"execution.isolation.thread.interruptOnCancel"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 允许回调方法执行的最大并发数</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"fallback.isolation.semaphore.maxConcurrentRequests"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 服务降级是否启用，是否执行回调函数</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"fallback.enabled"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 是否启用断路器</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.enabled"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该属性用来设置在滚动时间窗中，断路器熔断的最小请求数。例如，默认该值为 20 的时候，如果滚动时间窗（默认10秒）内仅收到了19个请求， 即使这19个请求都失败了，断路器也不会打开。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.requestVolumeThreshold"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"20"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    
+                    <span class="token comment" spellcheck="true">// 该属性用来设置在滚动时间窗中，表示在滚动时间窗中，在请求数量超过 circuitBreaker.requestVolumeThreshold 的情况下，如果错误请求数的百分比超过50, 就把断路器设置为 "打开" 状态，否则就设置为 "关闭" 状态。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.errorThresholdPercentage"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"50"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该属性用来设置当断路器打开之后的休眠时间窗。 休眠时间窗结束之后，会将断路器置为 "半开" 状态，尝试熔断的请求命令，如果依然失败就将断路器继续设置为 "打开" 状态，如果成功就设置为 "关闭" 状态。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.sleepWindowinMilliseconds"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"5000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 断路器强制打开</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.forceOpen"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"false"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 断路器强制关闭</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"circuitBreaker.forceClosed"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"false"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 滚动时间窗设置，该时间用于断路器判断健康度时需要收集信息的持续时间</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.rollingStats.timeinMilliseconds"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"10000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    
+                    <span class="token comment" spellcheck="true">// 该属性用来设置滚动时间窗统计指标信息时划分"桶"的数量，断路器在收集指标信息的时候会根据设置的时间窗长度拆分成多个 "桶" 来累计各度量值，每个"桶"记录了一段时间内的采集指标。</span>
+                    <span class="token comment" spellcheck="true">// 比如 10 秒内拆分成 10 个"桶"收集这样，所以 timeinMilliseconds 必须能被 numBuckets 整除。否则会抛异常</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.rollingStats.numBuckets"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该属性用来设置对命令执行的延迟是否使用百分位数来跟踪和计算。如果设置为 false, 那么所有的概要统计都将返回 -1。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.rollingPercentile.enabled"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"false"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该属性用来设置百分位统计的滚动窗口的持续时间，单位为毫秒。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.rollingPercentile.timeInMilliseconds"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"60000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该属性用来设置百分位统计滚动窗口中使用 “ 桶 ”的数量。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.rollingPercentile.numBuckets"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"60000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该属性用来设置在执行过程中每个 “桶” 中保留的最大执行次数。如果在滚动时间窗内发生超过该设定值的执行次数，</span>
+                    <span class="token comment" spellcheck="true">// 就从最初的位置开始重写。例如，将该值设置为100, 滚动窗口为10秒，若在10秒内一个 “桶 ”中发生了500次执行，</span>
+                    <span class="token comment" spellcheck="true">// 那么该 “桶” 中只保留 最后的100次执行的统计。另外，增加该值的大小将会增加内存量的消耗，并增加排序百分位数所需的计算时间。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.rollingPercentile.bucketSize"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"100"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    
+                    <span class="token comment" spellcheck="true">// 该属性用来设置采集影响断路器状态的健康快照（请求的成功、 错误百分比）的间隔等待时间。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"metrics.healthSnapshot.intervalinMilliseconds"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"500"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 是否开启请求缓存</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"requestCache.enabled"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// HystrixCommand的执行和事件是否打印日志到 HystrixRequestLog 中</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"requestLog.enabled"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                threadPoolProperties <span class="token operator">=</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 该参数用来设置执行命令线程池的核心线程数，该值也就是命令执行的最大并发量</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"coreSize"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该参数用来设置线程池的最大队列大小。当设置为 -1 时，线程池将使用 SynchronousQueue 实现的队列，否则将使用 LinkedBlockingQueue 实现的队列。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"maxQueueSize"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"-1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token comment" spellcheck="true">// 该参数用来为队列设置拒绝阈值。 通过该参数， 即使队列没有达到最大值也能拒绝请求。</span>
+                    <span class="token comment" spellcheck="true">// 该参数主要是对 LinkedBlockingQueue 队列的补充,因为 LinkedBlockingQueue 队列不能动态修改它的对象大小，而通过该属性就可以调整拒绝请求的队列大小了。</span>
+                    <span class="token annotation punctuation">@HystrixProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"queueSizeRejectionThreshold"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation">}</span>
+               <span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="Hystrix图形化Dashboard搭建"><a href="#Hystrix图形化Dashboard搭建" class="headerlink" title="Hystrix图形化Dashboard搭建"></a>Hystrix图形化Dashboard搭建</h1><p><strong>概述</strong></p>
+<p>除了隔离依赖服务的调用以外，Hystrix还提供了准实时的调用监控(Hystrix Dashboard)，Hystrix会持续地记录所有通过Hystrix发起的请求的执行信息，并以统计报表和图形的形式展示给用户，包括每秒执行多少请求多少成功，多少失败等。</p>
+<p>Netflix通过hystrix-metrics-event-stream项目实现了对以上指标的监控。Spring Cloud也提供了Hystrix Dashboard的整合，对监控内容转化成可视化界面。</p>
+<p><strong>仪表盘9001</strong></p>
+<ol>
+<li><p>新建cloud-consumer-hystrix-dashboard9001</p>
+</li>
+<li><p>POM</p>
+</li>
+</ol>
+<pre class=" language-html"><code class="language-html"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0<span class="token punctuation">"</span></span>
+         <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+         <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>LearnCloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.lun.springcloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.0.0-SNAPSHOT<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>parent</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>modelVersion</span><span class="token punctuation">></span></span>4.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>modelVersion</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>cloud-consumer-hystrix-dashboard9001<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-cloud-starter-netflix-hystrix-dashboard<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-actuator<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-devtools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optional</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optional</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.projectlombok<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>lombok<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optional</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optional</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-test<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>test<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">></span></span>
+</code></pre>
+<ol start="3">
+<li>yml</li>
+</ol>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">9001</span>
+</code></pre>
+<ol start="4">
+<li>主启动类HystrixDashboardMain9001+新注解@EnableHystrixDashboard</li>
+</ol>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>SpringApplication<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>autoconfigure<span class="token punctuation">.</span>SpringBootApplication<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">.</span>dashboard<span class="token punctuation">.</span>EnableHystrixDashboard<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableHystrixDashboard</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HystrixDashboardMain9001</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>HystrixDashboardMain9001<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="5">
+<li>所有Provider微服务提供类(8001&#x2F;8002&#x2F;8003)都需要监控依赖配置</li>
+</ol>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-actuator<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+</code></pre>
+<ol start="6">
+<li>启动cloud-consumer-hystrix-dashboard9001该微服务后续将监控微服务8001</li>
+</ol>
+<p>浏览器输入<a target="_blank" rel="noopener" href="http://localhost:9001/hystrix">http://localhost:9001/hystrix</a></p>
+<h1 id="Hystrix图形化Dashboard监控实战"><a href="#Hystrix图形化Dashboard监控实战" class="headerlink" title="Hystrix图形化Dashboard监控实战"></a>Hystrix图形化Dashboard监控实战</h1><p><strong>修改cloud-provider-hystrix-payment8001</strong></p>
+<p>注意：新版本Hystrix需要在主启动类PaymentHystrixMain8001中指定监控路径</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> com<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>hystrix<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>metrics<span class="token punctuation">.</span>eventstream<span class="token punctuation">.</span>HystrixMetricsStreamServlet<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>SpringApplication<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>autoconfigure<span class="token punctuation">.</span>SpringBootApplication<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>web<span class="token punctuation">.</span>servlet<span class="token punctuation">.</span>ServletRegistrationBean<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>client<span class="token punctuation">.</span>circuitbreaker<span class="token punctuation">.</span>EnableCircuitBreaker<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>netflix<span class="token punctuation">.</span>eureka<span class="token punctuation">.</span>EnableEurekaClient<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>context<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Bean<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableEurekaClient</span>
+<span class="token annotation punctuation">@EnableCircuitBreaker</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PaymentHystrixMain8001</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>PaymentHystrixMain8001<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment" spellcheck="true">/**
+     *此配置是为了服务监控而配置，与服务容错本身无关，springcloud升级后的坑
+     *ServletRegistrationBean因为springboot的默认路径不是"/hystrix.stream"，
+     *只要在自己的项目里配置上下面的servlet就可以了
+     *否则，Unable to connect to Command Metric Stream 404
+     */</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> ServletRegistrationBean <span class="token function">getServlet</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        HystrixMetricsStreamServlet streamServlet <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HystrixMetricsStreamServlet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ServletRegistrationBean registrationBean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ServletRegistrationBean</span><span class="token punctuation">(</span>streamServlet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        registrationBean<span class="token punctuation">.</span><span class="token function">setLoadOnStartup</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        registrationBean<span class="token punctuation">.</span><span class="token function">addUrlMappings</span><span class="token punctuation">(</span><span class="token string">"/hystrix.stream"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        registrationBean<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"HystrixMetricsStreamServlet"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> registrationBean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>监控测试</strong></p>
+<p>启动1个eureka</p>
+<p>启动8001，9001</p>
+<p><strong>观察监控窗口</strong></p>
+<p>9001监控8001 - 填写监控地址 - <a target="_blank" rel="noopener" href="http://localhost:8001/hystrix.stream">http://localhost:8001/hystrix.stream</a> 到 <a target="_blank" rel="noopener" href="http://localhost:9001/hystrix%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%BE%93%E5%85%A5%E6%A1%86%E3%80%82">http://localhost:9001/hystrix页面的输入框。</a></p>
+<p><strong>测试地址</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://localhost:8001/payment/circuit/1">http://localhost:8001/payment/circuit/1</a></li>
+<li><a target="_blank" rel="noopener" href="http://localhost:8001/payment/circuit/-1">http://localhost:8001/payment/circuit/-1</a></li>
+<li>测试通过</li>
+<li>先访问正确地址，再访问错误地址，再正确地址，会发现图示断路器都是慢慢放开的。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/34bd091b54f913b088bace6c3a89a79c.png" alt="Hystrix图形化界面"></p>
+<p><strong>如何看?</strong></p>
+<ul>
+<li>7色</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6740b2a462751db0ce8f2813f740c5b5.png"></p>
+<ul>
+<li>1圈</li>
+</ul>
+<p>实心圆：共有两种含义。它通过颜色的变化代表了实例的健康程度，它的健康度从绿色&lt;黄色&lt;橙色&lt;红色递减。</p>
+<p>该实心圆除了颜色的变化之外，它的大小也会根据实例的请求流量发生变化，<strong>流量越大该实心圆就越大</strong>。所以通过该实心圆的展示，就可以在大量的实例中快速的发现<font color=red>故障实例和高压力实例。</font></p>
+<ul>
+<li>1线</li>
+</ul>
+<p>曲线：用来记录2分钟内流量的相对变化，可以通过它来观察到流量的上升和下降趋势。</p>
+<ul>
+<li>整图说明1</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8a8c682ab027e313e4d9af9e4bd96206.png" alt="点线说明"></p>
+<ul>
+<li>整图说明2</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7fe0003d738028e6e20a3bf8f802cd2d.png" alt="点线说明"></p>
 
                 
             </div>
