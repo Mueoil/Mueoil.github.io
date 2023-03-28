@@ -1,0 +1,1638 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="redis之十大基本数据类型, 有鱼同学">
+    <meta name="description" content="RedisRedis介绍一 介绍1.1 基本了解 Remote Dictionary Server(远程字典服务)是完全开源的，使用ANSIC语言编写遵守BSD协议，是一个高性能的Key-Value数据库提供了丰富的数据结构，例如Strin">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>redis之十大基本数据类型 | 有鱼同学</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">有鱼同学</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">有鱼同学</div>
+        <div class="logo-desc">
+            
+            最巧的事就是，你刚好在，我刚好来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Mueoil" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Mueoil" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">redis之十大基本数据类型</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/redis/">
+                                <span class="chip bg-color">redis</span>
+                            </a>
+                        
+                            <a href="/tags/redis7/">
+                                <span class="chip bg-color">redis7</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-03-23
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis介绍"><a href="#Redis介绍" class="headerlink" title="Redis介绍"></a>Redis介绍</h2><h2 id="一-介绍"><a href="#一-介绍" class="headerlink" title="一 介绍"></a>一 介绍</h2><h3 id="1-1-基本了解"><a href="#1-1-基本了解" class="headerlink" title="1.1 基本了解"></a>1.1 基本了解</h3><p> <strong>Remote Dictionary Server</strong>(<strong>远程字典服务</strong>)是完全开源的，使用ANSIC语言编写遵守<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=BSD&spm=1001.2101.3001.7020">BSD</a>协议，是一个高性能的Key-Value数据库提供了丰富的数据结构，例如String、Hash、List、Set、SortedSet等等。数据是存在内存中的，同时Redis支持事务、持久化、LUA脚本、发布&#x2F;订阅、缓存淘汰、流技术等多种功能特性提供了主从模式、Redis Sentinel和Redis Cluster集群架构方案。</p>
+<h3 id="1-2-功能"><a href="#1-2-功能" class="headerlink" title="1.2 功能"></a>1.2 功能</h3><ul>
+<li>分布式缓存，挡在mysql数据库之前的一道屏障</li>
+<li>内存存储和持久化（RDB+AOF），redis支持异步将内存中的数据写到硬盘上，同时不影响继续服务</li>
+<li>高可用架构搭配<ul>
+<li>单机</li>
+<li>主从</li>
+<li>哨兵</li>
+<li>集群</li>
+</ul>
+</li>
+<li>缓存穿透、击穿、雪崩</li>
+<li>分布式锁</li>
+<li>队列<ul>
+<li>Reids提供list和set操作，这使得Redis能作为一个很好的消息队列平台来使用。</li>
+<li>我们常通过Reids的队列功能做购买限制。比如到节假日或者推广期间，进行一些活动，对用户购买行为进行限制，限制今天只能购买几次商品或者一段时间内只能购买一次。也比较适合适用。</li>
+</ul>
+</li>
+<li>排行榜+点赞<ul>
+<li>在互联网应用中，有各种各样的排行榜，如电商网站的月度销量排行榜、社交APP的礼物排行榜、小程序的投票排行榜等等。Redis提供的zset数据类型能够快速实现这些复杂的排行榜。比如小说网站对小说进行排名，根据排名，将排名靠前的小说推荐给用户</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/b418735b07f84f7b84b62e8888e71bf2.png" alt="在这里插入图片描述"></p>
+<h3 id="1-3-优势"><a href="#1-3-优势" class="headerlink" title="1.3 优势"></a>1.3 优势</h3><ul>
+<li>性能极高 -Redis能读的速度是110000次&#x2F;秒，写的速度是81000次&#x2F;秒</li>
+<li>Redis数据类型丰富，不仅仅支持简单的key-value类型的数据，同时还提供list，zset，set，hash等数据结构的存储</li>
+<li>Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用</li>
+<li>Redis支持数据的备份，即master-slave模式的数据备份<ul>
+<li>生成dump.rpb文件(可以在配置文件中改) 默认生成在redis.conf同级目录</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/9aba75620c1a406eade95f08285b0899.png" alt="在这里插入图片描述"></p>
+<h3 id="1-4-Redis7新特性"><a href="#1-4-Redis7新特性" class="headerlink" title="1.4 Redis7新特性"></a>1.4 Redis7新特性</h3><ul>
+<li>Redis Functions <img src="https://img-blog.csdnimg.cn/f1ed75e6bf9a49278c69832eeadfd5bd.png" alt="在这里插入图片描述"></li>
+<li>Client-eviction<img src="https://img-blog.csdnimg.cn/786c0e0748474a9bb8eb5b36a6d248e6.png" alt="在这里插入图片描述"></li>
+<li>AOF</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/eb3ed2d8e67d4de1bc8f2a3fe453734b.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>ACL v2<img src="https://img-blog.csdnimg.cn/beeba43233364031b03b98686c745cc9.png" alt="在这里插入图片描述"></li>
+<li><img src="https://img-blog.csdnimg.cn/29c8ea008bc442f6ada49ee5e4c7ee58.png" alt="在这里插入图片描述">- <img src="https://img-blog.csdnimg.cn/03329536d81748cd9b71f650625c1fa5.png" alt="在这里插入图片描述"></li>
+<li><img src="https://img-blog.csdnimg.cn/1de1323945d644808698b900852e9942.png" alt="在这里插入图片描述"></li>
+</ul>
+<p><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230323161325861.png" alt="image-20230323161325861"></p>
+<h1 id="Redis7之linux安装"><a href="#Redis7之linux安装" class="headerlink" title="Redis7之linux安装"></a>Redis7之linux安装</h1><p>这里是Redis7.0.9版本 下载地址：<a target="_blank" rel="noopener" href="https://redis.io/download/">https://redis.io/download/</a></p>
+<p>这里以linux下载：</p>
+<ol>
+<li><p>首先判断我们的centos 7是多少位的，使用64位切记</p>
+<pre class=" language-shell"><code class="language-shell">getconf LONG_BIT            返回是多少就是几位，需要64
+</code></pre>
+</li>
+<li><p>Linux安装Redis必须先具备gcc编译环境</p>
+<pre class=" language-shell"><code class="language-shell">gcc -v                  查看版本
+yum -y install gcc-c++          安装c++库环境
+</code></pre>
+</li>
+<li><p>下载redis7.0.9.tar.gz后放入Linux目录&#x2F;opt</p>
+<pre class=" language-shell"><code class="language-shell">tar -zxvf redis7.0.9.tar.gz      /opt目录下解压
+cd redis7.0.9.tar.gz              进入目录
+make && make install              在redis7.0.9目录下执行
+cd /usr/local/bin                 默认安装的位置查看
+</code></pre>
+</li>
+<li><p>安装完后回到&#x2F;opt&#x2F;redis7.0.9&#x2F;</p>
+<pre class=" language-shell"><code class="language-shell">mkdir /myredis                在根目录下创建myredis
+cp redis.conf /myredis/redis7.conf     将默认的复制过去
+</code></pre>
+</li>
+<li><p>修改&#x2F;myredis目录下redis7.conf配置文件做初始化设置</p>
+<pre class=" language-shell"><code class="language-shell">vim /myredis/redis7.conf            
+</code></pre>
+<p>redis.conf配置文件，改完后确保生效，记得重启，记得重启</p>
+<ul>
+<li>默认daemonize no 改为 daemonize yes</li>
+<li>默认protected-mode yes 改为 protected-mode no</li>
+<li>默认bind 127.0.0.1 改为 直接注释掉(默认bind 127.0.0.1只能本机访问)或改成本机IP地址，否则影响远程IP连接</li>
+<li>添加redis密码 改为 requirepass 你自己设置的密码</li>
+</ul>
+</li>
+<li><p>在&#x2F;usr&#x2F;local&#x2F;bin目录下运行redis-server，启用&#x2F;myredis目录下的redis7.conf</p>
+<pre class=" language-shell"><code class="language-shell">redis-server /myredis/redis7.conf
+</code></pre>
+</li>
+<li><p>连接服务</p>
+<pre class=" language-shell"><code class="language-shell">redis-cli -a 设置的密码 -p 6379 
+测试  ping  pong
+</code></pre>
+</li>
+</ol>
+<p><strong>tip</strong> 登录redis 有一个warning警告<br><img src="https://img-blog.csdnimg.cn/33e20ee2dab54d7391eb126fbbb99744.png" alt="在这里插入图片描述"></p>
+<p>如果想要去除的话</p>
+<pre class=" language-js"><code class="language-js">redis<span class="token operator">-</span>cli <span class="token operator">-</span>a <span class="token number">123456</span> <span class="token number">2</span><span class="token operator">></span><span class="token operator">/</span>dev<span class="token operator">/</span><span class="token keyword">null</span>
+单实例关闭 ： redis<span class="token operator">-</span>cli <span class="token operator">-</span>a <span class="token number">123456</span> shutdown
+多实例关闭<span class="token punctuation">,</span>指定端口号关闭： redis<span class="token operator">-</span>cli <span class="token operator">-</span>p <span class="token number">6379</span> shutdown
+</code></pre>
+<h1 id="Redis7之linux卸载"><a href="#Redis7之linux卸载" class="headerlink" title="Redis7之linux卸载"></a>Redis7之linux卸载</h1><p><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230323170031642.png" alt="image-20230323170031642"></p>
+<p><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230323170012608.png" alt="image-20230323170012608"></p>
+<p><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230323170042954.png" alt="image-20230323170042954"></p>
+<h1 id="Redis之十大类型"><a href="#Redis之十大类型" class="headerlink" title="Redis之十大类型"></a>Redis之十大类型</h1><p><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324102550144.png" alt="image-20230324102550144"><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324102607064.png" alt="image-20230324102607064"></p>
+<p> <strong>redis是k-v键值对进行存储，这里的数据类型是value的数据类型，key的类型都是字符串</strong><br><img src="https://img-blog.csdnimg.cn/384fea5cf5a74c0c94d79cf05c2a8217.png" alt="在这里插入图片描述">    </p>
+<pre class=" language-java"><code class="language-java">keys <span class="token operator">*</span>          <span class="token comment" spellcheck="true">//当前库的所有key</span>
+exists key      <span class="token comment" spellcheck="true">//判断某个key是否存在</span>
+type key        <span class="token comment" spellcheck="true">//查看你的key是什么类型</span>
+del key         <span class="token comment" spellcheck="true">//删除指定的key数据</span>
+unlink key      <span class="token comment" spellcheck="true">//非阻塞删除，仅仅将keys从keyspace元数据中删除，没真正的删除会在后续异步中操作</span>
+ttl key         <span class="token comment" spellcheck="true">// 查看还有多少秒过期 -1表示永不过期 -2 表示已过期</span>
+expire key 秒    <span class="token comment" spellcheck="true">// 给key设置过期时间</span>
+move key dbindex <span class="token punctuation">[</span><span class="token number">0</span><span class="token operator">-</span><span class="token number">15</span><span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 将当前数据库的key移动到指定的数据库中  redis默认是有16个数据库的</span>
+select dbindex <span class="token punctuation">[</span><span class="token number">0</span><span class="token operator">-</span><span class="token number">15</span><span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 切换数据库[0-15]，默认为0</span>
+dbsize               <span class="token comment" spellcheck="true">// 查看当前数据库key的数量</span>
+flushadd               <span class="token comment" spellcheck="true">// 清空当前库</span>
+flushall             <span class="token comment" spellcheck="true">// 清空16个数据库 慎用</span>
+</code></pre>
+<p><strong>命令不区分大小写，而key的值是区分大小写的</strong></p>
+<p><strong>help @+数据类型 会出现命令提示 比如 help @string</strong></p>
+<h3 id="3-1-Redis-字符串（String）"><a href="#3-1-Redis-字符串（String）" class="headerlink" title="3.1 Redis 字符串（String）"></a>3.1 Redis 字符串（String）</h3><ul>
+<li>string是redis最基本的类型，一个key对应一个value。</li>
+<li>string类型是二进制安全的，意思是redis的string可以包含任何数据，比如jpg图片或者序列化的对象 。</li>
+<li>string类型是Redis最基本的数据类型，一个redis中字符串value最多可以是512M</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/59d52ab816114824a740b19aca9fd08d.png" alt="在这里插入图片描述"></p>
+<h4 id="最常用"><a href="#最常用" class="headerlink" title="最常用"></a>最常用</h4><pre class=" language-java"><code class="language-java">set key value ex <span class="token number">20</span>   <span class="token comment" spellcheck="true">// 设置值 20秒过期</span>
+get key   <span class="token comment" spellcheck="true">// 获得对应的值</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/6bf0e2a1bea7458e8add4586d384c82c.png" alt="在这里插入图片描述"></p>
+<h4 id="同时设置-x2F-获取多个键值"><a href="#同时设置-x2F-获取多个键值" class="headerlink" title="同时设置&#x2F;获取多个键值"></a>同时设置&#x2F;获取多个键值</h4><pre class=" language-java"><code class="language-java">MSET <span class="token punctuation">[</span>key1<span class="token punctuation">]</span> <span class="token punctuation">[</span>value1<span class="token punctuation">]</span> <span class="token punctuation">[</span>key2<span class="token punctuation">]</span> <span class="token punctuation">[</span>value2<span class="token punctuation">]</span> <span class="token punctuation">[</span>key3<span class="token punctuation">]</span> <span class="token punctuation">[</span>value3<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 同时设置一个或多个键值对</span>
+MGET <span class="token punctuation">[</span>key1<span class="token punctuation">]</span> <span class="token punctuation">[</span>key2<span class="token punctuation">]</span> <span class="token punctuation">[</span>key3<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 同时获取多个key的值</span>
+MSETNX <span class="token punctuation">[</span>key1<span class="token punctuation">]</span> <span class="token punctuation">[</span>value1<span class="token punctuation">]</span> <span class="token punctuation">[</span>key2<span class="token punctuation">]</span> <span class="token punctuation">[</span>value2<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 同时设置一个或多个 key-value 对  必须保证key都不存在才能成功</span>
+</code></pre>
+<h4 id="获取指定区间（左闭右闭）"><a href="#获取指定区间（左闭右闭）" class="headerlink" title="获取指定区间（左闭右闭）"></a>获取指定区间（左闭右闭）</h4><pre class=" language-java"><code class="language-java">GETRANGE <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token number">0</span> <span class="token operator">-</span><span class="token number">1</span>  <span class="token comment" spellcheck="true">// 获取这个key的值的全部</span>
+GETRANGE <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token number">0</span> <span class="token number">2</span>   <span class="token comment" spellcheck="true">// 获取这个key的值索引0到索引2之间的值</span>
+SETRANGE <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token number">1</span> xxx  <span class="token comment" spellcheck="true">// 设置指定区间范围内的值，从第一位开始后面改变xxx字符，包括第一位 </span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/7326ee40580942ecb75da32bb9b7370e.png" alt="在这里插入图片描述"></p>
+<h4 id="数值增减（一定是数字才能进行增减）"><a href="#数值增减（一定是数字才能进行增减）" class="headerlink" title="数值增减（一定是数字才能进行增减）"></a>数值增减（一定是数字才能进行增减）</h4><pre class=" language-java"><code class="language-java">INCR <span class="token punctuation">[</span>key<span class="token punctuation">]</span>    <span class="token comment" spellcheck="true">// 递增数字 +1</span>
+INCRBY <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>increment<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 增加指定的整数  +increment </span>
+DECR <span class="token punctuation">[</span>key<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 递减数字 -1</span>
+DECRBY <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>increment<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 减少指定的整数  -increment </span>
+</code></pre>
+<h4 id="获取字符串长度和内容相加"><a href="#获取字符串长度和内容相加" class="headerlink" title="获取字符串长度和内容相加"></a>获取字符串长度和内容相加</h4><pre class=" language-java"><code class="language-java">STRLEN <span class="token punctuation">[</span>key<span class="token punctuation">]</span>        <span class="token comment" spellcheck="true">// 获取key对应的值的长度</span>
+APPEND <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>vale<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 追加字符串内容</span>
+</code></pre>
+<h4 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h4><p>EX：key在多少秒之后过期</p>
+<p>PX：key在多少毫秒后过期</p>
+<p>NX：当key不存在的时候，才创建key，效果等同于setnx</p>
+<p>XX：当key存在的时候，覆盖key</p>
+<pre class=" language-java"><code class="language-java">setex <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>过期时间<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 设置带过期时间的key，动态设置</span>
+setex <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 只有在 key 不存在时设置 key 的值。</span>
+</code></pre>
+<h4 id="getset-先get再set"><a href="#getset-先get再set" class="headerlink" title="getset(先get再set)"></a>getset(先get再set)</h4><pre class=" language-java"><code class="language-java">getset <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 给定 key 的值设为 value ，并返回 key 的旧值</span>
+</code></pre>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>dy点赞某个视频或商品，点一次加一次<ul>
+<li>使用incr key 获得多少人喜欢</li>
+</ul>
+</li>
+<li>对于文章是否喜欢<ul>
+<li>使用incr key 获得多少人喜欢</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2Redis列表-List"><a href="#3-2Redis列表-List" class="headerlink" title="3.2Redis列表(List)"></a>3.2Redis列表(List)</h3><p><strong>单key多vlue</strong></p>
+<p>结构：</p>
+<ul>
+<li>一个双端链表的结构，容量是2的32次方减1个元素，大概40多亿，主要功能有push&#x2F;pop等，一般用在栈、队列、消息队列等场景</li>
+<li>left、right都可以插入添加；<ul>
+<li>如果键不存在，创建新的链表</li>
+<li>如果键已存在，新增内容</li>
+<li>如果键全移除，对应的键也就消失了</li>
+</ul>
+</li>
+<li>底层就是个双向链表，对两端的操作性能很高，通过索引下标的操作中间的节点性能会较差</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/01a8e85795b749329d3b383bb82b2022.png" alt="在这里插入图片描述"></p>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p><img src="https://img-blog.csdnimg.cn/c8ef87c502ce436595089d382e4dcd8a.png" alt="在这里插入图片描述"></p>
+<pre class=" language-java"><code class="language-java">lpush <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>  <span class="token comment" spellcheck="true">// 往 列表头部（左边）放入元素</span>
+Rpush <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>  <span class="token comment" spellcheck="true">// 往 列表（右边）放入元素</span>
+lrange <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token number">0</span> <span class="token operator">-</span><span class="token number">1</span>      <span class="token comment" spellcheck="true">// 从左边开始遍历列表  只能从左边遍历</span>
+lpop <span class="token punctuation">[</span>key<span class="token punctuation">]</span>           <span class="token comment" spellcheck="true">// 最左边的出栈 也就是lrange遍历的第一个</span>
+rpop <span class="token punctuation">[</span>key<span class="token punctuation">]</span>           <span class="token comment" spellcheck="true">// 最右边的出栈 也就是lrange遍历的最后一个</span>
+lindex <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>index<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 通过索引值获取值</span>
+llen <span class="token punctuation">[</span>key<span class="token punctuation">]</span>    <span class="token comment" spellcheck="true">// 获得元素个数</span>
+lrem <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>num<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 从左往右删除 num个值为 value的值</span>
+lrem <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token number">0</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 从左往右删除所有值为value的值</span>
+ltrim <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>开始<span class="token punctuation">]</span> <span class="token punctuation">[</span>结束<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 截取指定范围的值后再赋给[key]，也就是删除这个区间外的值</span>
+RPOPLPUSH <span class="token punctuation">[</span>key1<span class="token punctuation">]</span> <span class="token punctuation">[</span>key2<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">//移除列表的最后一个元素，并将该元素添加到另一个列表的第一个并返回</span>
+lset <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token punctuation">[</span>value<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">//将key的第 index 个索引值改为value</span>
+linsert <span class="token punctuation">[</span>key<span class="token punctuation">]</span> brfore<span class="token operator">/</span>after <span class="token punctuation">[</span>value1<span class="token punctuation">]</span> <span class="token punctuation">[</span>value2<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 在list某个已有值的前后再添加具体值</span>
+</code></pre>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li>公众号的订阅的消息<ul>
+<li>关注的人发布文章，就会到我的List lpush likearticle:id 文章id</li>
+<li>查看自己订阅的文章 lrange likearticle:id 0 9</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-Redis哈希（Hash）"><a href="#3-3-Redis哈希（Hash）" class="headerlink" title="3.3 Redis哈希（Hash）"></a>3.3 Redis哈希（Hash）</h3><p><strong>k-v 模式不变，但v是一个键值对 &#x3D;&gt; Map&lt;String,Map&lt;Object,Object&gt;</strong></p>
+<h4 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h4><p><img src="https://img-blog.csdnimg.cn/e4158e077122456cad9eb77909bb1171.png" alt="在这里插入图片描述"></p>
+<p><strong>hset&#x2F;hget&#x2F;hmset&#x2F;hmget&#x2F;hgetall&#x2F;hdel</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/76323818fb9b4d2a9464384821bb5e52.png" alt="在这里插入图片描述"></p>
+<pre class=" language-java"><code class="language-java">hlen   <span class="token comment" spellcheck="true">// 获取在某个key内的全部数量</span>
+hexists <span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token punctuation">[</span>k1<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 看key中是否有k1这个键</span>
+hkeys <span class="token punctuation">[</span>key<span class="token punctuation">]</span>    <span class="token comment" spellcheck="true">// 获取key里面的所有key</span>
+hvals <span class="token punctuation">[</span>key<span class="token punctuation">]</span>    <span class="token comment" spellcheck="true">// 获取key里面的所有value</span>
+hincrby <span class="token punctuation">[</span>key<span class="token punctuation">]</span> k1 <span class="token punctuation">[</span>num<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// key里面k1的值增长num 整数</span>
+hincrbyfloat <span class="token punctuation">[</span>key<span class="token punctuation">]</span> k1 <span class="token punctuation">[</span>num<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// key里面k1的值增长num 小数</span>
+hsetnx <span class="token punctuation">[</span>key<span class="token punctuation">]</span> k1 <span class="token punctuation">[</span>value<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 不存在赋值，存在了无效\</span>
+</code></pre>
+<h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li>早期购物车设计，基本不用了，中小厂可用</li>
+<li><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324151322883.png" alt="image-20230324151322883"><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324151538752.png" alt="image-20230324151322883"></li>
+</ul>
+<h3 id="3-4-Redis集合（Set）"><a href="#3-4-Redis集合（Set）" class="headerlink" title="3.4 Redis集合（Set）"></a>3.4 Redis集合（Set）</h3><p><strong>单值多value，无重复</strong></p>
+<h4 id="常用的"><a href="#常用的" class="headerlink" title="常用的"></a>常用的</h4><pre class=" language-java"><code class="language-java">SADD key member <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>   <span class="token comment" spellcheck="true">// 添加元素</span>
+SMEMBERS key      <span class="token comment" spellcheck="true">// 遍历集合中所有元素</span>
+SISMEMBER key member    <span class="token comment" spellcheck="true">// 判断元素是否在集合中</span>
+SREM key member <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>     <span class="token comment" spellcheck="true">// 删除元素</span>
+SCARD  key          <span class="token comment" spellcheck="true">// 获取集合长度</span>
+SRANDMEMBER key m   <span class="token comment" spellcheck="true">// 从set集合里面随机取出m个    如果超过最大数量就全部取出   如果写的值是负数，比如-3 ，表示需要取出3个，但是可能会有重复值    不会删除</span>
+SPOP key m   <span class="token comment" spellcheck="true">// 从集合中随即弹出一个元素  出一个删一个</span>
+SMOVE key1 key2 在key1里已存在的某个值  <span class="token comment" spellcheck="true">// 将key1的已存在的某个值赋给key2</span>
+</code></pre>
+<h4 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h4><pre class=" language-java"><code class="language-java">SDIFF keyA keyB     <span class="token comment" spellcheck="true">// A - B  属于A但不属于B的元素构成的集合</span>
+SUNION keyA keyB    <span class="token comment" spellcheck="true">// A U B  属于A或者属于B的元素合并后的</span>
+SINTER keyA keyB    <span class="token comment" spellcheck="true">// A ∩ B  属于A同时属于B</span>
+SINTERCARD numkeys keyA keyB <span class="token punctuation">[</span>LIMIT limit<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 不返回结果集，只返回结果的基数</span>
+</code></pre>
+<h4 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>抽象小程序<ul>
+<li>将所有抽奖用户 sadd key 用户ID</li>
+<li>显示多少人参加 SCARD key</li>
+<li>从set中任意选取N个中奖人<ul>
+<li>SRANDMEMBER key 2 随机抽奖两个人，元素不删除</li>
+<li>SPOP key 2 随机抽奖两个人，元素会删除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324154228071.png" alt="image-20230324154228071"></li>
+<li>朋友圈点赞<ul>
+<li>新增点赞 SADD pub:msgID 点赞用户Id1 点赞用户Id2</li>
+<li>取消点赞 SREM pub:msgID 点赞用户Id</li>
+<li>展现所有点赞过的用户 SMEMBERS pub:msgID</li>
+<li>点赞用户统计 SCARD pub:msgID</li>
+<li>判断某个朋友是否对楼主点赞过 SISMEMBER pub:msgID 用户Id</li>
+</ul>
+</li>
+<li><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324154318702.png" alt="image-20230324154318702"></li>
+<li>可能认识的人<ul>
+<li>求两个人的差集 SDIFF user1 user2</li>
+</ul>
+</li>
+<li><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324154421878.png" alt="image-20230324154421878"></li>
+</ul>
+<h3 id="3-5Reids有序集合（Zset）"><a href="#3-5Reids有序集合（Zset）" class="headerlink" title="3.5Reids有序集合（Zset）"></a>3.5Reids有序集合（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Zset&spm=1001.2101.3001.7020">Zset</a>）</h3><p>注意：<strong>Zset和set的区别，就是在set的基础上加了一个score分数值。</strong></p>
+<ul>
+<li>set k1 v1 v2 v3</li>
+<li>Zset k1 score1 v1 score2 v2</li>
+</ul>
+<h4 id="常用的-1"><a href="#常用的-1" class="headerlink" title="常用的"></a>常用的</h4><p><img src="https://img-blog.csdnimg.cn/787823b61f864f69b1063b5aae436f8f.png" alt="在这里插入图片描述"></p>
+<pre class=" language-java"><code class="language-java">ZADD key score member <span class="token punctuation">[</span> score member <span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 添加元素</span>
+ZRANGE key start stop <span class="token punctuation">[</span>WITHSCORES<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 返回元素分数从小到大的顺序   返回索引从start到stop之间的所有元素</span>
+ZREVRANGE key <span class="token number">0</span> <span class="token operator">-</span> <span class="token number">1</span> <span class="token punctuation">[</span>WITHSCORES<span class="token punctuation">]</span>   <span class="token comment" spellcheck="true">// 反序</span>
+ZRANGEBYSCORE key min max <span class="token punctuation">[</span>WITHSCORES<span class="token punctuation">]</span> <span class="token punctuation">[</span>LIMIT offset count<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 获取指定分数范围的元素  （min，max） 不包含   limit是返回限制，返回多少个 </span>
+ZSCORE key member     <span class="token comment" spellcheck="true">// 获取元素的分数</span>
+ZCARD key             <span class="token comment" spellcheck="true">// 获取集合中元素的数量</span>
+ZREM key 某score下对应的value值   <span class="token comment" spellcheck="true">// 删除元素</span>
+ZINCRBY key increment member    <span class="token comment" spellcheck="true">// 增加某个元素的分数</span>
+ZCOUNT key min max     <span class="token comment" spellcheck="true">// 获得指定分数范围内的元素个数</span>
+ZRANK key values值     <span class="token comment" spellcheck="true">// 获得下标值</span>
+ZREVRANK key values    <span class="token comment" spellcheck="true">// 逆序获得下标值</span>
+</code></pre>
+<p>ZMPOP numkeys key [key …] &lt;MIN | MAX&gt; [COUNT count]</p>
+<ul>
+<li>弹出元素 会删除<ul>
+<li>numkeys 表示几个key</li>
+<li>&lt;MIN | MAX&gt; 小 | 大</li>
+<li>[COUNT count] count num 弹出num个<br><img src="https://img-blog.csdnimg.cn/f1653e45a346436f892cedf6d9b2d14c.png" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+</ul>
+<h4 id="应用："><a href="#应用：" class="headerlink" title="应用："></a>应用：</h4><ul>
+<li>根据商品销售对商品进行排序显示<ul>
+<li>思路：定义商品销售排行榜(sorted set集合)，key为goods:sellsort，分数为商品销售数量。</li>
+<li>商品编号1001的销量是9，商品编号1002的销量是15<ul>
+<li>zadd goods:sellsort 9 1001 15 1002</li>
+</ul>
+</li>
+<li>有一个客户又买了2件商品1001，商品编号1001销量加2<ul>
+<li>zincrby goods:sellsort 2 1001</li>
+</ul>
+</li>
+<li>求商品销量前10名<ul>
+<li>ZRANGE goods:sellsort 0 9 withscores</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img src="http://qyy-typora.oss-cn-beijing.aliyuncs.com/img/image-20230324162550552.png" alt="image-20230324162550552"></li>
+</ul>
+<h3 id="3-6-Redis位图-bitmap"><a href="#3-6-Redis位图-bitmap" class="headerlink" title="3.6 Redis位图(bitmap)"></a>3.6 Redis位图(bitmap)</h3><p><strong>由 0 和 1 表示的二进制位的 bit 数组</strong></p>
+<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>用String类型作为底层数据结构实现的一种统计二值状态的数据类型</li>
+<li>位图本质是数组，它是基于String数据类型的按位的操作。该数组由多个二进制位组成，每个二进制位都对应一个偏移量(我们称之为一个索引)</li>
+<li>Bitmap支持的最大位数是232位，它可以极大的节约存储空间，使用512M内存就可以存储多达42.9亿的字节信息(232 &#x3D; 4294967296)</li>
+</ul>
+<h4 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h4><pre class=" language-java"><code class="language-java">SETBIT key offset value    <span class="token comment" spellcheck="true">// 将第offset的值设为value  value只能是0或1  offset 从0开始</span>
+GETBIT key offset        <span class="token comment" spellcheck="true">// 获得第offset位的值</span>
+STRLEN key              <span class="token comment" spellcheck="true">// 得出占多少字节 超过8位后自己按照8位一组一byte再扩容</span>
+BITCOUNT key         <span class="token comment" spellcheck="true">// 得出该key里面含有几个1</span>
+BITOP and destKey key1 key2 <span class="token comment" spellcheck="true">// 对一个或多个 key 求逻辑并，并将结果保存到 destkey </span>
+BITOP or destKey key1 key2 <span class="token comment" spellcheck="true">// 对一个或多个 key 求逻辑或，并将结果保存到 destkey </span>
+BITOP XOR destKey key1 key2 <span class="token comment" spellcheck="true">// 对一个或多个 key 求逻辑异或，并将结果保存到 destkey </span>
+BITOP NOT destKey key1 key2 <span class="token comment" spellcheck="true">// 对一个或多个 key 求逻辑非，并将结果保存到 destkey </span>
+    <span class="token comment" spellcheck="true">// sebbit键 偏移位 只能是 0 或者 1</span>
+    <span class="token comment" spellcheck="true">// Bitmap的偏移量是从零开始算的</span>
+</code></pre>
+<h4 id="应用-2"><a href="#应用-2" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>做签到很适合位图<ul>
+<li>每天使用1个1亿位的Bitmap约占12MB的内存（10^8&#x2F;8&#x2F;1024&#x2F;1024），10天的Bitmap的内存开销约为120MB，内存压力不算太高。</li>
+<li>在实际使用时，最好对Bitmap设置过期时间，让Redis自动删除不再需要的签到记录以节省内存开销。</li>
+</ul>
+</li>
+<li>对于电影和广告是否被点击播放过也可以用位图</li>
+</ul>
+<h3 id="3-7-Redis基数统计-HyperLogLog"><a href="#3-7-Redis基数统计-HyperLogLog" class="headerlink" title="3.7 Redis基数统计(HyperLogLog)"></a>3.7 Redis基数统计(HyperLogLog)</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>去重复统计功能的基数估计算法就是 HyperLogLog</li>
+<li>基数<ul>
+<li>是一种数据集，去重复后的真实个数</li>
+</ul>
+</li>
+<li>基数统计<ul>
+<li>用于统计一个集合中不重复的元素个数，就是对集合去重复后剩余元素的计算</li>
+</ul>
+</li>
+</ul>
+<h4 id="基本命令-1"><a href="#基本命令-1" class="headerlink" title="基本命令"></a>基本命令</h4><p><img src="https://img-blog.csdnimg.cn/0d25d8656ac54d979acaf9a75f0ace5c.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/729f1977a6934e188787190e6e9683c8.png" alt="在这里插入图片描述"></p>
+<h4 id="应用-3"><a href="#应用-3" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>统计某个网页的UV、某个文章的UV<ul>
+<li>UV Unique Visitor 独立访客，一般理解为客户端IP，需要去重</li>
+</ul>
+</li>
+<li>用户搜索网站关键词数量</li>
+<li>统计用户每天搜索不同词条个数</li>
+</ul>
+<h3 id="3-8Redis地理空间-GEO"><a href="#3-8Redis地理空间-GEO" class="headerlink" title="3.8Redis地理空间(GEO)"></a>3.8Redis地理空间(GEO)</h3><h4 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h4><p> 地球上的地理位置是使用二维的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%BB%8F%E7%BA%AC%E5%BA%A6&spm=1001.2101.3001.7020">经纬度</a>表示，经度范围 (-180, 180]，纬度范围 (-90, 90]，只要我们确定一个点的经纬度就可以名取得他在地球的位置。</p>
+<ul>
+<li>例如滴滴打车，最直观的操作就是实时记录更新各个车的位置</li>
+<li>然后当我们要找车时，在数据库中查找距离我们(坐标x0,y0)附近r公里范围内部的车辆</li>
+</ul>
+<h4 id="基本命令-2"><a href="#基本命令-2" class="headerlink" title="基本命令"></a>基本命令</h4><ul>
+<li>经纬度去地图上直接复制</li>
+</ul>
+<p>GEOADD添加经纬度坐标</p>
+<p><img src="https://img-blog.csdnimg.cn/50006edf6c864f4ebece8dd491b359a0.png" alt="在这里插入图片描述"></p>
+<p>会出现中文乱码</p>
+<ul>
+<li>redis -cli -a 123456 – raw</li>
+</ul>
+<p>GEOPOS 返回经纬度</p>
+<p><img src="https://img-blog.csdnimg.cn/f86f3894460e4cd2ac694be72c399a35.png" alt="在这里插入图片描述"></p>
+<p>GEOHASH返回坐标的 geohash 表示 （base32编码）</p>
+<p><img src="https://img-blog.csdnimg.cn/e7fb39e87622401e9e61cc2a861dcc31.png" alt="在这里插入图片描述"></p>
+<p>GEODIST 返回两个位置之间的距离</p>
+<p><img src="https://img-blog.csdnimg.cn/d1f448fa70144eedbc90d902e790abf2.png" alt="在这里插入图片描述"></p>
+<p>GEORADIUS 以给定的经纬度为中心， 返回键包含的位置元素当中， 与中心的距离不超过给定最大距离的所有位置元素。</p>
+<p><img src="https://img-blog.csdnimg.cn/e767b7db13904dd5b379547da8f348dd.png" alt="在这里插入图片描述"></p>
+<p>GEORADIUSBYMEMBER 找出指定范围内的元素，中心点是由给定的位置元素决定<br><img src="https://img-blog.csdnimg.cn/58dbe6c0f73749ebad8a18c67cdfc8d0.png" alt="在这里插入图片描述"></p>
+<h4 id="应用-4"><a href="#应用-4" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>美团附近的饭店、酒店</li>
+<li>高德地图附近的店</li>
+</ul>
+<h3 id="3-9Redis流（Stream）"><a href="#3-9Redis流（Stream）" class="headerlink" title="3.9Redis流（Stream）"></a>3.9Redis流（Stream）</h3><h4 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>实现消息队列的三个方式<ul>
+<li>List实现消息队列</li>
+<li>Pub&#x2F;Sub 发布订阅</li>
+<li>Stream流 （Redis版的MQ消息中间件+阻塞队列）<br><img src="https://img-blog.csdnimg.cn/89acd0cb9e6f4400bcfbeb44504373d8.png" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/89d0a6066d204af780c3b79e9764552b.png" alt="在这里插入图片描述"></p>
+<p> <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Stream%E6%B5%81&spm=1001.2101.3001.7020">Stream流</a>实现消息队列，它支持消息的持久化、支持自动生成全局唯一 ID、支持ack确认消息的模式、支持消费组模式等，让消息队列更加的稳定和可靠</p>
+<p><strong>Stream结构</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/fbde9766b00e47e0a9fab10e0e0b7047.png" alt="在这里插入图片描述"></p>
+<h4 id="基本命令-3"><a href="#基本命令-3" class="headerlink" title="基本命令"></a>基本命令</h4><p>队列指令</p>
+<p><img src="https://img-blog.csdnimg.cn/60ed521826c74e5695dbb6db64ce3035.png" alt="在这里插入图片描述"></p>
+<p>消费组指令</p>
+<p><img src="https://img-blog.csdnimg.cn/59f9a13e1f3841fdbd4c6f4c63bbf261.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/3f46cd8f84e94189a2afb8dafa960bd2.png" alt="在这里插入图片描述"></p>
+<p><strong>消费组里的消费者进行轮询</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/5fa67b3e2d0f42c6ab1347de9543d04f.png" alt="在这里插入图片描述"></p>
+<h3 id="3-10Redis位域-bitfield"><a href="#3-10Redis位域-bitfield" class="headerlink" title="3.10Redis位域(bitfield)"></a>3.10Redis位域(bitfield)</h3><h4 id="介绍-4"><a href="#介绍-4" class="headerlink" title="介绍"></a>介绍</h4><ul>
+<li>将很多小的整数存储到一个长度较大的位图中，又或者将一个非常庞大的键分割位多个较小的键来进行储存，从而高效利用内存</li>
+<li>也就是将 Redis 字符串看作是一个 <strong>由二进制位组成的数组</strong> 并能对变长位宽和任意没有字节对齐的指定整型位域进行寻址和修改</li>
+</ul>
+<h4 id="基本命令-4"><a href="#基本命令-4" class="headerlink" title="基本命令"></a>基本命令</h4><p><img src="https://img-blog.csdnimg.cn/60a5b0bca50a45b09f2bd7ec33368780.png" alt="在这里插入图片描述"></p>
+<p><strong>溢出控制：</strong></p>
+<p><strong>WRAP: 使用回绕 (Wrap around) 方法处理有符号和无符号整数溢出</strong><br><img src="https://img-blog.csdnimg.cn/d1a7dc9f21954b6f92caa2b546a05c91.png" alt="在这里插入图片描述"></p>
+<p><strong>Set: 使用饱和计算(saturation arithmetic) 方法处理溢出， 下溢计算的结果为最小的整数值，而上溢计算的结果为最大的整数值</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/5f0f9268bba54e78a9ca308af7024983.png" alt="在这里插入图片描述"></p>
+<p><strong>FAIL ：命令将拒绝执行那些会导致上溢或者下溢情况出现的计算，并向用户返回空值表示计算未被执行</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/3e5379172b9c451a8032b69811d4a244.png" alt="在这里插入图片描述"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">有鱼同学</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://Mueoil.github.io/2023/03/23/redis%E4%B9%8B%E5%8D%81%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">http://Mueoil.github.io/2023/03/23/redis%E4%B9%8B%E5%8D%81%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">有鱼同学</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/redis/">
+                                    <span class="chip bg-color">redis</span>
+                                </a>
+                            
+                                <a href="/tags/redis7/">
+                                    <span class="chip bg-color">redis7</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">可怜一下孩子吧，没钱吃饭了</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/03/23/redis%E4%B9%8B%E5%8D%81%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="redis之十大基本数据类型">
+                        
+                        <span class="card-title">redis之十大基本数据类型</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            有鱼同学
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/redis/">
+                        <span class="chip bg-color">redis</span>
+                    </a>
+                    
+                    <a href="/tags/redis7/">
+                        <span class="chip bg-color">redis7</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/03/23/Git%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Git的使用">
+                        
+                        <span class="card-title">Git的使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            有鱼同学
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/git/">
+                        <span class="chip bg-color">git</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="/about" target="_blank">有鱼同学</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Mueoil" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1395234017@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1395234017" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1395234017" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <i class="fa fa-github"></i>
+</a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
