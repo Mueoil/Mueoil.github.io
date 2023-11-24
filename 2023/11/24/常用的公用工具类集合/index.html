@@ -5,10 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="常用的公用工具类集合, 有鱼同学">
-    <meta name="description" content="package com.ruoyi.genye.util;
+    <meta name="description" content="这是一个Java工具类的代码，是用于处理字符串的一些方法。它包含了一些常见的字符串处理操作，比如字符串分割、格式化、大小写转换等。
+其中包含了以下方法：
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.crypto.hash.SimpleHa">
+非常抱歉之前的误解。以下是关于 StringUtil 实用程序类中其他方法的说明：
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -478,7 +479,39 @@ import org.apache.shiro.crypto.hash.SimpleHa">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>ruoyi<span class="token punctuation">.</span>genye<span class="token punctuation">.</span>util<span class="token punctuation">;</span>
+                <p>这是一个Java工具类的代码，是用于处理字符串的一些方法。它包含了一些常见的字符串处理操作，比如字符串分割、格式化、大小写转换等。</p>
+<p>其中包含了以下方法：</p>
+<blockquote>
+<p>非常抱歉之前的误解。以下是关于 <code>StringUtil</code> 实用程序类中其他方法的说明：</p>
+<ol>
+<li><code>split(String value)</code>方法：将字符串按换行或逗号分隔成集合数据，并返回一个<code>List&lt;String&gt;</code>。</li>
+<li><code>percentFormat(float value)</code>方法：将浮点数格式化成百分数形式的字符串.</li>
+<li><code>percentFormat(String value)</code>方法：将字符串格式化成百分数形式的字符串，如果参数是数字，则返回格式化后的百分数，如果不是数字，则返回原字符串。</li>
+<li><code>parseFormat(String valueString, int maxFractionDigits)</code>方法：解析格式化字符串数字。如果参数是数字，则根据maxFractionDigits指定的最大小数位数进行格式化返回，如果参数是”m&#x2F;n”格式的字符串，则将m除以n，并按指定小数位数格式化返回结果，如果参数不符合以上格式，则返回”0”。</li>
+<li><code>format(double value, int fractionDigits)</code>方法：将给定的浮点数按指定小数位数格式化为字符串并返回结果。</li>
+<li><code>isNumber(String str)</code>方法：判断字符串是否是数字或小数。</li>
+<li><code>convertSortField(String sortField, String order)</code>方法：将驼峰排序字段转换为下划线字段，并根据排序方式添加ASC或DESC。</li>
+<li><code>underscoreName(String camelCaseName)</code>方法：将驼峰格式的字符串转换为下划线格式。</li>
+<li><code>camelCaseName(String underscoreName)</code>方法：将下划线格式的字符串转换为驼峰格式。</li>
+<li><code>isEmpty(String str)</code>方法：检查字符串是否为null或空字符串。</li>
+<li><code>strReplaceNull(String str)</code>方法：将字符串的null值替换为空字符串。</li>
+<li><code>IntegerReplaceNull(Integer value)</code>方法：将整型Integer的null值替换为空字符串。</li>
+<li><code>isNotEmpty(String str)</code>方法：检查字符串是否不为null和空字符串。</li>
+<li><code>equals(String str1, String str2)</code>方法：比较两个字符串是否相等（区分大小写）。</li>
+<li><code>equalsIgnoreCase(String str1, String str2)</code>方法：比较两个字符串是否相等（不区分大小写）。</li>
+<li><code>toUpperCase(String str)</code>方法：将字符串转换为大写。</li>
+<li><code>toLowerCase(String str)</code>方法：将字符串转换为小写。</li>
+<li><code>stream2Byte(InputStream is)</code>方法：将InputStream转换为byte数组。</li>
+<li><code>byte2Stream(byte[] byteArray)</code>方法：将byte数组转换为InputStream。</li>
+<li><code>stream2String(InputStream is)</code>方法：将InputStream转换为String。</li>
+<li><code>string2Stream(String str)</code>方法：将字符串转换为InputStream。</li>
+<li><code>strArray2Str(String[] strArray)</code>方法：将字符串数组转换为一个字符串（无分隔符）。</li>
+<li><code>str2CharArray(String str)</code>方法：将字符串转换为char数组。</li>
+<li><code>str2StrArray(String str)</code>方法：将字符串按照指定的分隔符切分成字符串数组</li>
+</ol>
+<p>…</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>ruoyi<span class="token punctuation">.</span>genye<span class="token punctuation">.</span>util<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>commons<span class="token punctuation">.</span>lang3<span class="token punctuation">.</span>StringUtils<span class="token punctuation">;</span>
 <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>shiro<span class="token punctuation">.</span>crypto<span class="token punctuation">.</span>hash<span class="token punctuation">.</span>SimpleHash<span class="token punctuation">;</span>
