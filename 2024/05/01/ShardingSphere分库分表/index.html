@@ -1,0 +1,1669 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="ShardingSphere分库分表, 有鱼同学">
+    <meta name="description" content="ShardingShpereShadingPhere 和 MyCat  的区别
+🔍 ShardingSphere（又称 Apache ShardingSphere）和 MyCAT（MySQL分布式数据库系统）都是用于分库分表的数据库中间件">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>ShardingSphere分库分表 | 有鱼同学</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">有鱼同学</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">有鱼同学</div>
+        <div class="logo-desc">
+            
+            最巧的事就是，你刚好在，我刚好来
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Mueoil" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Mueoil" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">ShardingSphere分库分表</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/ShardingShpere/">
+                                <span class="chip bg-color">ShardingShpere</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">
+                                <span class="chip bg-color">分库分表</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-05-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="ShardingShpere"><a href="#ShardingShpere" class="headerlink" title="ShardingShpere"></a>ShardingShpere</h1><h2 id="ShadingPhere-和-MyCat-的区别"><a href="#ShadingPhere-和-MyCat-的区别" class="headerlink" title="ShadingPhere 和 MyCat  的区别"></a>ShadingPhere 和 MyCat  的区别</h2><blockquote>
+<p>🔍 ShardingSphere（又称 Apache ShardingSphere）和 MyCAT（MySQL分布式数据库系统）都是用于分库分表的数据库中间件，但它们之间有一些区别：</p>
+<ol>
+<li><strong>项目背景</strong>:<ul>
+<li>ShardingSphere是一个由Apache软件基金会托管的开源项目，支持多种关系型数据库的分片（Sharding）、融合（Merger）和分布式事务。主要是依赖包引入。</li>
+<li>MyCAT是一个开源的分布式数据库系统，提供了分片、缓存等功能，主要针对 MySQL 数据库。是一个独立的应用程序，独立的服务。</li>
+</ul>
+</li>
+<li><strong>支持的数据库</strong>:<ul>
+<li>ShardingSphere支持更广泛的数据库，包括但不限于 MySQL、PostgreSQL、Oracle、SQL Server 等。</li>
+<li>MyCAT主要针对 MySQL 数据库。</li>
+</ul>
+</li>
+<li><strong>功能特性</strong>:<ul>
+<li>ShardingSphere提供了更丰富的功能，包括分片、读写分离、分布式事务、数据融合等功能，支持更复杂的场景。</li>
+<li>MyCAT主要注重于分片和路由功能，对于读写分离和分布式事务的支持相对有限。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="ShardingPhere的执行过程（数据分片内核剖析）"><a href="#ShardingPhere的执行过程（数据分片内核剖析）" class="headerlink" title="ShardingPhere的执行过程（数据分片内核剖析）"></a>ShardingPhere的执行过程（数据分片内核剖析）</h2><blockquote>
+<ol>
+<li><strong>SQL 解析</strong>：首先，ShardingSphere 会对收到的 SQL 进行解析，确定 SQL 中包含的表名、字段名、条件等信息，以便后续的处理。</li>
+<li><strong>查询优化</strong>：在解析之后，ShardingSphere 会对 SQL 进行优化，包括语法解析、语义分析、条件合并等，以提升查询效率。</li>
+<li><strong>SQL 路由</strong>：根据解析得到的表名和条件，ShardingSphere 将决定将 SQL 查询路由到哪些数据库节点上进行执行，以实现分库分表的需求。</li>
+<li><strong>SQL 改写</strong>：根据路由结果，ShardingSphere 可能会对原始的 SQL 进行改写，包括追加额外的条件、改变 SQL 结构等，以确保最终查询被正确地分发到各个数据库上执行。</li>
+<li><strong>SQL 执行</strong>：路由结束后，ShardingSphere 将派发 SQL 查询至各个数据库节点，各自执行对应的查询操作。</li>
+<li><strong>结果归并</strong>：在各个数据库节点执行完查询后，ShardingSphere 将收集、合并各节点的查询结果，并最终返回给应用程序，以达到对应 SQL 查询的最终结果。</li>
+</ol>
+</blockquote>
+<h1 id="ShardingShpere准备"><a href="#ShardingShpere准备" class="headerlink" title="ShardingShpere准备"></a>ShardingShpere准备</h1><h3 id="1、yum安装mysql"><a href="#1、yum安装mysql" class="headerlink" title="1、yum安装mysql"></a>1、yum安装mysql</h3><h4 id="1-1、下载mysql的rpm地址"><a href="#1-1、下载mysql的rpm地址" class="headerlink" title="1-1、下载mysql的rpm地址"></a>1-1、下载mysql的rpm地址</h4><p><a target="_blank" rel="noopener" href="http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/">http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/</a></p>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/10/kuangstudy72d617eb-4da8-4b80-92c8-ea1ba5621495.png" alt="img"></p>
+<h4 id="1-2、配置Mysql扩展源"><a href="#1-2、配置Mysql扩展源" class="headerlink" title="1-2、配置Mysql扩展源"></a>1-2、配置Mysql扩展源</h4><pre class=" language-shell"><code class="language-shell">rpm -ivh http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql57-community-release-el7-10.noarch.rpm
+</code></pre>
+<h4 id="1-3、yum安装mysql"><a href="#1-3、yum安装mysql" class="headerlink" title="1-3、yum安装mysql"></a>1-3、yum安装mysql</h4><pre class=" language-shell"><code class="language-shell">yum install mysql-community-server -y
+</code></pre>
+<h4 id="1-4、启动Mysql，并加入开机自启"><a href="#1-4、启动Mysql，并加入开机自启" class="headerlink" title="1-4、启动Mysql，并加入开机自启"></a>1-4、启动Mysql，并加入开机自启</h4><pre class=" language-shell"><code class="language-shell">systemctl start mysqldsystemctl stop mysqldsystemctl enable mysqld
+</code></pre>
+<h4 id="1-5、使用Mysq初始密码登录数据库"><a href="#1-5、使用Mysq初始密码登录数据库" class="headerlink" title="1-5、使用Mysq初始密码登录数据库"></a>1-5、使用Mysq初始密码登录数据库</h4><p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/10/kuangstudyfc43526e-311a-49d1-b0c4-c601f569c2e8.png" alt="img"></p>
+<pre class=" language-shell"><code class="language-shell">>grep "password" /var/log/mysqld.log> mysql -uroot -pma1S8xjuEA/F或者一步到位的做法如下>mysql -uroot -p$(awk '/temporary password/{print $NF}' /var/log/mysqld.log)
+</code></pre>
+<h4 id="1-6、修改数据库密码"><a href="#1-6、修改数据库密码" class="headerlink" title="1-6、修改数据库密码"></a>1-6、修改数据库密码</h4><p>数据库默认密码规则必须携带大小写字母、特殊符号，字符长度大于8否则会报错。<br>因此设定较为简单的密码时需要首先修改set global validate_password_policy和_length参数值。</p>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/10/kuangstudyd1f011fa-b894-4400-bbff-002db26e817c.png" alt="img"></p>
+<pre class=" language-shell"><code class="language-shell">mysql> set global validate_password_policy=0;Query OK, 0 rows affected (0.00 sec)mysql> set global validate_password_length=1;Query OK, 0 rows affected (0.00 sec)
+</code></pre>
+<h4 id="1-7、修改密码"><a href="#1-7、修改密码" class="headerlink" title="1-7、修改密码"></a>1-7、修改密码</h4><pre class=" language-shell"><code class="language-shell">mysql> set password for root@localhost = password('mkxiaoer');Query OK, 0 rows affected, 1 warning (0.00 sec)或者mysql>ALTER USER 'root'@'localhost' IDENTIFIED BY 'new password';
+</code></pre>
+<h4 id="1-8、登录测试"><a href="#1-8、登录测试" class="headerlink" title="1-8、登录测试"></a>1-8、登录测试</h4><pre class=" language-shell"><code class="language-shell">[root@http-server ~]# mysql -uroot -pmkxiaoermysql> show databases;+--------------------+| Database           |+--------------------+| information_schema || mysql              || performance_schema || sys                |+--------------------+4 rows in set (0.00 sec)mysql> exit
+</code></pre>
+<h4 id="1-9、可视化工具的登录授权：-如果授权不成功，请查看防火墙"><a href="#1-9、可视化工具的登录授权：-如果授权不成功，请查看防火墙" class="headerlink" title="1-9、可视化工具的登录授权：(如果授权不成功，请查看防火墙)"></a>1-9、可视化工具的登录授权：(如果授权不成功，请查看防火墙)</h4><p>操作完成上面的，现在还不能用可视化的客户端进行连接，需要我们进行授权：</p>
+<pre class=" language-shell"><code class="language-shell">mysql > grant all on *.* to root@'%' identified by '数据库密码';mysql > flush privileges;
+</code></pre>
+<p>操作完毕，接下来可以使用navicat或者sqlylog进行远程连接了.</p>
+<blockquote>
+<p>sqlylog的下载：<a target="_blank" rel="noopener" href="https://sqlyog.en.softonic.com/">https://sqlyog.en.softonic.com/</a></p>
+</blockquote>
+<h1 id="分库分表原理"><a href="#分库分表原理" class="headerlink" title="分库分表原理"></a>分库分表原理</h1><h3 id="01、为什么要分库分表"><a href="#01、为什么要分库分表" class="headerlink" title="01、为什么要分库分表"></a>01、为什么要分库分表</h3><blockquote>
+<p><strong>QPS：</strong>意思是每秒查询率，是一台服务器每秒能够响应的查询次数（数据库中的每秒执行查询sql的次数），显然，这个不够全面，不能描述增删改，所以，不建议用qps来作为系统性能指标。</p>
+<p><strong>TPS：</strong>意思是每秒事务数，具体事务的定义，都是人为的，可以一个接口、多个接口、一个业务流程等等。一个事务是指事务内第一个请求发送到接收到最后一个请求的响应的过程，以此来计算使用的时间和完成的事务个数。</p>
+<p>以单接口定义为事务为例，每个事务包括了如下3个过程：</p>
+<p>　　a.向服务器发请求</p>
+<p>　　b.服务器自己的内部处理（包含应用服务器、数据库服务器等）</p>
+<p>　　c.服务器返回结果给客户端</p>
+<p>　　如果每秒能够完成N次这三个过程，tps就是N；</p>
+<p>如果多个接口定义为一个事务，那么，会重复执行abc，完成一次这几个请求，算做一个tps。</p>
+</blockquote>
+<p>一般的机器（4核16G），单库的MySQL并发（QPS+TPS）超过了2k，系统基本就完蛋了。最好是并发量控制在1k左右。这里就引出一个问题，为什么要分库分表？</p>
+<blockquote>
+<p>分库分表目的：解决高并发，和数据量大的问题。</p>
+</blockquote>
+<p>1、高并发情况下，会造成IO读写频繁，自然就会造成读写缓慢，甚至是宕机。一般单库不要超过2k并发，NB的机器除外。<br>2、数据量大的问题。主要由于底层索引实现导致，MySQL的索引实现为B+TREE，数据量其他，会导致索引树十分庞大，造成查询缓慢。第二，innodb的最大存储限制64TB。</p>
+<blockquote>
+<p>要解决上述问题。最常见做法，就是分库分表。<br>分库分表的目的，是将一个表拆成N个表，就是让每个表的数据量控制在一定范围内，保证SQL的性能。 一个表数据建议不要超过500W。</p>
+</blockquote>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/14/kuangstudy4ea3641b-9165-4c9c-9328-4946902519ab.png" alt="img"></p>
+<h3 id="02、分库分表"><a href="#02、分库分表" class="headerlink" title="02、分库分表"></a>02、分库分表</h3><blockquote>
+<p>又分为垂直拆分和水平拆分。</p>
+</blockquote>
+<p><strong>水平拆分：</strong>统一个表的数据拆到不同的库不同的表中。可以根据时间、地区、或某个业务键维度，也可以通过hash进行拆分，最后通过路由访问到具体的数据。拆分后的每个表结构保持一致。</p>
+<p><strong>垂直拆分：</strong>就是把一个有很多字段的表给拆分成多个表，或者是多个库上去。每个库表的结构都不一样，每个库表都包含部分字段。一般来说，可以根据业务维度进行拆分，如订单表可以拆分为订单、订单支持、订单地址、订单商品、订单扩展等表；也可以，根据数据冷热程度拆分，20%的热点字段拆到一个表，80%的冷字段拆到另外一个表。</p>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/14/kuangstudycbec6d11-6626-41d1-bb3f-a81e9f05c794.png" alt="img"></p>
+<h3 id="03、不停机分库分表数据迁移"><a href="#03、不停机分库分表数据迁移" class="headerlink" title="03、不停机分库分表数据迁移"></a>03、不停机分库分表数据迁移</h3><p>一般数据库的拆分也是有一个过程的，一开始是单表，后面慢慢拆成多表。那么我们就看下如何平滑的从MySQL单表过度到MySQL的分库分表架构。<br>1、利用mysql+canal做增量数据同步，利用分库分表中间件，将数据路由到对应的新表中。<br>2、利用分库分表中间件，全量数据导入到对应的新表中。<br>3、通过单表数据和分库分表数据两两比较，更新不匹配的数据到新表中。<br>4、数据稳定后，将单表的配置切换到分库分表配置上。</p>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/14/kuangstudye19131bc-e09e-44eb-8e24-f4966960b3ab.png" alt="img"></p>
+<h3 id="04、小结"><a href="#04、小结" class="headerlink" title="04、小结"></a>04、小结</h3><p>垂直拆分：业务模块拆分、商品库，用户库，订单库<br>水平拆分：对表进行水平拆分（也就是我们说的：分表）<br>表进行垂直拆分：表的字段过多，字段使用的频率不一。（可以拆分两个表建立1:1关系）</p>
+<h1 id="ShardingJdbc的分库和分表"><a href="#ShardingJdbc的分库和分表" class="headerlink" title="ShardingJdbc的分库和分表"></a>ShardingJdbc的分库和分表</h1><h3 id="01、分库分表的方式"><a href="#01、分库分表的方式" class="headerlink" title="01、分库分表的方式"></a>01、分库分表的方式</h3><p><strong>水平拆分：</strong>统一个表的数据拆到不同的库不同的表中。可以根据时间、地区、或某个业务键维度，也可以通过hash进行拆分，最后通过路由访问到具体的数据。拆分后的每个表结构保持一致。 </p>
+<p><strong>垂直拆分：</strong>就是把一个有很多字段的表给拆分成多个表，或者是多个库上去。每个库表的结构都不一样，每个库表都包含部分字段。一般来说，可以根据业务维度进行拆分，如订单表可以拆分为订单、订单支持、订单地址、订单商品、订单扩展等表；也可以，根据数据冷热程度拆分，20%的热点字段拆到一个表，80%的冷字段拆到另外一个表。</p>
+<h3 id="02、逻辑表"><a href="#02、逻辑表" class="headerlink" title="02、逻辑表"></a>02、逻辑表</h3><p>逻辑表是指：水平拆分的数据库或者数据表的相同路基和数据结构表的总称。比如用户数据根据用户id%2拆分为2个表，分别是：ksd_user0和ksd_user1。他们的逻辑表名是：ksd_user。<br>在shardingjdbc中的定义方式如下：</p>
+<pre class=" language-yml"><code class="language-yml">spring:
+  shardingsphere:
+    sharding:
+      tables:
+        # ksd_user 逻辑表名
+        ksd_user:
+</code></pre>
+<h3 id="03、分库分表数据节点-actual-data-nodes"><a href="#03、分库分表数据节点-actual-data-nodes" class="headerlink" title="03、分库分表数据节点 - actual-data-nodes"></a>03、分库分表数据节点 - actual-data-nodes</h3><pre class=" language-yml"><code class="language-yml"> tables:
+        # ksd_user 逻辑表名
+        ksd_user:
+          # 数据节点：多数据源$->{0..N}.逻辑表名$->{0..N} 相同表
+          actual-data-nodes: ds$->{0..2}.ksd_user$->{0..1}
+           # 数据节点：多数据源$->{0..N}.逻辑表名$->{0..N} 不同表
+          actual-data-nodes: ds0.ksd_user$->{0..1},ds1.ksd_user$->{2..4}
+          # 指定单数据源的配置方式
+          actual-data-nodes: ds0.ksd_user$->{0..4}
+          # 全部手动指定
+          actual-data-nodes: ds0.ksd_user0,ds1.ksd_user0,ds0.ksd_user1,ds1.ksd_user1,
+</code></pre>
+<p>数据分片是最小单元。由数据源名称和数据表组成，比如：ds0.ksd_user0。</p>
+<p>寻找规则如下：</p>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudye9efb3fb-3eca-4575-89b4-7a60f45dcb8e.png" alt="img"></p>
+<h3 id="04、分库分表5种分片策略"><a href="#04、分库分表5种分片策略" class="headerlink" title="04、分库分表5种分片策略"></a>04、分库分表5种分片策略</h3><p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudy0b8f0684-3028-40e6-8a99-6cfe14fa4e11.png" alt="img"></p>
+<h4 id="数据源分片分为两种："><a href="#数据源分片分为两种：" class="headerlink" title="数据源分片分为两种："></a>数据源分片分为两种：</h4><ul>
+<li>数据源分片</li>
+<li>表分片</li>
+</ul>
+<p>这两个是不同维度的分片规则，但是它们额能用的分片策略和规则是一样的。它们由两部分构成：</p>
+<ul>
+<li>分片键</li>
+<li>分片算法</li>
+</ul>
+<h4 id="第一种：none"><a href="#第一种：none" class="headerlink" title="第一种：none"></a>第一种：none</h4><p>对应NoneShardingStragey,不分片策略，SQL会被发给所有节点去执行，这个规则没有子项目可以配置。</p>
+<h4 id="第二种：inline-行表达时分片策略-核心，必须要掌握"><a href="#第二种：inline-行表达时分片策略-核心，必须要掌握" class="headerlink" title="第二种：inline 行表达时分片策略(核心，必须要掌握)"></a>第二种：inline 行表达时分片策略(核心，必须要掌握)</h4><p>对应InlineShardingStragey。使用Groovy的表达时，提供对SQL语句种的&#x3D;和in的分片操作支持，只支持单分片键。对于简单的分片算法，可以通过简单的配置使用，从而避免繁琐的Java代码开放，如：ksd_user${分片键（数据表字段）userid % 5} 表示ksd_user表根据某字段（userid）模 5.从而分为5张表，表名称为：ksd_user0到ksd_user4 。如果库也是如此。</p>
+<pre class=" language-yml"><code class="language-yml">server:
+  port: 8085
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    # 参数配置，显示sql
+    props:
+      sql:
+        show: true
+    sharding:
+      # 默认数据源，主要用于写，注意一定要配置读写分离 ,注意：如果不配置，那么就会把三个节点都当做从slave节点，新增，修改和删除会出错。
+      default-data-source-name: ds0
+      # 配置分表的规则
+      tables:
+        # ksd_user 逻辑表名
+        ksd_user:
+          # 数据节点：数据源$->{0..N}.逻辑表名$->{0..N}
+          actual-data-nodes: ds$->{0..1}.ksd_user$->{0..1}
+          # 拆分库策略，也就是什么样子的数据放入放到哪个数据库中。
+          database-strategy:
+            inline:
+              sharding-column: sex    # 分片字段（分片键）
+              algorithm-expression: ds$->{sex % 2} # 分片算法表达式
+          # 拆分表策略，也就是什么样子的数据放入放到哪个数据表中。
+          table-strategy:
+            inline:
+              sharding-column: age    # 分片字段（分片键）
+              algorithm-expression: ksd_user$->{age % 2} # 分片算法表达式
+</code></pre>
+<h4 id="algorithm-expression行表达式："><a href="#algorithm-expression行表达式：" class="headerlink" title="algorithm-expression行表达式："></a>algorithm-expression行表达式：</h4><ul>
+<li>${begin..end} 表示区间范围。</li>
+<li>${[unit1,unit2,….,unitn]} 表示枚举值。</li>
+<li>行表达式种如果出现连续多个${expresssion}或$-&gt;{expression}表达式，整个表达时最终的结果将会根据每个子表达式的结果进行笛卡尔组合。</li>
+</ul>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudyd17a99ad-1bf5-48fe-b769-b2794edbea7b.png" alt="img"></p>
+<h5 id="04-1、完整案例和配置如下"><a href="#04-1、完整案例和配置如下" class="headerlink" title="04-1、完整案例和配置如下"></a>04-1、完整案例和配置如下</h5><ul>
+<li>准备两个数据库ksd_sharding-db。名字相同，两个数据源ds0和ds1</li>
+<li>每个数据库下方ksd_user0和ksd_user1即可。</li>
+<li>数据库规则，性别为偶数的放入ds0库，奇数的放入ds1库。</li>
+<li>数据表规则：年龄为偶数的放入ksd_user0库，奇数的放入ksd_user1库。</li>
+</ul>
+<pre class=" language-yml"><code class="language-yml">server:
+  port: 8085
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    # 参数配置，显示sql
+    props:
+      sql:
+        show: true
+    # 配置数据源
+    datasource:
+      # 给每个数据源取别名，下面的ds1,ds1任意取名字
+      names: ds0,ds1
+      # 给master-ds1每个数据源配置数据库连接信息
+      ds0:
+        # 配置druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://47.115.94.78:3306/ksd-sharding-db?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: mkxiaoer1986.
+        maxPoolSize: 100
+        minPoolSize: 5
+      # 配置ds1-slave
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://114.215.145.201:3306/ksd-sharding-db?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT
+        username: root
+        password: mkxiaoer1986.
+        maxPoolSize: 100
+        minPoolSize: 5
+    # 配置默认数据源ds0
+    sharding:
+      # 默认数据源，主要用于写，注意一定要配置读写分离 ,注意：如果不配置，那么就会把三个节点都当做从slave节点，新增，修改和删除会出错。
+      default-data-source-name: ds0
+      # 配置分表的规则
+      tables:
+        # ksd_user 逻辑表名
+        ksd_user:
+          # 数据节点：数据源$->{0..N}.逻辑表名$->{0..N}
+          actual-data-nodes: ds$->{0..1}.ksd_user$->{0..1}
+          # 拆分库策略，也就是什么样子的数据放入放到哪个数据库中。
+          database-strategy:
+            inline:
+              sharding-column: sex    # 分片字段（分片键）
+              algorithm-expression: ds$->{sex % 2} # 分片算法表达式
+          # 拆分表策略，也就是什么样子的数据放入放到哪个数据表中。
+          table-strategy:
+            inline:
+              sharding-column: age    # 分片字段（分片键）
+              algorithm-expression: ksd_user$->{age % 2} # 分片算法表达式
+# 整合mybatis的配置XXXXX
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xuexiangban.shardingjdbc.entity
+</code></pre>
+<p>结果如下图：</p>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudyf4a54f62-0def-405e-9cfb-a2026f384002.png" alt="img"></p>
+<h3 id="05、第三种：根据实时间日期-按照标准规则分库分表"><a href="#05、第三种：根据实时间日期-按照标准规则分库分表" class="headerlink" title="05、第三种：根据实时间日期 - 按照标准规则分库分表"></a>05、第三种：根据实时间日期 - 按照标准规则分库分表</h3><p>05-1、 标准分片 - Standard(了解)</p>
+<ul>
+<li>对应StrandardShardingStrategy.提供对SQL语句中的&#x3D;，in和恶between and 的分片操作支持。</li>
+<li>StrandardShardingStrategy只支持但分片键。提供PreciseShardingAlgorithm和RangeShardingAlgorithm两个分片算法。</li>
+<li>PreciseShardingAlgorithm是必选的呃，用于处理&#x3D;和IN的分片</li>
+<li>和RangeShardingAlgorithm是可选的，是用于处理Betwwen and分片，如果不配置和RangeShardingAlgorithm,SQL的Between AND 将按照全库路由处理。</li>
+</ul>
+<p>05-02、定义分片的日期规则配置</p>
+<pre class=" language-yml"><code class="language-yml">server:
+  port: 8085
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    # 参数配置，显示sql
+    props:
+      sql:
+        show: true
+    # 配置数据源
+    datasource:
+      # 给每个数据源取别名，下面的ds1,ds1任意取名字
+      names: ds0,ds1
+      # 给master-ds1每个数据源配置数据库连接信息
+      ds0:
+        # 配置druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://47.115.94.78:3306/ksd-sharding-db?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT%2b8
+        username: root
+        password: mkxiaoer1986.
+        maxPoolSize: 100
+        minPoolSize: 5
+      # 配置ds1-slave
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://114.215.145.201:3306/ksd-sharding-db?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&serverTimezone=GMT%2b8
+        username: root
+        password: mkxiaoer1986.
+        maxPoolSize: 100
+        minPoolSize: 5
+    # 配置默认数据源ds0
+    sharding:
+      # 默认数据源，主要用于写，注意一定要配置读写分离 ,注意：如果不配置，那么就会把三个节点都当做从slave节点，新增，修改和删除会出错。
+      default-data-source-name: ds0
+      # 配置分表的规则
+      tables:
+        # ksd_user 逻辑表名
+        ksd_user:
+          # 数据节点：数据源$->{0..N}.逻辑表名$->{0..N}
+          actual-data-nodes: ds$->{0..1}.ksd_user$->{0..1}
+          # 拆分库策略，也就是什么样子的数据放入放到哪个数据库中。
+          database-strategy:
+            standard:
+              shardingColumn: birthday
+              preciseAlgorithmClassName: com.xuexiangban.shardingjdbc.algorithm.BirthdayAlgorithm
+          table-strategy:
+            inline:
+              sharding-column: age    # 分片字段（分片键）
+              algorithm-expression: ksd_user$->{age % 2} # 分片算法表达式
+# 整合mybatis的配置XXXXX
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xuexiangban.shardingjdbc.entity
+</code></pre>
+<h4 id="05-03、定义分片的日期规则"><a href="#05-03、定义分片的日期规则" class="headerlink" title="05-03、定义分片的日期规则"></a>05-03、定义分片的日期规则</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>xuexiangban<span class="token punctuation">.</span>shardingjdbc<span class="token punctuation">.</span>algorithm<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>shardingsphere<span class="token punctuation">.</span>api<span class="token punctuation">.</span>sharding<span class="token punctuation">.</span>standard<span class="token punctuation">.</span>PreciseShardingAlgorithm<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>shardingsphere<span class="token punctuation">.</span>api<span class="token punctuation">.</span>sharding<span class="token punctuation">.</span>standard<span class="token punctuation">.</span>PreciseShardingValue<span class="token punctuation">;</span>
+<span class="token keyword">import</span> sun<span class="token punctuation">.</span>util<span class="token punctuation">.</span>resources<span class="token punctuation">.</span>cldr<span class="token punctuation">.</span>CalendarData<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>*<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/**
+ * @author: 学相伴-飞哥
+ * @description: BirthdayAlgorithm
+ * @Date : 2021/3/11
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BirthdayAlgorithm</span> <span class="token keyword">implements</span> <span class="token class-name">PreciseShardingAlgorithm</span><span class="token operator">&lt;</span>Date<span class="token operator">></span> <span class="token punctuation">{</span>
+    List<span class="token operator">&lt;</span>Date<span class="token operator">></span> dateList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">{</span>
+        Calendar calendar1 <span class="token operator">=</span> Calendar<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        calendar1<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token number">2020</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Calendar calendar2 <span class="token operator">=</span> Calendar<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        calendar2<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token number">2021</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Calendar calendar3 <span class="token operator">=</span> Calendar<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        calendar3<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token number">2022</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        dateList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>calendar1<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        dateList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>calendar2<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        dateList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>calendar3<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">doSharding</span><span class="token punctuation">(</span>Collection<span class="token operator">&lt;</span>String<span class="token operator">></span> collection<span class="token punctuation">,</span> PreciseShardingValue<span class="token operator">&lt;</span>Date<span class="token operator">></span> preciseShardingValue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 获取属性数据库的值</span>
+        Date date <span class="token operator">=</span> preciseShardingValue<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 获取数据源的名称信息列表</span>
+        Iterator<span class="token operator">&lt;</span>String<span class="token operator">></span> iterator <span class="token operator">=</span> collection<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String target <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Date s <span class="token operator">:</span> dateList<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            target <span class="token operator">=</span> iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 如果数据晚于指定的日期直接返回</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>date<span class="token punctuation">.</span><span class="token function">before</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> target<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="05-04、测试查看结果"><a href="#05-04、测试查看结果" class="headerlink" title="05-04、测试查看结果"></a>05-04、测试查看结果</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="http://localhost:8085/user/save?sex=3&amp;age=3&amp;birthday=2020-03-09">http://localhost:8085/user/save?sex=3&amp;age=3&amp;birthday=2020-03-09</a> —- ds1<br><a target="_blank" rel="noopener" href="http://localhost:8085/user/save?sex=3&amp;age=3&amp;birthday=2021-03-09">http://localhost:8085/user/save?sex=3&amp;age=3&amp;birthday=2021-03-09</a> —- ds0</p>
+</blockquote>
+<h3 id="06、第四种：ShardingSphere-符合分片策略（了解）"><a href="#06、第四种：ShardingSphere-符合分片策略（了解）" class="headerlink" title="06、第四种：ShardingSphere - 符合分片策略（了解）"></a>06、第四种：ShardingSphere - 符合分片策略（了解）</h3><ul>
+<li>对应接口：HintShardingStrategy。通过Hint而非SQL解析的方式分片的策略。</li>
+<li>对于分片字段非SQL决定，而是由其他外置条件决定的场景，克使用SQL hint灵活的注入分片字段。例如：按照用户登录的时间，主键等进行分库，而数据库中并无此字段。SQL hint支持通过Java API和SQL注解两种方式使用。让后分库分表更加灵活。</li>
+</ul>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudy7e8dbf42-7c2a-43c9-b2a0-6065143a48aa.png" alt="img"></p>
+<h3 id="07、第五种：ShardingSphere-hint分片策略（了解）"><a href="#07、第五种：ShardingSphere-hint分片策略（了解）" class="headerlink" title="07、第五种：ShardingSphere - hint分片策略（了解）"></a>07、第五种：ShardingSphere - hint分片策略（了解）</h3><ul>
+<li>对应ComplexShardingStrategy。符合分片策略提供对SQL语句中的-，in和between and的分片操作支持。</li>
+<li>ComplexShardingStrategy支持多分片键，由于多分片键之间的关系复杂，因此并未进行过多的封装，而是直接将分片键组合以及分片操作符透传至分片算法，完全由开发者自己实现，提供最大的灵活度。</li>
+</ul>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudy9b0671d8-50ad-4774-9296-98bd0e6555bb.png" alt="img"></p>
+<h3 id="注意：这种情况会出现-id-相同的情况，所以出现了下面的主键策略"><a href="#注意：这种情况会出现-id-相同的情况，所以出现了下面的主键策略" class="headerlink" title="注意：这种情况会出现 id 相同的情况，所以出现了下面的主键策略"></a>注意：这种情况会出现 id 相同的情况，所以出现了下面的主键策略</h3><h1 id="ShardingSphere-分布式主键配置"><a href="#ShardingSphere-分布式主键配置" class="headerlink" title="ShardingSphere - 分布式主键配置"></a>ShardingSphere - 分布式主键配置</h1><h2 id="1、ShardingSphere-分布式主键配置"><a href="#1、ShardingSphere-分布式主键配置" class="headerlink" title="1、ShardingSphere - 分布式主键配置"></a>1、ShardingSphere - 分布式主键配置</h2><blockquote>
+<p>ShardingSphere提供灵活的配置分布式主键生成策略方式。在分片规则配置模块克配置每个表的主键生成策略。默认使用雪花算法。（snowflake）生成64bit的长整型数据。支持两种方式配置</p>
+</blockquote>
+<ul>
+<li>SNOWFLAKE</li>
+<li>UUID</li>
+</ul>
+<blockquote>
+<p>这里切记：主键列不能自增长。数据类型是：bigint(20)</p>
+</blockquote>
+<pre class=" language-yml"><code class="language-yml">spring:
+  shardingsphere:
+    sharding:
+      tables:
+        # ksd_user 逻辑表名
+        ksd_user:
+          key-generator:
+              # 主键的列明，
+            column: userid
+            type: SNOWFLAKE
+</code></pre>
+<p>执行</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://localhost:8085/user/save?sex=3&amp;age=3&amp;birthday=2020-03-09">http://localhost:8085/user/save?sex=3&amp;age=3&amp;birthday=2020-03-09</a><br>可以查看到新增的语句多了一个userid为576906137413091329的唯一值。这个值是通过雪花算法计算出来的唯一值</p>
+</blockquote>
+<pre class=" language-sql"><code class="language-sql"><span class="token number">2021</span><span class="token operator">-</span><span class="token number">03</span><span class="token operator">-</span><span class="token number">11</span> <span class="token number">22</span>:<span class="token number">59</span>:<span class="token number">01.605</span>  INFO <span class="token number">4900</span> <span class="token comment" spellcheck="true">--- [nio-8085-exec-1] ShardingSphere-SQL                       : Actual SQL: ds1 ::: insert into ksd_user1 (nickname, password, sex, age, birthday, userid) VALUES (?, ?, ?, ?, ?, ?) ::: [zhangsan-70137485, 1234567, 3, 3, 2020-03-09 00:00:00.0, 576906137413091329]</span>
+</code></pre>
+<p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/03/11/kuangstudy49f490ae-20bf-4d3c-bb60-a0fb33d953bb.png" alt="img"></p>
+<h1 id="ShardingJdbc的总结"><a href="#ShardingJdbc的总结" class="headerlink" title="ShardingJdbc的总结"></a>ShardingJdbc的总结</h1><h2 id="基础规范"><a href="#基础规范" class="headerlink" title="基础规范"></a>基础规范</h2><ul>
+<li>表必须有主键，建议使用整型作为主键</li>
+<li>禁止使用外键，表之间的关联性和完整性通过应用层来控制</li>
+<li>表在设计之初，应该考虑到大致的数据级，若表记录小于1000W，尽量使用单表，不建议分表。</li>
+<li>建议将大字段，访问频率低，或者不需要作为筛选条件的字段拆分到拓展表中，（做好表垂直拆分）</li>
+<li>控制单实例表的总数，单个表分表数控制在1024以内。</li>
+</ul>
+<h2 id="列设计规范"><a href="#列设计规范" class="headerlink" title="列设计规范"></a>列设计规范</h2><ul>
+<li>正确区分tinyint、int、bigint的范围</li>
+<li>使用varchar(20)存储手机号，不要使用整数</li>
+<li>使用int存储ipv4 不要使用char(15)</li>
+<li>涉及金额使用decimal&#x2F;varchar，并制定精度</li>
+<li>不要设计为null的字段，而是用空字符，因为null需要更多的空间，并且使得索引和统计变得更复杂。</li>
+</ul>
+<h2 id="索引规范"><a href="#索引规范" class="headerlink" title="索引规范"></a>索引规范</h2><ul>
+<li>唯一索引使用uniq_[字段名]来命名</li>
+<li>非唯一索引使用idx_[字段名]来命名</li>
+<li>不建议在频繁更新的字段上建立索引</li>
+<li>非必要不要进行JOIN,如果要进行join查询，被join的字段必须类型相同，并建立索引。</li>
+<li>单张表的索引数量建议控制在5个以内，索引过多，不仅会导致插入更新性能下降，还可能导致MYSQL的索引出错和性能下降</li>
+<li>组合索引字段数量不建议超过5个，理解组合索引的最左匹配原则，避免重复建设索引。比如你建立了<br>(x,y,z) 相当于你建立了(x),(x,y),(x,y,z)</li>
+</ul>
+<h2 id="SQL规范"><a href="#SQL规范" class="headerlink" title="SQL规范"></a>SQL规范</h2><ul>
+<li>禁止使用selet <em>，只获取必要字段，select</em> 会增加cpu&#x2F;i0&#x2F;内存、带宽的消耗。</li>
+<li>insert 必须指定字段，禁止使用insert into Table values().指定字段插入，在表结果变更时，能保证对应应用程序无影响。</li>
+<li>隐私类型转换会使索引失效，导致全表扫描。（比如：手机号码搜索时未转换成字符串）</li>
+<li>禁止在where后面查询列使用内置函数或者表达式，导致不能命中索引，导致全表扫描</li>
+<li>禁止负向查询（!&#x3D;,not like ,no in等）以及%开头的模糊查询，造成不能命中索引，导致全表扫描</li>
+<li>避免直接返回大结果集造成内存溢出，可采用分段和游标方式。</li>
+<li>返回结果集时尽量使用limit分页显示。</li>
+<li>尽量在order by&#x2F;group by的列上创建索引。</li>
+<li>大表扫描尽量放在镜像库上去做</li>
+<li>禁止大表join查询和子查询</li>
+<li>尽量避免数据库内置函数作为查询条件</li>
+<li>应用程序尽量捕获SQL异常</li>
+</ul>
+<h2 id="表的垂直拆分"><a href="#表的垂直拆分" class="headerlink" title="表的垂直拆分"></a>表的垂直拆分</h2><p>垂直拆分：业务模块拆分、商品库，用户库，订单库<br>水平拆分：对表进行水平拆分（也就是我们说的：分表）<br>表进行垂直拆分：表的字段过多，字段使用的频率不一。（可以拆分两个表建立1:1关系）</p>
+<ul>
+<li>将一个属性过多的表，一行数据较大的表，将不同的属性分割到不同的数据库表中。以降低单库表的大小。<br>特点：</li>
+<li>每个表的结构不一致</li>
+<li>每个表的数量都是全量</li>
+<li>表和表之间一定会有一列会进行关联，一般都是主键</li>
+</ul>
+<p>原则：</p>
+<ul>
+<li>将长度较短，访问频率较高的字段放在一个表中，主表</li>
+<li>将长度较长、访问频率比较低的字段放一个表中</li>
+<li>将经常访问字段放一个表中。</li>
+<li>所有表的并集是全量数据。</li>
+</ul>
+<h2 id="如何平滑添加字段"><a href="#如何平滑添加字段" class="headerlink" title="如何平滑添加字段"></a>如何平滑添加字段</h2><p>场景：在开发时，有时需要给表加字段，在大数据量且分表的情况下，怎么样平滑添加。<br>1：直接alter table add column,数据量大时不建议，（会产生写锁）</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">alter</span> <span class="token keyword">table</span> ksd_user <span class="token keyword">add</span> <span class="token keyword">column</span> api_pay_no <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span>  <span class="token keyword">comment</span> <span class="token string">'用户扩展订单号'</span>
+<span class="token keyword">alter</span> <span class="token keyword">table</span> ksd_user <span class="token keyword">add</span> <span class="token keyword">column</span> api_pay_no <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token boolean">null</span> <span class="token keyword">unique</span> <span class="token keyword">comment</span> <span class="token string">'用户扩展订单号'</span>
+</code></pre>
+<p>2：提前预留字段（不优雅：造成空间浪费，预留多少很难控制，拓展性差）<br>3：新增一张表，（增加字段），迁移原表数据，在重新命名新表作为原表。<br>4：放入extinfo（无法使用索引）<br>5:提前设计，使用key&#x2F;value方法存储，新增字段时 ，直接加一个key就好了（优雅）</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">有鱼同学</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://Mueoil.github.io/2024/05/01/ShardingSphere%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">http://Mueoil.github.io/2024/05/01/ShardingSphere%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">有鱼同学</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/ShardingShpere/">
+                                    <span class="chip bg-color">ShardingShpere</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">
+                                    <span class="chip bg-color">分库分表</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">可怜一下孩子吧，没钱吃饭了</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/05/01/ShardingSphere%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="ShardingSphere分库分表">
+                        
+                        <span class="card-title">ShardingSphere分库分表</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            有鱼同学
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ShardingShpere/">
+                        <span class="chip bg-color">ShardingShpere</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">
+                        <span class="chip bg-color">分库分表</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/03/07/%E5%B7%A5%E4%BD%9C%E9%81%87%E5%88%B0%E7%9A%84%E9%87%8D%E9%9A%BE%E7%82%B9%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="工作遇到的重难点总结">
+                        
+                        <span class="card-title">工作遇到的重难点总结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            有鱼同学
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%BB%8F%E9%AA%8C/">
+                        <span class="chip bg-color">经验</span>
+                    </a>
+                    
+                    <a href="/tags/Java%E6%80%BB%E7%BB%93/">
+                        <span class="chip bg-color">Java总结</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%87%8D%E9%9A%BE%E7%82%B9/">
+                        <span class="chip bg-color">重难点</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2024</span>
+            
+            <a href="/about" target="_blank">有鱼同学</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Mueoil" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1395234017@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1395234017" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1395234017" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <i class="fa fa-github"></i>
+</a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
