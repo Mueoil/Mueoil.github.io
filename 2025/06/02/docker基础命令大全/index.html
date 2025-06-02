@@ -483,7 +483,7 @@
 </ul>
 <h2 id="2、镜像命令"><a href="#2、镜像命令" class="headerlink" title="2、镜像命令"></a>2、镜像命令</h2><h3 id="1、列出本地主机上的镜像"><a href="#1、列出本地主机上的镜像" class="headerlink" title="1、列出本地主机上的镜像"></a>1、列出本地主机上的镜像</h3><pre class=" language-shell"><code class="language-shell">docker images
 </code></pre>
-<p><img src="https://img-blog.csdnimg.cn/d1e653e2765e4213a26c4673b8e55003.png" alt="在这里插入图片描述"></p>
+<p><img src="https://qyy-typora.oss-cn-beijing.aliyuncs.com/img/202506022232325.png" alt="image-20250602223257262"></p>
 <p>各个选项说明:</p>
 <ul>
 <li>REPOSITORY：表示镜像的仓库源</li>
@@ -533,7 +533,7 @@ cimg/mysql                                                                      
 mysql/ndb-operator               MySQL NDB Operator for Kubernetes               0                    
 mirantis/mysql  
 </code></pre>
-<p><img src="https://img-blog.csdnimg.cn/cd50e570013243dfacf59fdbba673c99.png" alt="在这里插入图片描述"></p>
+<p><img src="https://qyy-typora.oss-cn-beijing.aliyuncs.com/img/202506022233100.png" alt="image-20250602223322038"></p>
 <h4 id="OPTIONS说明："><a href="#OPTIONS说明：" class="headerlink" title="OPTIONS说明："></a>OPTIONS说明：</h4><ul>
 <li>–limit : 只列出N个镜像，默认25个</li>
 </ul>
@@ -573,11 +573,9 @@ Build Cache     0         0         0B        0B
 <h3 id="6、面试题：谈谈docker虚悬镜像是什么？"><a href="#6、面试题：谈谈docker虚悬镜像是什么？" class="headerlink" title="6、面试题：谈谈docker虚悬镜像是什么？"></a>6、面试题：谈谈docker虚悬镜像是什么？</h3><blockquote>
 <p>仓库名、标签都是的镜像，俗称虚悬镜像dangling image</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/149e3ed846784205bb2d6cb4b4d37598.png" alt="在这里插入图片描述"></p>
 <h2 id="3、容器命令"><a href="#3、容器命令" class="headerlink" title="3、容器命令"></a>3、容器命令</h2><blockquote>
 <p>有镜像才能创建容器</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/1c42c735f36a4fa2bbbf367d9c2cdf7f.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-eYnTgg5O-1660722388593)(images/image-20220409224855550.png)]"></p>
 <p>本次用centos进行演示</p>
 <h3 id="1、新建-启动命令"><a href="#1、新建-启动命令" class="headerlink" title="1、新建+启动命令"></a>1、新建+启动命令</h3><pre class=" language-shell"><code class="language-shell">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 </code></pre>
@@ -585,8 +583,8 @@ Build Cache     0         0         0B        0B
 <p>–name&#x3D;“容器新名字” 为容器指定一个名称；<br>-d: 后台运行容器并返回容器ID，也即启动守护式容器(后台运行)；</p>
 <p>-i：以交互模式运行容器，通常与 -t 同时使用；<br>-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>也即启动交互式容器(前台有伪终端，等待交互)；</p>
 <p>-P: 随机端口映射，大写P<br>-p: 指定端口映射，小写p</p>
-<p><img src="https://img-blog.csdnimg.cn/a0bc314bd23745508d57fd6d6d052a23.png" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/d56739fe815645879b5fe0028b87a704.png" alt="在这里插入图片描述"></p>
+<p><img src="https://qyy-typora.oss-cn-beijing.aliyuncs.com/img/202506022234868.png" alt="image-20250602223433805"></p>
+<p><img src="https://qyy-typora.oss-cn-beijing.aliyuncs.com/img/202506022234215.png" alt="image-20250602223448154"></p>
 <blockquote>
 <p>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行&#x2F;bin&#x2F;bash命令。</p>
 </blockquote>
@@ -756,8 +754,7 @@ hello-world       latest    feb5d9fea6a5   6 months ago         13.3kB
 centos            latest    5d0da3dc9764   6 months ago         231MB
 [root@docker /]# 
 </code></pre>
-<h2 id="7、常用命令汇总"><a href="#7、常用命令汇总" class="headerlink" title="7、常用命令汇总"></a>7、常用命令汇总</h2><p><img src="https://img-blog.csdnimg.cn/007f4d358ef64d558dbea1bfaceda029.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-BgTryouo-1660722388595)(images/image-20220410190930000.png)]"></p>
-<table>
+<h2 id="7、常用命令汇总"><a href="#7、常用命令汇总" class="headerlink" title="7、常用命令汇总"></a>7、常用命令汇总</h2><table>
 <thead>
 <tr>
 <th>命令</th>
