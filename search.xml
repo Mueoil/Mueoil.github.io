@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>kiro疑难问题解答</title>
+      <link href="/2025/12/29/kiro%E7%96%91%E9%9A%BE%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
+      <url>/2025/12/29/kiro%E7%96%91%E9%9A%BE%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94/</url>
+      
+        <content type="html"><![CDATA[<h2 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a>问题一</h2><p>出现：An unexpected error occurred, please retry. </p><p>解决：</p><p>windows：清掉坏掉的本地会话 完全退出 Kiro → 把目录 %APPDATA%\Kiro\ 里的 Cookies Cache Local Storage 三个文件夹整个删掉（放心，只是登录态，不会丢数据）。 重新启动 Kiro → 再点 Google 登录</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Ai </tag>
+            
+            <tag> Kiro </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Arthas基本使用</title>
       <link href="/2025/12/16/Arthas%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
       <url>/2025/12/16/Arthas%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
